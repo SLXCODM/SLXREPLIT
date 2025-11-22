@@ -54,7 +54,7 @@ export default function SocialLinks({ language }: SocialLinksProps) {
               data-testid={link.testId}
             >
               <Icon className="h-4 w-4" />
-              <span className="hidden sm:inline text-xs">{link.label}</span>
+              <span className="text-xs">{link.label}</span>
             </Button>
           </a>
         ) : (
@@ -67,7 +67,7 @@ export default function SocialLinks({ language }: SocialLinksProps) {
             data-testid={link.testId}
           >
             <Icon className="h-4 w-4" />
-            <span className="hidden sm:inline text-xs">{link.label}</span>
+            <span className="text-xs">{link.label}</span>
           </Button>
         );
       })}

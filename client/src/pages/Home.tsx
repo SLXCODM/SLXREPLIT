@@ -25,36 +25,44 @@ export default function Home() {
   const categories = [
     {
       id: "gaming",
-      title: "Call Of Duty Mobile",
+      titlePt: "Call Of Duty Mobile",
+      titleEn: "Call Of Duty Mobile",
       icon: Gamepad2,
-      description: "Tutoriais, classes, HUD, Sensibilidade e etc.",
+      descriptionPt: "Tutoriais, classes, HUD, Sensibilidade e etc.",
+      descriptionEn: "Tutorials, classes, HUD, Sensitivity and more.",
       imageUrl: codmBgImage,
       link: "/conteudo?category=gaming",
       testId: "card-category-gaming"
     },
     {
       id: "photography",
-      title: "Fotografia",
+      titlePt: "Fotografia",
+      titleEn: "Photography",
       icon: Camera,
-      description: "Capturando momentos, escritor, amante da melancolia",
+      descriptionPt: "Capturando momentos, escritor, amante da melancolia",
+      descriptionEn: "Capturing moments, writer, lover of melancholy",
       imageUrl: photoBgImage,
       link: "/conteudo?category=photography",
       testId: "card-category-photography"
     },
     {
       id: "agriculture",
-      title: "Agricultura",
+      titlePt: "Agricultura",
+      titleEn: "Agriculture",
       icon: Sprout,
-      description: "Meu trabalho, desenvolvimento pessoal e conexão com a natureza",
+      descriptionPt: "Meu trabalho, desenvolvimento pessoal e conexão com a natureza",
+      descriptionEn: "My work, personal development and connection with nature",
       imageUrl: agricultureBgImage,
       link: "/conteudo?category=agriculture",
       testId: "card-category-agriculture"
     },
     {
       id: "development",
-      title: "Dev Pessoal",
+      titlePt: "Dev Pessoal",
+      titleEn: "Personal Development",
       icon: Brain,
-      description: "Psicologia, filosofia, neurociência e autoconhecimento",
+      descriptionPt: "Psicologia, filosofia, neurociência e autoconhecimento",
+      descriptionEn: "Psychology, philosophy, neuroscience and self-knowledge",
       imageUrl: devIcon,
       link: null,
       testId: "card-category-development"
@@ -76,13 +84,13 @@ export default function Home() {
       categoriesDesc: "Descubra meus projetos e conteúdos",
     },
     en: {
-      tagline: "Thought strategist. Creator of own style.",
+      tagline: "Mental strategist. Creating my authenticity.",
       description: "Analytical profile focused on mental performance, discipline and deep content.\nGaming, Photography, Agriculture and Personal Development.",
       explore: "Explore Content",
       donate: "Support",
       contact: "Contact",
       categories: "Content Areas",
-      categoriesDesc: "Explore different aspects of what I do and share",
+      categoriesDesc: "Discover my projects and content",
     }
   };
 
@@ -190,16 +198,16 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               {categories.map((category) => {
                 const Icon = category.icon;
+                const title = language === "pt" ? category.titlePt : category.titleEn;
+                const description = language === "pt" ? category.descriptionPt : category.descriptionEn;
                 const CardContent = (
                   <Card className={`relative overflow-hidden h-80 hover-elevate active-elevate-2 transition-all duration-300 ${!category.link ? 'opacity-60 cursor-not-allowed' : ''}`}>
                       {/* Background Image with Overlay */}
                       <div className="absolute inset-0">
                         <img
                           src={category.imageUrl}
-                          alt={category.title}
-                          className={`w-full h-full transition-transform duration-500 group-hover:scale-105 object-cover ${
-                            category.id === "gaming" ? "brightness-200" : ""
-                          }`}
+                          alt={title}
+                          className="w-full h-full transition-transform duration-500 group-hover:scale-105 object-cover"
                           style={
                             category.id === "gaming"
                               ? { objectPosition: "85% 90%" }
@@ -214,10 +222,10 @@ export default function Home() {
                         <div className="space-y-3">
                           <Icon className="h-8 w-8 text-primary" />
                           <h3 className="text-2xl font-semibold group-hover:text-primary transition-colors duration-300">
-                            {category.title}
+                            {title}
                           </h3>
                           <p className="text-sm text-muted-foreground leading-relaxed">
-                            {category.description}
+                            {description}
                           </p>
                         </div>
                       </div>
