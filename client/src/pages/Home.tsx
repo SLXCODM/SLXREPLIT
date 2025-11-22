@@ -6,6 +6,7 @@ import RafflePopup from "@/components/RafflePopup";
 import SocialLinks from "@/components/SocialLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 import codmBgImage from "@assets/Picsart_25-01-08_09-25-56-556_1763836943841.jpg";
+import photoBgImage from "@assets/IMG_20250719_145627~2_1763837256708.jpg";
 
 export default function Home() {
   const { language } = useLanguage();
@@ -34,7 +35,7 @@ export default function Home() {
       title: "Fotografia",
       icon: Camera,
       description: "Capturando momentos, explorando a melancolia visual",
-      imageUrl: "/attached_assets/1000004347.jpg",
+      imageUrl: photoBgImage,
       link: "/conteudo?category=photography",
       testId: "card-category-photography"
     },
@@ -200,7 +201,14 @@ export default function Home() {
                         <img
                           src={category.imageUrl}
                           alt={category.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className={`w-full h-full transition-transform duration-500 group-hover:scale-105 object-cover ${
+                            category.id === "gaming" ? "brightness-125" : ""
+                          }`}
+                          style={
+                            category.id === "gaming"
+                              ? { objectPosition: "85% 90%" }
+                              : undefined
+                          }
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/20" />
                       </div>
