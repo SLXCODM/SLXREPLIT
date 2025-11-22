@@ -9,7 +9,7 @@ interface RafflePopupProps {
 export default function RafflePopup({ onClose, language }: RafflePopupProps) {
   const content = {
     pt: {
-      title: "🎮 SORTEIO INSANO 🎮",
+      title: "SORTEIO INSANO",
       subtitle: "ASUS ROG PHONE 8 + Cooler Nubia 4 Pro",
       description: "Estou sorteando o melhor smartphone gaming do mercado!",
       specs: [
@@ -25,7 +25,7 @@ export default function RafflePopup({ onClose, language }: RafflePopupProps) {
       button: "PARTICIPAR AGORA",
     },
     en: {
-      title: "🎮 INSANE RAFFLE 🎮",
+      title: "INSANE RAFFLE",
       subtitle: "ASUS ROG PHONE 8 + Nubia 4 Pro Cooler",
       description: "I'm raffling off the best gaming smartphone on the market!",
       specs: [
@@ -63,7 +63,7 @@ export default function RafflePopup({ onClose, language }: RafflePopupProps) {
           <div className="flex justify-center mb-4">
             <Gift className="h-12 w-12 text-primary animate-bounce" />
           </div>
-          <h2 className="text-3xl font-bold text-foreground">
+          <h2 className="text-5xl font-bold text-foreground" style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 900 }}>
             {t.title}
           </h2>
           <p className="text-lg font-semibold text-primary">
