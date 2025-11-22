@@ -60,6 +60,7 @@ export default function Home() {
             <div className="space-y-4">
               <h1 
                 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none" 
+                style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 900 }}
                 data-testid="text-hero-title"
               >
                 SLX
