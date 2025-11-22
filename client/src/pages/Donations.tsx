@@ -89,7 +89,7 @@ export default function Donations({ language }: DonationsProps) {
               <div className="flex flex-col items-center gap-6">
                 <Button
                   size="lg"
-                  className="px-12 py-8 text-lg h-auto"
+                  className="px-12 py-8 text-lg h-auto pulse-glow"
                   onClick={() => window.open('https://livepix.gg/slx', '_blank')}
                   data-testid="button-donate-livepix"
                 >
