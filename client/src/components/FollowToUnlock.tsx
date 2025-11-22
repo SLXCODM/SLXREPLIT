@@ -34,18 +34,19 @@ export default function FollowToUnlock({ children, contentName, language }: Foll
   const t = texts[language];
 
   useEffect(() => {
-    const globalUnlockKey = 'slx_site_unlocked';
-    const isAlreadyUnlocked = localStorage.getItem(globalUnlockKey) === 'true';
+    // Use a content-specific unlock key instead of global
+    const contentUnlockKey = `slx_content_unlocked_${contentName}`;
+    const isAlreadyUnlocked = localStorage.getItem(contentUnlockKey) === 'true';
     if (isAlreadyUnlocked) {
       setIsUnlocked(true);
     }
-  }, []);
+  }, [contentName]);
 
   const handleFollowCheck = async () => {
     setIsChecking(true);
     await new Promise(resolve => setTimeout(resolve, 1500));
-    const globalUnlockKey = 'slx_site_unlocked';
-    localStorage.setItem(globalUnlockKey, 'true');
+    const contentUnlockKey = `slx_content_unlocked_${contentName}`;
+    localStorage.setItem(contentUnlockKey, 'true');
     setIsUnlocked(true);
     setIsChecking(false);
   };
