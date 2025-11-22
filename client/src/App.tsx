@@ -12,6 +12,7 @@ import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import Donations from "./pages/Donations";
 import LanguageSelect from "./pages/LanguageSelect";
+import RafflePopup from "./components/RafflePopup";
 import NotFound from "@/pages/not-found";
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 
@@ -35,7 +36,7 @@ function DonationsPage() {
 }
 
 function AppContent() {
-  const { isLanguageSelected, completeLanguageSelection } = useLanguage();
+  const { isLanguageSelected, completeLanguageSelection, language, showRaffle, setShowRaffle } = useLanguage();
 
   if (!isLanguageSelected) {
     return <LanguageSelect onComplete={completeLanguageSelection} />;
@@ -43,6 +44,9 @@ function AppContent() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      {showRaffle && language === "pt" && (
+        <RafflePopup onClose={() => setShowRaffle(false)} language={language} />
+      )}
       <Header />
       <main className="flex-1 pt-16 md:pt-20">
         <Router />
