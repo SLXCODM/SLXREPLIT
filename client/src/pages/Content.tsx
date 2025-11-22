@@ -3,11 +3,14 @@ import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProjectCard from "@/components/ProjectCard";
+import FollowToUnlock from "@/components/FollowToUnlock";
+import { useLanguage } from "@/contexts/LanguageContext";
 import type { Project } from "@shared/schema";
 
 export default function Content() {
   const [location] = useLocation();
   const [activeTab, setActiveTab] = useState("all");
+  const { language } = useLanguage();
 
   // Fetch projects from API
   const { data: projects = [], isLoading, isError, error } = useQuery<Project[]>({
@@ -35,7 +38,7 @@ export default function Content() {
     { value: "development", label: "Dev Pessoal", testId: "tab-development" },
   ];
 
-  return (
+  const contentComponent = (
     <div className="min-h-screen py-24 md:py-32">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="space-y-12">
@@ -101,5 +104,11 @@ export default function Content() {
         </div>
       </div>
     </div>
+  );
+
+  return (
+    <FollowToUnlock contentName="Conteúdo" language={language}>
+      {contentComponent}
+    </FollowToUnlock>
   );
 }

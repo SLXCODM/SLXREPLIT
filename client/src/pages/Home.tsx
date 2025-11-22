@@ -11,22 +11,14 @@ import agricultureBgImage from "@assets/IMG_20250627_135015_1_1763837432932.jpg"
 import devIcon from "@assets/generated_images/personal_development_icon.png";
 
 export default function Home() {
-  const { language } = useLanguage();
-  const [showRaffle, setShowRaffle] = useState(false);
-
-  useEffect(() => {
-    // Show raffle popup only in Portuguese
-    if (language === "pt") {
-      setShowRaffle(true);
-    }
-  }, [language]);
+  const { language, showRaffle, setShowRaffle } = useLanguage();
   const categories = [
     {
       id: "gaming",
       titlePt: "Call Of Duty Mobile",
       titleEn: "Call Of Duty Mobile",
       icon: Gamepad2,
-      descriptionPt: "Tutoriais, Loadouts, HUD, Sensibilidade e etc.",
+      descriptionPt: "Tutoriais, Classes, HUD, Sensibilidade e etc.",
       descriptionEn: "Tutorials, Loadouts, HUD, Sensitivity and more.",
       imageUrl: codmBgImage,
       link: "/conteudo?category=gaming",

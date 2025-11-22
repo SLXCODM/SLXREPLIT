@@ -7,6 +7,8 @@ interface LanguageContextType {
   setLanguage: (lang: Language) => void;
   isLanguageSelected: boolean;
   completeLanguageSelection: () => void;
+  showRaffle: boolean;
+  setShowRaffle: (show: boolean) => void;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -14,6 +16,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("pt");
   const [isLanguageSelected, setIsLanguageSelected] = useState(false);
+  const [showRaffle, setShowRaffle] = useState(false);
 
   // Check if language was already selected in this session
   useEffect(() => {
@@ -22,6 +25,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       setIsLanguageSelected(true);
     }
   }, []);
+
+  // Show raffle on every page load if language is Portuguese
+  useEffect(() => {
+    if (language === "pt" && isLanguageSelected) {
+      setShowRaffle(true);
+    } else {
+      setShowRaffle(false);
+    }
+  }, [language, isLanguageSelected]);
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
@@ -33,7 +45,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, isLanguageSelected, completeLanguageSelection }}>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, isLanguageSelected, completeLanguageSelection, showRaffle, setShowRaffle }}>
       {children}
     </LanguageContext.Provider>
   );
