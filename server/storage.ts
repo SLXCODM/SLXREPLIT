@@ -49,7 +49,7 @@ export class MemStorage implements IStorage {
         title: "Classes",
         category: "gaming",
         description: "Classes de armas profissionais do SLX",
-        imageUrl: "/attached_assets/generated_images/weapon_classes_background.png",
+        imageUrl: "/attached_assets/generated_images/weapon_icon_gaming_classes_button.png",
         externalUrl: "/classes",
         featured: true,
         order: "0",
