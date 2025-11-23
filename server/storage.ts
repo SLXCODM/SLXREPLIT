@@ -75,7 +75,7 @@ export class MemStorage implements IStorage {
         title: "Minhas configurações",
         category: "gaming",
         description: "As melhores configurações do jogo",
-        imageUrl: "/attached_assets/generated_images/settings_configuration_background.png",
+        imageUrl: "/attached_assets/generated_images/gear_icon_settings_button_background.png",
         externalUrl: JSON.stringify({
           isLocked: true,
           links: [
@@ -91,7 +91,7 @@ export class MemStorage implements IStorage {
         title: "Handcam",
         category: "gaming",
         description: "Handcam do SLX",
-        imageUrl: "/attached_assets/vf_VID_20250117_144838_26424_1763907669167.jpeg",
+        imageUrl: "/attached_assets/generated_images/smartphone_icon_handcam_button_background.png",
         externalUrl: JSON.stringify({
           isLocked: true,
           links: [
