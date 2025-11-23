@@ -59,7 +59,7 @@ export class MemStorage implements IStorage {
         title: "Meus Tutoriais Exclusivos",
         category: "gaming",
         description: "Conteúdo exclusivo para melhorar sua gameplay",
-        imageUrl: "/attached_assets/generated_images/professional_tutorials_background.png",
+        imageUrl: "/attached_assets/generated_images/notebook_icon_tutorials_button_background.png",
         externalUrl: JSON.stringify({
           isLocked: true,
           links: [
