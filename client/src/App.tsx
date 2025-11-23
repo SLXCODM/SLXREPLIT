@@ -12,6 +12,7 @@ import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import Donations from "./pages/Donations";
 import Classes from "./pages/Classes";
+import SocialLinksPage from "./pages/SocialLinksPage";
 import LanguageSelect from "./pages/LanguageSelect";
 import RafflePopup from "./components/RafflePopup";
 import NotFound from "@/pages/not-found";
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/contato" component={Contact} />
       <Route path="/doacoes" component={DonationsPage} />
       <Route path="/classes" component={Classes} />
+      <Route path="/redes-sociais" component={SocialLinksPage} />
       <Route component={NotFound} />
     </Switch>
   );

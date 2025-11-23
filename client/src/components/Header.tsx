@@ -13,7 +13,7 @@ export default function Header() {
   const navItems = [
     { path: "/", label: "Início" },
     { path: "/conteudo", label: "Conteúdo" },
-    { path: "/projetos", label: "Classes" },
+    { path: "/redes-sociais", label: "Redes Sociais" },
     { path: "/doacoes", label: "Doações" },
     { path: "/sobre", label: "Sobre" },
   ];
