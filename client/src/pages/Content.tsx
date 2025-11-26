@@ -445,7 +445,7 @@ export default function Content() {
                               </div>
                               <p className="text-base text-muted-foreground leading-relaxed">
                                 {language === "pt" 
-                                  ? "Acompanhe meus Stories no Instagram (@slx.wav) para conteúdo diário sobre agricultura, técnicas de cultivo, sustentabilidade e a beleza do trabalho com a terra. Histórias que mostram o dia a dia do processo agrícola com uma perspectiva profunda e reflexiva."
+                                  ? "No Instagram (@slx.wav) eu mostro o dia a dia no campo, a rotina na agricultura e o trabalho com a terra, do jeito que ele realmente é. Tenho certeza que você irá gostar."
                                   : "Follow my Instagram Stories (@slx.wav) for daily content about agriculture, cultivation techniques, sustainability and the beauty of working with the land. Stories that show the daily life of the agricultural process with a deep and reflective perspective."}
                               </p>
                               <div className="flex items-center gap-2 text-primary text-sm font-medium pt-2">
