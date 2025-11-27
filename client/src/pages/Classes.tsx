@@ -263,7 +263,7 @@ export default function Classes() {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-sm text-muted-foreground" data-testid="text-results-count">
-            {filteredWeapons.length} {filteredWeapons.length === 1 ? "arma encontrada" : "armas encontradas"}
+            {filteredWeapons.length} {language === "pt" ? (filteredWeapons.length === 1 ? "arma encontrada" : "armas encontradas") : (filteredWeapons.length === 1 ? "weapon found" : "weapons found")}
           </p>
         </div>
 
@@ -370,10 +370,10 @@ export default function Classes() {
         ) : (
           <div className="text-center py-20" data-testid="empty-state-weapons">
             <p className="text-lg text-muted-foreground">
-              Nenhuma arma encontrada com "{searchTerm}"
+              {language === "pt" ? `Nenhuma arma encontrada com "${searchTerm}"` : `No weapons found with "${searchTerm}"`}
             </p>
             <p className="text-sm text-muted-foreground mt-2">
-              Tente outro termo de busca ou ajuste os filtros
+              {language === "pt" ? "Tente outro termo de busca ou ajuste os filtros" : "Try another search term or adjust the filters"}
             </p>
           </div>
         )}
