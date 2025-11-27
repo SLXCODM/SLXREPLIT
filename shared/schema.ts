@@ -75,3 +75,37 @@ export interface WeaponLike {
   weaponId: string;
   likes: number;
 }
+
+// Produtos da Loja
+export const products = pgTable("products", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  price: text("price").notNull(), // em centavos para evitar decimais
+  imageUrl: text("image_url"),
+  category: text("category").notNull(), // digital, preset, course, etc
+  featured: boolean("featured").default(false),
+  active: boolean("active").default(true),
+  stripeProductId: text("stripe_product_id"),
+  stripePriceId: text("stripe_price_id"),
+  order: text("order").default("0"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertProductSchema = createInsertSchema(products).omit({
+  id: true,
+  createdAt: true,
+  stripeProductId: true,
+  stripePriceId: true,
+}).extend({
+  name: z.string().min(3, "Nome deve ter pelo menos 3 caracteres").max(200),
+  description: z.string().min(10, "Descrição deve ter pelo menos 10 caracteres").max(2000),
+  price: z.string().regex(/^\d+$/, "Preço deve ser um número em centavos"),
+  category: z.string().min(3),
+  featured: z.boolean().optional(),
+  active: z.boolean().optional(),
+  order: z.string().optional(),
+});
+
+export type InsertProduct = z.infer<typeof insertProductSchema>;
+export type Product = typeof products.$inferSelect;
