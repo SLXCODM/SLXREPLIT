@@ -120,7 +120,7 @@ export default function Content() {
                       <AdSenseUnit slot="6789012345" format="auto" />
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
                         {filteredProjects.map(project => (
-                          <ProjectCard key={project.id} project={project} />
+                          <ProjectCard key={project.id} project={project} language={language} />
                         ))}
                       </div>
                     </div>

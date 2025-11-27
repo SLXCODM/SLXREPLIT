@@ -7,6 +7,7 @@ import type { Project } from "@shared/schema";
 
 interface ProjectCardProps {
   project: Project;
+  language?: "pt" | "en";
 }
 
 const categoryColors: Record<string, string> = {
@@ -16,11 +17,14 @@ const categoryColors: Record<string, string> = {
   development: "bg-orange-500/10 text-orange-400 border-orange-500/20",
 };
 
-const categoryLabels: Record<string, string> = {
-  gaming: "Call of Duty Mobile",
-  agriculture: "Agricultura",
-  photography: "Fotografia",
-  development: "Dev Pessoal",
+const getCategoryLabel = (category: string, language: string = "pt"): string => {
+  const labels: Record<string, Record<string, string>> = {
+    gaming: { pt: "Call of Duty Mobile", en: "Call of Duty Mobile" },
+    agriculture: { pt: "Agricultura", en: "Agriculture" },
+    photography: { pt: "Fotografia", en: "Photography" },
+    development: { pt: "Dev Pessoal", en: "Personal Dev" },
+  };
+  return labels[category]?.[language] || category;
 };
 
 interface ParsedUrl {
@@ -28,10 +32,27 @@ interface ParsedUrl {
   links?: Array<{ label: string; url: string }>;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ProjectCard({ project, language = "pt" }: ProjectCardProps) {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [parsedUrl, setParsedUrl] = useState<ParsedUrl | null>(null);
+
+  const lockTexts = {
+    pt: {
+      unlockPrompt: "Siga para desbloquear",
+      followButton: "Seguir no Instagram",
+      checkButton: "Já Segui",
+      checking: "Verificando...",
+    },
+    en: {
+      unlockPrompt: "Follow to unlock",
+      followButton: "Follow on Instagram",
+      checkButton: "Already Followed",
+      checking: "Checking...",
+    },
+  };
+
+  const lt = lockTexts[language];
 
   useEffect(() => {
     const globalUnlockKey = 'slx_codm_unlocked';
@@ -90,7 +111,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <Lock className="h-10 w-10 text-primary mx-auto" />
           <div>
             <h3 className="text-lg font-semibold text-white mb-2">{project.title}</h3>
-            <p className="text-sm text-white/80 mb-4">Siga para desbloquear</p>
+            <p className="text-sm text-white/80 mb-4">{lt.unlockPrompt}</p>
           </div>
           <div className="space-y-2">
             <Button
@@ -99,7 +120,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               className="w-full"
               data-testid="button-follow-instagram"
             >
-              Seguir no Instagram
+              {lt.followButton}
             </Button>
             <Button
               onClick={handleFollowCheck}
@@ -109,7 +130,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               className="w-full"
               data-testid="button-check-follow"
             >
-              {isChecking ? "Verificando..." : "Já Segui"}
+              {isChecking ? lt.checking : lt.checkButton}
             </Button>
           </div>
         </div>
@@ -155,7 +176,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               )}
               data-testid={`badge-project-category-${project.id}`}
             >
-              {categoryLabels[project.category] || project.category}
+              {getCategoryLabel(project.category, language)}
             </Badge>
           </div>
           {!hasMultipleLinks && project.externalUrl && (
