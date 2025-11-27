@@ -90,10 +90,10 @@ export default function About() {
             {isError ? (
               <div className="text-center py-16 space-y-4" data-testid="error-state-about">
                 <p className="text-destructive font-medium">
-                  Erro ao carregar conteúdo
+                  {language === "pt" ? "Erro ao carregar conteúdo" : "Error loading content"}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {error instanceof Error ? error.message : "Tente novamente mais tarde"}
+                  {error instanceof Error ? error.message : (language === "pt" ? "Tente novamente mais tarde" : "Try again later")}
                 </p>
               </div>
             ) : aboutContent ? (
