@@ -271,13 +271,14 @@ export default function Classes() {
           </p>
         </div>
 
+        {/* AdSense Ad - Middle */}
+        <AdSenseUnit slot="5678901234" format="auto" />
+
         {/* Weapons Grid */}
         {filteredWeapons.length > 0 ? (
-          <div className="space-y-12">
-            <AdSenseUnit slot="5678901234" format="auto" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="grid-weapons">
-              {filteredWeapons.map(weapon => (
-              <Card
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="grid-weapons">
+            {filteredWeapons.map(weapon => (
+            <Card
                 key={weapon.id}
                 className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300"
                 data-testid={`card-weapon-${weapon.id}`}
@@ -370,9 +371,8 @@ export default function Classes() {
                     </Button>
                   </div>
                 </div>
-              </Card>
-              ))}
-            </div>
+            </Card>
+            ))}
           </div>
         ) : (
           <div className="text-center py-20" data-testid="empty-state-weapons">
