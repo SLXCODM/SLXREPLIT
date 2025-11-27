@@ -17,7 +17,6 @@ import SocialLinksPage from "./pages/SocialLinksPage";
 import LanguageSelect from "./pages/LanguageSelect";
 import RafflePopup from "./components/RafflePopup";
 import NotFound from "@/pages/not-found";
-import Shop from "./pages/Shop";
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 
 function Router() {
@@ -32,7 +31,6 @@ function Router() {
       <Route path="/doacoes" component={DonationsPage} />
       <Route path="/classes" component={Classes} />
       <Route path="/redes-sociais" component={SocialLinksPage} />
-      <Route path="/loja" component={Shop} />
       <Route component={NotFound} />
     </Switch>
   );
