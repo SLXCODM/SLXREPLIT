@@ -2,6 +2,7 @@ import { Youtube, Instagram, Music, BookOpen } from "lucide-react";
 import { SiTiktok } from "react-icons/si";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { AdSenseUnit } from "@/components/AdSenseUnit";
 import FollowToUnlock from "@/components/FollowToUnlock";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -218,6 +219,11 @@ export default function Projects() {
                 </Card>
               );
             })}
+          </div>
+
+          {/* AdSense Ad */}
+          <div className="my-12">
+            <AdSenseUnit slot="7890123456" format="auto" />
           </div>
 
           {/* Additional Info */}
