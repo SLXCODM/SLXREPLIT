@@ -43,6 +43,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     setLanguage(lang);
     // Save language to localStorage
     localStorage.setItem("slx_language", lang);
+    // Force page reload to clear all caches
+    window.location.reload();
   };
 
   const completeLanguageSelection = () => {
