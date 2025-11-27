@@ -159,33 +159,27 @@ export class MemStorage implements IStorage {
     // Initialize with default about content (plain text - safe from XSS)
     this.aboutContent = {
       id: "about-content-default",
-      content: `Uma breve descrição do que você pode gostar de saber sobre este nictófilo:
+      content: `SLX é um criador de conteúdo e pensador independente que trabalha com jogos, filosofia prática e desenvolvimento mental. Identificado com altas habilidades cognitivas (superdotação), desenvolveu desde cedo uma percepção aguçada de padrões de comportamento, tomada de decisão e controle emocional.
 
-À primeira vista, este texto pode parecer desnecessário, mas recentemente, tenho refletido sobre meu passado, percebendo que durante toda a minha infância, pensamentos de suicídio me consumiam.
+Fora do ambiente digital, mantém uma rotina física e mentalmente exigente. Mora no interior do Rio Grande do Sul, onde trabalha com atividades rurais, o que construiu uma base sólida de disciplina, resistência mental e convivência com o silêncio e o isolamento. Esse contraste entre o trabalho físico e o ambiente digital moldou seu estilo de pensamento: prático, direto e pouco influenciado por tendências superficiais.
 
-Praticamente 7 anos se passaram desde que percebi que meu mundo estava desmoronando. Em toda a minha vida ou praticamente toda a minha infância, todos os dias de todos os meses de todos os anos... Como eu era apenas um adolescente, não percebi o que estava acontecendo.
+Sua rotina inclui treinos, estudo contínuo e períodos prolongados de introspecção. Estuda por interesse próprio áreas como neurociência, psicologia, filosofia e comportamento humano, utilizando o conhecimento como ferramenta para compreender a si mesmo e a realidade ao seu redor.
 
-Depois de um tempo solitário, acabei me apaixonando por alguém. Consegui me apaixonar, e como acontece com quase todas as pessoas, esse amor me destruiu. Mas isso foi bom; me fez uma pessoa não dependente emocionalmente.
+Seu trabalho não se baseia em entretenimento vazio, mas em estratégia, mentalidade e construção de identidade própria. Prefere manter sua vida pessoal distante de romantizações e de exposição excessiva. Sua identidade não é construída para agradar públicos, mas como uma extensão natural do que vive diariamente. Seus projetos são guiados por autonomia, autenticidade e pela necessidade de construir algo sólido no longo prazo.
+
+Desde criança, a tristeza, a depressão profunda e a solidão emocional e cognitiva moldaram sua forma de enxergar a realidade. Com uma mente acelerada, encontrou no caos uma forma de organizar pensamentos, regular emoções e lidar com a ansiedade, o estresse diário é o que dá sentido a vida.
 
 Por que SLX?
 
-Com 6 dias restantes para cometer o ato que esperei minha vida toda, minha vida passou por mudanças profundas, coisas inexplicáveis aconteceram e finalmente, pela primeira vez, senti o desejo de viver... Finalmente um momento sem ansiedade, apenas a emoção de ser um ser humano feliz.
-
-A partir de então, prometi a mim mesmo que mudaria o rumo da minha vida, seria alguém importante, pelo menos para mim. Não posso dizer que me senti curado depois daquele dia, mas de alguma forma uma faísca se acendeu em uma janela de luz de pensamento que me fez lembrar quem sou e a importância de ser eu mesmo.
-
-SLX foi um nome apenas para não deixar claro que o significado é seis, para mostrar que não queria expor o que aconteceu comigo, eu era apenas uma das milhares de crianças que passaram toda a vida com depressão, e piorando a cada dia que passava.
+SLX vem de six (seis em inglês), desde criança vivi com planejamento de acabar com a minha vida aos 18 anos, mas 6 dias antes de cometer, coisas inexplicáveis aconteceram comigo e que mudaram minha visão sobre eu mesmo, hoje em dia ainda luto diariamente contra esse desejo, mas deixo escondido porque não quero mostrar para ninguém minha dor, minha forma de camuflar isso foi escrevendo SLX ao invés de six.
 
 Minha mensagem:
 
-Meu objetivo com este texto (caso alguém leia um dia) é apenas mostrar que não é o fim, a depressão pode ser curada e se você precisar de ajuda, não faça como eu mantendo para mim mesmo, vá e procure ajuda porque os sintomas vão piorar a cada dia que passa e você ignora isso.
+Meu objetivo com este texto (caso alguém leia um dia) é apenas mostrar que não é o fim, a depressão pode ser curada e se você precisar de ajuda, não faça como eu mantendo para mim mesmo, vá e procure ajuda porque os sintomas vão piorar a cada dia que passa que você ignora isso.
 
-Para SLX, peça ajuda.
+Você pode entrar em contato comigo para conversar caso você esteja passando por problemas difíceis, acesse a aba de redes sociais.
 
-Se você leu até aqui, você é uma pessoa rara. Por favor, certifique-se de me avisar: slowedbase@gmail.com
-
-Como está o SLX hoje em dia?
-
-Bem, eu... não consigo pensar direito, não consigo falar muito, meu trabalho me cansa e me sinto pior a cada dia por essa razão... Estou aproveitando o tempo que me resta para conhecer pessoas e me divertir um pouco em um jogo estranho...`,
+slowedbase@gmail.com`,
       lastUpdated: new Date(),
     };
   }

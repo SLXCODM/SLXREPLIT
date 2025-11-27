@@ -75,7 +75,7 @@ export default function About() {
             {/* Header */}
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight" data-testid="text-about-title">
-                Sobre SLX
+                Sobre o SLX
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed" data-testid="text-about-subtitle">
                 Quem está por trás do nome
