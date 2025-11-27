@@ -5,7 +5,9 @@ import {
   type InsertContact,
   type AboutContent,
   type InsertAboutContent,
-  type WeaponLike
+  type WeaponLike,
+  type Product,
+  type InsertProduct
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -31,6 +33,13 @@ export interface IStorage {
   getAllWeaponLikes(): Promise<WeaponLike[]>;
   incrementWeaponLikes(weaponId: string): Promise<number>;
   decrementWeaponLikes(weaponId: string): Promise<number>;
+
+  // Products
+  getProducts(): Promise<Product[]>;
+  getProduct(id: string): Promise<Product | undefined>;
+  createProduct(product: InsertProduct): Promise<Product>;
+  updateProduct(id: string, product: Partial<InsertProduct>): Promise<Product | undefined>;
+  deleteProduct(id: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
@@ -38,16 +47,19 @@ export class MemStorage implements IStorage {
   private contacts: Map<string, Contact>;
   private aboutContent: AboutContent | undefined;
   private weaponLikes: Map<string, number>;
+  private products: Map<string, Product>;
 
   constructor() {
     this.projects = new Map();
     this.contacts = new Map();
     this.aboutContent = undefined;
     this.weaponLikes = new Map();
+    this.products = new Map();
     
     // Initialize with mock data
     this.initializeMockData();
     this.initializeAboutContent();
+    this.initializeProducts();
   }
 
   private initializeMockData() {
@@ -291,6 +303,91 @@ slowedbase@gmail.com`,
     const updated = Math.max(0, current - 1);
     this.weaponLikes.set(weaponId, updated);
     return updated;
+  }
+
+  private initializeProducts() {
+    const mockProducts: Array<InsertProduct & { id: string }> = [
+      {
+        id: "prod-1",
+        name: "Preset Fotografia - Melancolia Visual",
+        description: "Preset exclusivo para Adobe Lightroom com cores e tons da série Melancolia Visual",
+        price: "2999", // R$ 29,99
+        imageUrl: "/attached_assets/photo-silhouettes.jpg",
+        category: "preset",
+        featured: true,
+        active: true,
+        order: "0",
+      },
+      {
+        id: "prod-2",
+        name: "E-book: Pensamento Estratégico",
+        description: "Guia completo sobre desenvolvimento mental e estratégia de vida",
+        price: "4999", // R$ 49,99
+        imageUrl: null,
+        category: "ebook",
+        featured: true,
+        active: true,
+        order: "1",
+      },
+      {
+        id: "prod-3",
+        name: "Mentoria 1:1 (Sessão)",
+        description: "Sessão de mentoria privada sobre desenvolvimento pessoal e estratégia",
+        price: "19999", // R$ 199,99
+        imageUrl: null,
+        category: "service",
+        featured: false,
+        active: true,
+        order: "2",
+      },
+    ];
+
+    mockProducts.forEach(product => {
+      const fullProduct: Product = {
+        ...product,
+        stripeProductId: null,
+        stripePriceId: null,
+        createdAt: new Date(),
+      };
+      this.products.set(product.id, fullProduct);
+    });
+  }
+
+  // Products
+  async getProducts(): Promise<Product[]> {
+    return Array.from(this.products.values())
+      .filter(p => p.active)
+      .sort((a, b) => (a.order || "0").localeCompare(b.order || "0"));
+  }
+
+  async getProduct(id: string): Promise<Product | undefined> {
+    return this.products.get(id);
+  }
+
+  async createProduct(insertProduct: InsertProduct): Promise<Product> {
+    const id = randomUUID();
+    const product: Product = {
+      ...insertProduct,
+      id,
+      stripeProductId: null,
+      stripePriceId: null,
+      createdAt: new Date(),
+    };
+    this.products.set(id, product);
+    return product;
+  }
+
+  async updateProduct(id: string, updates: Partial<InsertProduct>): Promise<Product | undefined> {
+    const product = this.products.get(id);
+    if (!product) return undefined;
+    
+    const updated: Product = { ...product, ...updates };
+    this.products.set(id, updated);
+    return updated;
+  }
+
+  async deleteProduct(id: string): Promise<boolean> {
+    return this.products.delete(id);
   }
 }
 
