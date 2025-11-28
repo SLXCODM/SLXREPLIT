@@ -46,9 +46,7 @@ export const getQueryFn: <T>(options: {
   async ({ queryKey }) => {
     const url = queryKey.join("/") as string;
     const fullUrl = url.startsWith("http") ? url : `${getApiBaseUrl()}${url}`;
-    const res = await fetch(fullUrl, {
-      credentials: "include",
-    });
+    const res = await fetch(fullUrl);
 
     if (unauthorizedBehavior === "returnNull" && res.status === 401) {
       return null;
