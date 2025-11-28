@@ -28,6 +28,11 @@ export default function Classes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [optimisticLikes, setOptimisticLikes] = useState<Map<string, number>>(new Map());
+  const [myLikedWeapons, setMyLikedWeapons] = useState<Set<string>>(() => {
+    // Load from localStorage on mount
+    const saved = localStorage.getItem('slx_my_liked_weapons');
+    return new Set(saved ? JSON.parse(saved) : []);
+  });
   const { language } = useLanguage();
   const [, navigate] = useLocation();
   const [isUnlocked, setIsUnlocked] = useState(false);
@@ -38,6 +43,11 @@ export default function Classes() {
     const unlocked = localStorage.getItem('slx_codm_unlocked') === 'true';
     setIsUnlocked(unlocked);
   }, []);
+
+  // Save myLikedWeapons to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('slx_my_liked_weapons', JSON.stringify(Array.from(myLikedWeapons)));
+  }, [myLikedWeapons]);
 
   // Fetch all weapon likes with polling to sync across devices
   // SERVER IS SOURCE OF TRUTH - no localStorage caching
@@ -115,23 +125,22 @@ export default function Classes() {
   });
 
   const toggleLike = (weaponId: string) => {
-    // Check if weapon is currently liked by checking server data
-    const currentCount = serverLikes.get(weaponId) || 0;
-    const isProbablyLiked = (optimisticLikes.get(weaponId) || 0) > 0 || currentCount > 0;
+    // Check if THIS DEVICE has liked this weapon
+    const iLikedIt = myLikedWeapons.has(weaponId);
     
-    if (isProbablyLiked) {
-      // Unlike: optimistic -1
-      setOptimisticLikes(prev => {
-        const updated = new Map(prev);
-        updated.set(weaponId, -1);
+    if (iLikedIt) {
+      // Unlike
+      setMyLikedWeapons(prev => {
+        const updated = new Set(prev);
+        updated.delete(weaponId);
         return updated;
       });
       unlikeMutation.mutate(weaponId);
     } else {
-      // Like: optimistic +1
-      setOptimisticLikes(prev => {
-        const updated = new Map(prev);
-        updated.set(weaponId, 1);
+      // Like
+      setMyLikedWeapons(prev => {
+        const updated = new Set(prev);
+        updated.add(weaponId);
         return updated;
       });
       likeMutation.mutate(weaponId);
@@ -347,18 +356,18 @@ export default function Classes() {
                       <button
                         onClick={() => toggleLike(weapon.id)}
                         className="flex-shrink-0 px-3 py-2 rounded-lg border border-border hover:border-primary hover-elevate transition-all duration-200 flex items-center gap-1.5"
-                        aria-label={getWeaponLikes(weapon.id) > 0 ? "Unlike" : "Like"}
+                        aria-label={myLikedWeapons.has(weapon.id) ? "Unlike" : "Like"}
                         data-testid={`button-like-weapon-${weapon.id}`}
                       >
                         <Heart
                           className={`h-5 w-5 transition-colors ${
-                            getWeaponLikes(weapon.id) > 0
+                            myLikedWeapons.has(weapon.id)
                               ? "fill-red-500 text-red-500"
                               : "text-muted-foreground hover:text-red-500"
                           }`}
                         />
                         <span className="text-xs font-medium text-muted-foreground">
-                          {getWeaponLikes(weapon.id)}
+                          {serverLikes.get(weapon.id) || 0}
                         </span>
                       </button>
                     </div>
