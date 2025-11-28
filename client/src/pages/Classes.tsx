@@ -8,6 +8,7 @@ import { weaponsData, type Weapon } from "@shared/weaponsData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "wouter";
+import { apiRequest } from "@/lib/queryClient";
 
 // Resolve relative asset URLs to absolute Railway URLs
 const resolveImageUrl = (url: string | undefined): string | undefined => {
@@ -26,8 +27,7 @@ interface WeaponLikes {
 export default function Classes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [likedWeapons, setLikedWeapons] = useState<Set<string>>(new Set());
-  const [localLikeChanges, setLocalLikeChanges] = useState<Map<string, number>>(new Map());
+  const [optimisticLikes, setOptimisticLikes] = useState<Map<string, number>>(new Map());
   const { language } = useLanguage();
   const [, navigate] = useLocation();
   const [isUnlocked, setIsUnlocked] = useState(false);
@@ -39,102 +39,102 @@ export default function Classes() {
     setIsUnlocked(unlocked);
   }, []);
 
-  // Fetch all weapon likes
+  // Fetch all weapon likes with polling to sync across devices
+  // SERVER IS SOURCE OF TRUTH - no localStorage caching
   const { data: allLikes = [] } = useQuery({
     queryKey: ['/api/weapon-likes'],
     queryFn: async () => {
-      const res = await fetch('/api/weapon-likes');
+      // Add timestamp to bypass CDN cache
+      const res = await apiRequest('GET', `/api/weapon-likes?t=${Date.now()}`);
       return res.json() as Promise<WeaponLikes[]>;
     },
+    refetchInterval: 1000, // Refetch every 1 second for real-time sync
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: 'always', // Refetch when tab regains focus
+    retry: true, // Retry on error
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff
   });
 
-  // Create a map of weapon likes for quick lookup
-  const likeCountMap = new Map(allLikes.map(w => [w.weaponId, w.likes]));
+  // Server is the only source of truth
+  const serverLikes = new Map(allLikes.map(w => [w.weaponId, w.likes]));
 
-  // Get weapon like count with optimistic updates
+  // Get likes with optimistic updates
   const getWeaponLikes = (weaponId: string): number => {
-    const localChange = localLikeChanges.get(weaponId) || 0;
-    return (likeCountMap.get(weaponId) || 0) + localChange;
+    const optimistic = optimisticLikes.get(weaponId) || 0;
+    return (serverLikes.get(weaponId) || 0) + optimistic;
   };
 
   // Like mutation
   const likeMutation = useMutation({
     mutationFn: async (weaponId: string) => {
-      const res = await fetch(`/api/weapon-likes/${weaponId}/like`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const res = await apiRequest('POST', `/api/weapon-likes/${weaponId}/like`);
       return res.json() as Promise<WeaponLikes>;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['/api/weapon-likes'] });
-      setLocalLikeChanges(prev => {
+      // Clear optimistic update - server will provide new value
+      setOptimisticLikes(prev => {
         const updated = new Map(prev);
         updated.delete(data.weaponId);
         return updated;
       });
+      // Force immediate refetch with fresh data
+      queryClient.setQueryData(['/api/weapon-likes'], (oldData: WeaponLikes[] = []) => {
+        return oldData.map(w => w.weaponId === data.weaponId ? data : w).length > 0
+          ? oldData.map(w => w.weaponId === data.weaponId ? data : w)
+          : [...oldData, data];
+      });
+      // Also invalidate to ensure fresh fetch
+      queryClient.invalidateQueries({ queryKey: ['/api/weapon-likes'] });
     },
   });
 
   // Unlike mutation
   const unlikeMutation = useMutation({
     mutationFn: async (weaponId: string) => {
-      const res = await fetch(`/api/weapon-likes/${weaponId}/unlike`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const res = await apiRequest('POST', `/api/weapon-likes/${weaponId}/unlike`);
       return res.json() as Promise<WeaponLikes>;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['/api/weapon-likes'] });
-      setLocalLikeChanges(prev => {
+      // Clear optimistic update - server will provide new value
+      setOptimisticLikes(prev => {
         const updated = new Map(prev);
         updated.delete(data.weaponId);
         return updated;
       });
+      // Force immediate refetch with fresh data
+      queryClient.setQueryData(['/api/weapon-likes'], (oldData: WeaponLikes[] = []) => {
+        return oldData.map(w => w.weaponId === data.weaponId ? data : w).length > 0
+          ? oldData.map(w => w.weaponId === data.weaponId ? data : w)
+          : [...oldData, data];
+      });
+      // Also invalidate to ensure fresh fetch
+      queryClient.invalidateQueries({ queryKey: ['/api/weapon-likes'] });
     },
   });
 
-  // Load locally liked weapons from localStorage
-  useEffect(() => {
-    const savedLikes = localStorage.getItem("slx_weapon_likes");
-    if (savedLikes) {
-      setLikedWeapons(new Set(JSON.parse(savedLikes)));
-    }
-  }, []);
-
-  // Save locally liked weapons to localStorage
-  useEffect(() => {
-    localStorage.setItem("slx_weapon_likes", JSON.stringify(Array.from(likedWeapons)));
-  }, [likedWeapons]);
-
   const toggleLike = (weaponId: string) => {
-    const isCurrentlyLiked = likedWeapons.has(weaponId);
+    // Check if weapon is currently liked by checking server data
+    const currentCount = serverLikes.get(weaponId) || 0;
+    const isProbablyLiked = (optimisticLikes.get(weaponId) || 0) > 0 || currentCount > 0;
     
-    if (isCurrentlyLiked) {
-      setLocalLikeChanges(prev => {
+    if (isProbablyLiked) {
+      // Unlike: optimistic -1
+      setOptimisticLikes(prev => {
         const updated = new Map(prev);
-        updated.set(weaponId, (updated.get(weaponId) || 0) - 1);
+        updated.set(weaponId, -1);
         return updated;
       });
       unlikeMutation.mutate(weaponId);
-      setLikedWeapons(prev => {
-        const updated = new Set(prev);
-        updated.delete(weaponId);
-        return updated;
-      });
     } else {
-      setLocalLikeChanges(prev => {
+      // Like: optimistic +1
+      setOptimisticLikes(prev => {
         const updated = new Map(prev);
-        updated.set(weaponId, (updated.get(weaponId) || 0) + 1);
+        updated.set(weaponId, 1);
         return updated;
       });
       likeMutation.mutate(weaponId);
-      setLikedWeapons(prev => {
-        const updated = new Set(prev);
-        updated.add(weaponId);
-        return updated;
-      });
     }
   };
 
@@ -347,12 +347,12 @@ export default function Classes() {
                       <button
                         onClick={() => toggleLike(weapon.id)}
                         className="flex-shrink-0 px-3 py-2 rounded-lg border border-border hover:border-primary hover-elevate transition-all duration-200 flex items-center gap-1.5"
-                        aria-label={likedWeapons.has(weapon.id) ? "Unlike" : "Like"}
+                        aria-label={getWeaponLikes(weapon.id) > 0 ? "Unlike" : "Like"}
                         data-testid={`button-like-weapon-${weapon.id}`}
                       >
                         <Heart
                           className={`h-5 w-5 transition-colors ${
-                            likedWeapons.has(weapon.id)
+                            getWeaponLikes(weapon.id) > 0
                               ? "fill-red-500 text-red-500"
                               : "text-muted-foreground hover:text-red-500"
                           }`}
