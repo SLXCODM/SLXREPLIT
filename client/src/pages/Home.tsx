@@ -17,8 +17,13 @@ export default function Home() {
 
   useEffect(() => {
     // Show raffle popup when Home page loads and language is Portuguese
-    if (language === "pt") {
-      setShowRaffle(true);
+   if (language === "pt") {
+  const raffleShown = sessionStorage.getItem("slx_raffle_shown");
+  if (!raffleShown) {
+    sessionStorage.setItem("slx_raffle_shown", "true");
+    setShowRaffle(true);
+  }
+}
     }
   }, []);
   const categories = [
