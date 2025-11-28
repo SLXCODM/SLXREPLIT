@@ -1,11 +1,13 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-// Get API base URL from environment or fallback to current origin
+// Get API base URL
 const getApiBaseUrl = () => {
-  if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+  // Development: use local backend
+  if (import.meta.env.DEV) {
+    return "";
   }
-  return "";
+  // Production: always use Railway backend
+  return "https://web-production-cadd.up.railway.app";
 };
 
 async function throwIfResNotOk(res: Response) {
@@ -21,12 +23,16 @@ export async function apiRequest(
   data?: unknown | undefined,
 ): Promise<Response> {
   const fullUrl = url.startsWith("http") ? url : `${getApiBaseUrl()}${url}`;
-  const res = await fetch(fullUrl, {
+  const fetchOptions: RequestInit = {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
-  });
+  };
+  // Only include credentials for same-origin requests
+  if (!fullUrl.includes("railway.app")) {
+    fetchOptions.credentials = "include";
+  }
+  const res = await fetch(fullUrl, fetchOptions);
 
   await throwIfResNotOk(res);
   return res;
