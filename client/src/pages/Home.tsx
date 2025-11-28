@@ -16,14 +16,14 @@ export default function Home() {
   const [showRaffle, setShowRaffle] = useState(false);
 
   useEffect(() => {
-    // Show raffle popup when Home page loads and language is Portuguese
-   if (language === "pt") {
-  const raffleShown = sessionStorage.getItem("slx_raffle_shown");
-  if (!raffleShown) {
-    sessionStorage.setItem("slx_raffle_shown", "true");
-    setShowRaffle(true);
-  }
-}
+    // Show raffle popup only once per session when Home page loads and language is Portuguese
+    // Fixed: raffle now only shows once regardless of Home component remounts
+    if (language === "pt") {
+      const raffleShown = sessionStorage.getItem("slx_raffle_shown");
+      if (!raffleShown) {
+        sessionStorage.setItem("slx_raffle_shown", "true");
+        setShowRaffle(true);
+      }
     }
   }, []);
   const categories = [
