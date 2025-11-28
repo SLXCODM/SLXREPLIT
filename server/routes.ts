@@ -1,9 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertProjectSchema, insertContactSchema, insertProductSchema, projectCategories } from "@shared/schema";
-import { contactRateLimiter } from "./rate-limiter";
-import { sendContactEmail, sendSponsorshipEmail } from "./email";
+import { insertProjectSchema, insertProductSchema, projectCategories } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Projects Routes
@@ -98,53 +96,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: "Failed to delete project" });
-    }
-  });
-
-  // Contact Route
-  
-  // POST /api/contact - Submit contact form (rate limited)
-  app.post("/api/contact", async (req, res) => {
-    try {
-      // Rate limiting check (by IP)
-      const clientIp = req.ip || req.socket.remoteAddress || "unknown";
-      if (!contactRateLimiter.check(clientIp)) {
-        return res.status(429).json({ 
-          error: "Too many requests",
-          message: "Por favor, aguarde antes de enviar outra mensagem. Limite: 3 mensagens por minuto."
-        });
-      }
-
-      const validatedData = insertContactSchema.parse(req.body);
-      
-      // Honeypot anti-spam check
-      if (validatedData.honeypot) {
-        return res.status(400).json({ error: "Invalid submission" });
-      }
-      
-      // Remove honeypot field before storing
-      const { honeypot, ...contactData } = validatedData;
-      
-      const contact = await storage.createContact(contactData);
-      
-      // Send emails
-      try {
-        await sendContactEmail(contactData);
-      } catch (emailError) {
-        console.error("Email sending failed:", emailError);
-        // Don't fail the request if email fails - contact is still saved
-      }
-      
-      res.status(201).json({ 
-        message: "Contact form submitted successfully",
-        id: contact.id 
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        res.status(400).json({ error: error.message });
-      } else {
-        res.status(400).json({ error: "Invalid contact data" });
-      }
     }
   });
 

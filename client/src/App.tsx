@@ -9,7 +9,6 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Content from "./pages/Content";
 import Projects from "./pages/Projects";
-import Contact from "./pages/Contact";
 import Sponsors from "./pages/Sponsors";
 import Donations from "./pages/Donations";
 import Classes from "./pages/Classes";
@@ -26,7 +25,6 @@ function Router() {
       <Route path="/sobre" component={About} />
       <Route path="/conteudo" component={Content} />
       <Route path="/projetos" component={Projects} />
-      <Route path="/contato" component={Contact} />
       <Route path="/patrocinadores" component={Sponsors} />
       <Route path="/doacoes" component={DonationsPage} />
       <Route path="/classes" component={Classes} />

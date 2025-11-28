@@ -1,8 +1,6 @@
 import { 
   type Project, 
   type InsertProject,
-  type Contact,
-  type InsertContact,
   type AboutContent,
   type InsertAboutContent,
   type WeaponLike,
@@ -19,10 +17,6 @@ export interface IStorage {
   createProject(project: InsertProject): Promise<Project>;
   updateProject(id: string, project: Partial<InsertProject>): Promise<Project | undefined>;
   deleteProject(id: string): Promise<boolean>;
-  
-  // Contacts (write-only until auth implemented)
-  createContact(contact: InsertContact): Promise<Contact>;
-  // Note: getContacts() removed from interface - should only be exposed via authenticated admin endpoint
   
   // About Content
   getAboutContent(): Promise<AboutContent | undefined>;
@@ -44,14 +38,12 @@ export interface IStorage {
 
 export class MemStorage implements IStorage {
   private projects: Map<string, Project>;
-  private contacts: Map<string, Contact>;
   private aboutContent: AboutContent | undefined;
   private weaponLikes: Map<string, number>;
   private products: Map<string, Product>;
 
   constructor() {
     this.projects = new Map();
-    this.contacts = new Map();
     this.aboutContent = undefined;
     this.weaponLikes = new Map();
     this.products = new Map();
@@ -238,26 +230,6 @@ slowedbase@gmail.com`,
 
   async deleteProject(id: string): Promise<boolean> {
     return this.projects.delete(id);
-  }
-
-  // Contacts
-  async createContact(insertContact: InsertContact): Promise<Contact> {
-    const id = randomUUID();
-    const contact: Contact = {
-      ...insertContact,
-      id,
-      createdAt: new Date(),
-    };
-    this.contacts.set(id, contact);
-    return contact;
-  }
-
-  // Private method - not exposed in IStorage interface
-  // Only for future admin use with proper authentication
-  private async getContactsInternal(): Promise<Contact[]> {
-    return Array.from(this.contacts.values()).sort((a, b) => 
-      b.createdAt.getTime() - a.createdAt.getTime()
-    );
   }
 
   // About Content
