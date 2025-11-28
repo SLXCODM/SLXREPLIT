@@ -9,6 +9,15 @@ import {
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
+// Convert relative asset paths to absolute Railway URLs
+function resolveImageUrl(url: string | null): string | null {
+  if (!url) return null;
+  if (url.startsWith("/attached_assets")) {
+    return `https://web-production-cadd.up.railway.app${url}`;
+  }
+  return url;
+}
+
 export interface IStorage {
   // Projects
   getProjects(): Promise<Project[]>;
@@ -190,18 +199,23 @@ slowedbase@gmail.com`,
 
   // Projects
   async getProjects(): Promise<Project[]> {
-    return Array.from(this.projects.values()).sort((a, b) => 
-      (a.order || "0").localeCompare(b.order || "0")
-    );
+    return Array.from(this.projects.values())
+      .map(p => ({ ...p, imageUrl: resolveImageUrl(p.imageUrl) }))
+      .sort((a, b) => 
+        (a.order || "0").localeCompare(b.order || "0")
+      );
   }
 
   async getProject(id: string): Promise<Project | undefined> {
-    return this.projects.get(id);
+    const project = this.projects.get(id);
+    if (!project) return undefined;
+    return { ...project, imageUrl: resolveImageUrl(project.imageUrl) };
   }
 
   async getProjectsByCategory(category: string): Promise<Project[]> {
     return Array.from(this.projects.values())
       .filter(p => p.category === category)
+      .map(p => ({ ...p, imageUrl: resolveImageUrl(p.imageUrl) }))
       .sort((a, b) => (a.order || "0").localeCompare(b.order || "0"));
   }
 
@@ -210,7 +224,7 @@ slowedbase@gmail.com`,
     const project: Project = {
       ...insertProject,
       id,
-      imageUrl: insertProject.imageUrl || null,
+      imageUrl: insertProject.imageUrl ? resolveImageUrl(insertProject.imageUrl) : null,
       externalUrl: insertProject.externalUrl || null,
       featured: insertProject.featured ?? false,
       order: insertProject.order || "0",
@@ -223,7 +237,11 @@ slowedbase@gmail.com`,
     const project = this.projects.get(id);
     if (!project) return undefined;
     
-    const updated: Project = { ...project, ...updates };
+    const updated: Project = { 
+      ...project, 
+      ...updates,
+      imageUrl: updates.imageUrl ? resolveImageUrl(updates.imageUrl) : project.imageUrl
+    };
     this.projects.set(id, updated);
     return updated;
   }
@@ -328,6 +346,10 @@ slowedbase@gmail.com`,
     mockProducts.forEach(product => {
       const fullProduct: Product = {
         ...product,
+        imageUrl: product.imageUrl ?? null,
+        featured: product.featured ?? false,
+        order: product.order ?? "0",
+        active: product.active ?? true,
         stripeProductId: null,
         stripePriceId: null,
         createdAt: new Date(),
@@ -352,6 +374,10 @@ slowedbase@gmail.com`,
     const product: Product = {
       ...insertProduct,
       id,
+      imageUrl: insertProduct.imageUrl ?? null,
+      featured: insertProduct.featured ?? false,
+      order: insertProduct.order ?? "0",
+      active: insertProduct.active ?? true,
       stripeProductId: null,
       stripePriceId: null,
       createdAt: new Date(),
