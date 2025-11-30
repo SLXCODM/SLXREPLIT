@@ -16,6 +16,12 @@ export async function serveStatic(app: Express, _server: Server) {
 
   app.use(express.static(distPath));
 
+  // Explicitly serve attached_assets
+  const attachedAssetsPath = path.resolve(import.meta.dirname, "..", "client", "public", "attached_assets");
+  if (fs.existsSync(attachedAssetsPath)) {
+    app.use("/attached_assets", express.static(attachedAssetsPath));
+  }
+
   // fall through to index.html if the file doesn't exist
   app.use("*", (_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
