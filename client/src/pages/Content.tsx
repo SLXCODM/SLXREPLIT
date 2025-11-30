@@ -63,8 +63,8 @@ export default function Content() {
   const defaultTab = "gaming";
   const currentTab = activeTab === "all" ? defaultTab : activeTab;
 
-  const filteredProjects = currentTab === "writer" 
-    ? [] 
+  const filteredProjects = currentTab === "writer"
+    ? []
     : projects.filter(p => p.category === currentTab);
 
   const contentComponent = (
@@ -96,10 +96,7 @@ export default function Content() {
               ))}
             </TabsList>
 
-            {/* Advertisement Section - Middle Region */}
-            <div className="my-8">
-              <AdSenseUnit slot="5678901234" format="auto" />
-            </div>
+
 
             {currentTab === "gaming" ? (
               <FollowToUnlock contentName="Call of Duty Mobile" language={language}>
@@ -129,7 +126,7 @@ export default function Content() {
                   ) : (
                     <div className="text-center py-16" data-testid="empty-state-content">
                       <p className="text-muted-foreground">
-                        {projects.length === 0 
+                        {projects.length === 0
                           ? (language === "pt" ? "Nenhum projeto disponível no momento." : "No projects available at the moment.")
                           : (language === "pt" ? "Nenhum conteúdo encontrado nesta categoria ainda." : "No content found in this category yet.")}
                       </p>
@@ -143,7 +140,7 @@ export default function Content() {
                   {/* Intro Text */}
                   <div className="bg-card/50 border border-border rounded-lg p-6 md:p-8">
                     <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                      {language === "pt" 
+                      {language === "pt"
                         ? "Fotos melancólicas com sentido e sentimento. Cada imagem conta uma história de profundidade e emoção. Conheça meu trabalho no Instagram e explore mais sobre a forma como vejo e capto o mundo."
                         : "Melancholic photos with meaning and feeling. Each image tells a story of depth and emotion. Get to know my work on Instagram and explore how I see and capture the world."}
                     </p>
@@ -159,7 +156,7 @@ export default function Content() {
                     >
                       <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full flex flex-col">
                         <div className="aspect-square overflow-hidden bg-card relative">
-                          <img 
+                          <img
                             src={photoSilhouettes}
                             alt="Melancholic hands"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -190,7 +187,7 @@ export default function Content() {
                     >
                       <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full flex flex-col">
                         <div className="aspect-square overflow-hidden bg-card relative">
-                          <img 
+                          <img
                             src={photoSelfPortrait}
                             alt="Mirror reflection"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -221,7 +218,7 @@ export default function Content() {
                     >
                       <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full flex flex-col">
                         <div className="aspect-square overflow-hidden bg-card relative">
-                          <img 
+                          <img
                             src={photoIntimacy}
                             alt="Intimate moments"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -252,7 +249,7 @@ export default function Content() {
                     >
                       <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full flex flex-col">
                         <div className="aspect-square overflow-hidden bg-card relative">
-                          <img 
+                          <img
                             src={photoCreativity}
                             alt="Creative workspace"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -283,7 +280,7 @@ export default function Content() {
                     >
                       <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full flex flex-col">
                         <div className="aspect-square overflow-hidden bg-card relative">
-                          <img 
+                          <img
                             src={photoNature}
                             alt="Nature connection"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -314,7 +311,7 @@ export default function Content() {
                     >
                       <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full flex flex-col">
                         <div className="aspect-square overflow-hidden bg-card relative">
-                          <img 
+                          <img
                             src={photoPoetry}
                             alt="Poetic nature"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -364,7 +361,7 @@ export default function Content() {
                           </h3>
                         </div>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          {language === "pt" 
+                          {language === "pt"
                             ? "Reflexões sobre superdotação, melancolia, desenvolvimento pessoal e estudos. Desabafos sinceros sobre como vejo a realidade e as complexidades da vida."
                             : "Reflections on giftedness, melancholy, personal development and learning. Honest thoughts on how I see reality and life's complexities."}
                         </p>
@@ -393,7 +390,7 @@ export default function Content() {
                           </h3>
                         </div>
                         <p className="text-sm text-muted-foreground/70 leading-relaxed">
-                          {language === "pt" 
+                          {language === "pt"
                             ? "Diários anônimos. Desabafos sinceros, melancolia profunda e reflexões sobre como eu vejo a realidade. Textos pesados sobre a minha vida, depressão e solidão."
                             : "Anonymous diaries. Honest confessions, deep melancholy and reflections on how I see reality. Heavy texts about my life, depression and loneliness."}
                         </p>
@@ -433,7 +430,7 @@ export default function Content() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
                           {/* Image */}
                           <div className="aspect-square overflow-hidden bg-card relative order-2 md:order-1">
-                            <img 
+                            <img
                               src={photoAgricultureWork}
                               alt="Agriculture work"
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -451,7 +448,7 @@ export default function Content() {
                                 </p>
                               </div>
                               <p className="text-base text-muted-foreground leading-relaxed">
-                                {language === "pt" 
+                                {language === "pt"
                                   ? "No Instagram (@slx.wav) eu mostro o dia a dia no campo, a rotina na agricultura e o trabalho com a terra, do jeito que ele realmente é. Tenho certeza que você irá gostar."
                                   : "Follow my Instagram Stories (@slx.wav) for daily content about agriculture, cultivation techniques, sustainability and the beauty of working with the land. Stories that show the daily life of the agricultural process with a deep and reflective perspective."}
                               </p>
@@ -511,7 +508,7 @@ export default function Content() {
                             </div>
                           </div>
                           <p className="text-sm text-muted-foreground leading-relaxed">
-                            {language === "pt" 
+                            {language === "pt"
                               ? "Reflexões sobre superdotação, melancolia, desenvolvimento pessoal e estudos. Desabafos sinceros sobre como vejo a realidade e as complexidades da vida."
                               : "Reflections on giftedness, melancholy, personal development and learning. Honest thoughts on how I see reality and life's complexities."}
                           </p>
@@ -533,7 +530,7 @@ export default function Content() {
                 ) : (
                   <div className="text-center py-16" data-testid="empty-state-content">
                     <p className="text-muted-foreground">
-                      {projects.length === 0 
+                      {projects.length === 0
                         ? (language === "pt" ? "Nenhum projeto disponível no momento." : "No projects available at the moment.")
                         : (language === "pt" ? "Nenhum conteúdo encontrado nesta categoria ainda." : "No content found in this category yet.")}
                     </p>
@@ -543,6 +540,9 @@ export default function Content() {
             )}
           </Tabs>
         </div>
+      </div>
+      <div className="mt-16 mb-8">
+        <AdSenseUnit slot="5678901234" format="auto" />
       </div>
     </div>
   );
