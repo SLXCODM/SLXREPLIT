@@ -6,10 +6,6 @@ import RafflePopup from "@/components/RafflePopup";
 import SocialLinks from "@/components/SocialLinks";
 import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { useLanguage } from "@/contexts/LanguageContext";
-import codmBgImage from "@assets/Picsart_25-01-08_09-25-56-556_1763836943841.jpg";
-import photoBgImage from "@assets/photography-new.jpg";
-import agricultureBgImage from "@assets/IMG_20250627_135015_1_1763837432932.jpg";
-import devIcon from "@assets/generated_images/bright_glowing_brain_icon_personal_development.png";
 
 export default function Home() {
   const { language } = useLanguage();
@@ -34,7 +30,7 @@ export default function Home() {
       icon: Gamepad2,
       descriptionPt: "Tutoriais, Classes, HUD, Sensibilidade e etc.",
       descriptionEn: "Tutorials, Loadouts, HUD, Sensitivity and more.",
-      imageUrl: codmBgImage,
+      imageUrl: "/attached_assets/Picsart_25-01-08_09-25-56-556_1763836943841.jpg",
       link: "/conteudo?category=gaming",
       testId: "card-category-gaming"
     },
@@ -45,7 +41,7 @@ export default function Home() {
       icon: Camera,
       descriptionPt: "Capturando momentos, escritor, amante da melancolia",
       descriptionEn: "Capturing moments, writer, lover of melancholy",
-      imageUrl: photoBgImage,
+      imageUrl: "/attached_assets/photography-new.jpg",
       link: "/conteudo?category=photography",
       testId: "card-category-photography"
     },
@@ -56,7 +52,7 @@ export default function Home() {
       icon: Sprout,
       descriptionPt: "Meu trabalho, desenvolvimento pessoal e conexão com a natureza",
       descriptionEn: "My work, personal development and connection with nature",
-      imageUrl: agricultureBgImage,
+      imageUrl: "/attached_assets/IMG_20250627_135015_1_1763837432932.jpg",
       link: "/conteudo?category=agriculture",
       testId: "card-category-agriculture"
     },
@@ -67,7 +63,7 @@ export default function Home() {
       icon: Brain,
       descriptionPt: "Psicologia, filosofia, neurociência e autoconhecimento",
       descriptionEn: "Psychology, philosophy, neuroscience and self-knowledge",
-      imageUrl: devIcon,
+      imageUrl: "/attached_assets/generated_images/bright_glowing_brain_icon_personal_development.png",
       link: "/conteudo?category=development",
       testId: "card-category-development"
     },
@@ -110,30 +106,30 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden" data-testid="section-hero">
         {/* Background Image */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('https://web-production-cadd.up.railway.app/attached_assets/IMG_20240114_185124_255 (3)_1763914486948.jpg')`
           }}
         />
-        
+
         {/* Dark Overlay Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/75 to-background/90" />
-        
+
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-24 md:py-32 text-center">
           <div className="space-y-8 md:space-y-12">
             {/* Main Heading */}
             <div className="space-y-4">
-              <h1 
-                className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none" 
+              <h1
+                className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none"
                 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 900 }}
                 data-testid="text-hero-title"
               >
                 SLX
               </h1>
-              <p 
-                className="text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-3xl mx-auto leading-relaxed" 
+              <p
+                className="text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
                 data-testid="text-hero-tagline"
               >
                 {t.tagline}
@@ -141,8 +137,8 @@ export default function Home() {
             </div>
 
             {/* Description */}
-            <p 
-              className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed whitespace-pre-line" 
+            <p
+              className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed whitespace-pre-line"
               data-testid="text-hero-description"
             >
               {t.description}
@@ -196,9 +192,9 @@ export default function Home() {
       </section>
 
       {/* Categories Section */}
-      <section 
-        id="categories" 
-        className="py-16 md:py-24 bg-card" 
+      <section
+        id="categories"
+        className="py-16 md:py-24 bg-card"
         data-testid="section-categories"
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -221,38 +217,38 @@ export default function Home() {
                 const description = language === "pt" ? category.descriptionPt : category.descriptionEn;
                 const CardContent = (
                   <Card className={`relative overflow-hidden h-80 hover-elevate active-elevate-2 transition-all duration-300 group ${category.id === 'development' ? 'bg-black' : ''}`}>
-                      {/* Background Image with Overlay */}
-                      {category.imageUrl && (
-                        <div className="absolute inset-0">
-                          <img
-                            src={category.imageUrl}
-                            alt={title}
-                            className="w-full h-full transition-transform duration-500 group-hover:scale-105 object-cover"
-                            style={
-                              category.id === "gaming"
-                                ? { objectPosition: "85% 90%" }
-                                : undefined
-                            }
-                          />
-                          <div className={`absolute inset-0 ${category.id === 'development' ? 'bg-black/40' : 'bg-gradient-to-t from-background via-background/80 to-background/20'}`} />
-                        </div>
-                      )}
-
-                      {/* Content */}
-                      <div className={`relative h-full flex flex-col ${category.imageUrl ? 'justify-end' : 'justify-start'} p-6 md:p-8`}>
-                        <div className="space-y-3">
-                          <Icon className="h-8 w-8 text-primary" />
-                          <h3 className="text-2xl font-semibold group-hover:text-primary transition-colors duration-300">
-                            {title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            {description}
-                          </p>
-                        </div>
+                    {/* Background Image with Overlay */}
+                    {category.imageUrl && (
+                      <div className="absolute inset-0">
+                        <img
+                          src={category.imageUrl}
+                          alt={title}
+                          className="w-full h-full transition-transform duration-500 group-hover:scale-105 object-cover"
+                          style={
+                            category.id === "gaming"
+                              ? { objectPosition: "85% 90%" }
+                              : undefined
+                          }
+                        />
+                        <div className={`absolute inset-0 ${category.id === 'development' ? 'bg-black/40' : 'bg-gradient-to-t from-background via-background/80 to-background/20'}`} />
                       </div>
-                    </Card>
+                    )}
+
+                    {/* Content */}
+                    <div className={`relative h-full flex flex-col ${category.imageUrl ? 'justify-end' : 'justify-start'} p-6 md:p-8`}>
+                      <div className="space-y-3">
+                        <Icon className="h-8 w-8 text-primary" />
+                        <h3 className="text-2xl font-semibold group-hover:text-primary transition-colors duration-300">
+                          {title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {description}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
                 );
-                
+
                 return category.link ? (
                   <a
                     key={category.id}
