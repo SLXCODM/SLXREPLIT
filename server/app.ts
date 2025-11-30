@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 });
 
 // Serve static assets from attached_assets folder
-app.use("/attached_assets", express.static(path.resolve(import.meta.dirname, "..", "attached_assets")));
+app.use("/attached_assets", express.static(path.resolve(import.meta.dirname, "..", "client", "public", "attached_assets")));
 
 // Serve public assets
 app.use(express.static(path.resolve(import.meta.dirname, "..", "public")));

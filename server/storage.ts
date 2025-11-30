@@ -1,5 +1,5 @@
-import { 
-  type Project, 
+import {
+  type Project,
   type InsertProject,
   type AboutContent,
   type InsertAboutContent,
@@ -26,7 +26,7 @@ export interface IStorage {
   createProject(project: InsertProject): Promise<Project>;
   updateProject(id: string, project: Partial<InsertProject>): Promise<Project | undefined>;
   deleteProject(id: string): Promise<boolean>;
-  
+
   // About Content
   getAboutContent(): Promise<AboutContent | undefined>;
   updateAboutContent(content: InsertAboutContent): Promise<AboutContent>;
@@ -56,7 +56,7 @@ export class MemStorage implements IStorage {
     this.aboutContent = undefined;
     this.weaponLikes = new Map();
     this.products = new Map();
-    
+
     // Initialize with mock data
     this.initializeMockData();
     this.initializeAboutContent();
@@ -201,7 +201,7 @@ slowedbase@gmail.com`,
   async getProjects(): Promise<Project[]> {
     return Array.from(this.projects.values())
       .map(p => ({ ...p, imageUrl: resolveImageUrl(p.imageUrl) }))
-      .sort((a, b) => 
+      .sort((a, b) =>
         (a.order || "0").localeCompare(b.order || "0")
       );
   }
@@ -236,9 +236,9 @@ slowedbase@gmail.com`,
   async updateProject(id: string, updates: Partial<InsertProject>): Promise<Project | undefined> {
     const project = this.projects.get(id);
     if (!project) return undefined;
-    
-    const updated: Project = { 
-      ...project, 
+
+    const updated: Project = {
+      ...project,
       ...updates,
       imageUrl: updates.imageUrl ? resolveImageUrl(updates.imageUrl) : project.imageUrl
     };
@@ -275,7 +275,7 @@ slowedbase@gmail.com`,
     const likes: WeaponLike[] = [];
     this.weaponLikes.forEach((likeCount, weaponId) => {
       if (likeCount > 0) {
-        likes.push({ weaponId, likes: likeCount });
+        likes.push({ weaponId, likes: likeCount.toString() });
       }
     });
     return likes;
@@ -389,7 +389,7 @@ slowedbase@gmail.com`,
   async updateProduct(id: string, updates: Partial<InsertProduct>): Promise<Product | undefined> {
     const product = this.products.get(id);
     if (!product) return undefined;
-    
+
     const updated: Product = { ...product, ...updates };
     this.products.set(id, updated);
     return updated;

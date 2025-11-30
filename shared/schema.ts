@@ -29,7 +29,7 @@ export const aboutContent = pgTable("about_content", {
 export const insertProjectSchema = createInsertSchema(projects).omit({
   id: true,
 }).extend({
-  category: z.enum(projectCategories, { 
+  category: z.enum(projectCategories, {
     errorMap: () => ({ message: "Categoria deve ser: gaming, agriculture, photography ou development" })
   }),
   order: z.string().regex(/^\d+$/, "Order deve ser um número em formato string").optional(),
@@ -47,10 +47,15 @@ export type InsertAboutContent = z.infer<typeof insertAboutContentSchema>;
 export type AboutContent = typeof aboutContent.$inferSelect;
 
 // Weapon Likes
-export interface WeaponLike {
-  weaponId: string;
-  likes: number;
-}
+// Weapon Likes
+export const weaponLikes = pgTable("weapon_likes", {
+  weaponId: varchar("weapon_id").primaryKey(),
+  likes: text("likes").default("0").notNull(),
+});
+
+export const insertWeaponLikeSchema = createInsertSchema(weaponLikes);
+export type InsertWeaponLike = z.infer<typeof insertWeaponLikeSchema>;
+export type WeaponLike = typeof weaponLikes.$inferSelect;
 
 // Produtos da Loja
 export const products = pgTable("products", {
