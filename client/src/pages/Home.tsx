@@ -109,7 +109,7 @@ export default function Home() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://web-production-cadd.up.railway.app/attached_assets/IMG_20240114_185124_255 (3)_1763914486948.jpg')`
+            backgroundImage: `url('/attached_assets/IMG_20240114_185124_255 (3)_1763914486948.jpg')`
           }}
         />
 
