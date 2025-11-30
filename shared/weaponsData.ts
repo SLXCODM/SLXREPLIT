@@ -296,7 +296,7 @@ export const weaponsData: Weapon[] = [
     imageEn: "/attached_assets/1000004518.jpg",
     image: "/attached_assets/1000004522.jpg",
     keywords: ["type63", "type 63", "atirador", "marksman"]
-  }
+  },
   {
     id: "chicom",
     name: "Chicom",
@@ -311,7 +311,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/chicom.jpg",
     imagePt: "/attached_assets/chicom.jpg",
     imageEn: "/attached_assets/chicom.jpg",
-    keywords: ["chicom","smg","codm","loadout"],
+    keywords: ["chicom", "smg", "codm", "loadout"],
   },
   {
     id: "pp19-bizon",
@@ -327,7 +327,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/pp19-bizon.jpg",
     imagePt: "/attached_assets/pp19-bizon.jpg",
     imageEn: "/attached_assets/pp19-bizon.jpg",
-    keywords: ["pp19-bizon","smg","codm","loadout"],
+    keywords: ["pp19-bizon", "smg", "codm", "loadout"],
   },
   {
     id: "m13",
@@ -343,7 +343,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/m13.jpg",
     imagePt: "/attached_assets/m13.jpg",
     imageEn: "/attached_assets/m13.jpg",
-    keywords: ["m13","assault rifle","codm","loadout"],
+    keywords: ["m13", "assault rifle", "codm", "loadout"],
   },
   {
     id: "kilo-141",
@@ -359,7 +359,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/kilo-141.jpg",
     imagePt: "/attached_assets/kilo-141.jpg",
     imageEn: "/attached_assets/kilo-141.jpg",
-    keywords: ["kilo-141","assault rifle","codm","loadout"],
+    keywords: ["kilo-141", "assault rifle", "codm", "loadout"],
   },
   {
     id: "m4",
@@ -375,7 +375,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/m4.jpg",
     imagePt: "/attached_assets/m4.jpg",
     imageEn: "/attached_assets/m4.jpg",
-    keywords: ["m4","assault rifle","codm","loadout"],
+    keywords: ["m4", "assault rifle", "codm", "loadout"],
   },
   {
     id: "ak-47",
@@ -391,7 +391,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/ak-47.jpg",
     imagePt: "/attached_assets/ak-47.jpg",
     imageEn: "/attached_assets/ak-47.jpg",
-    keywords: ["ak-47","assault rifle","codm","loadout"],
+    keywords: ["ak-47", "assault rifle", "codm", "loadout"],
   },
   {
     id: "dr-h",
@@ -407,7 +407,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/dr-h.jpg",
     imagePt: "/attached_assets/dr-h.jpg",
     imageEn: "/attached_assets/dr-h.jpg",
-    keywords: ["dr-h","assault rifle","codm","loadout"],
+    keywords: ["dr-h", "assault rifle", "codm", "loadout"],
   },
   {
     id: "hvk-30",
@@ -423,7 +423,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/hvk-30.jpg",
     imagePt: "/attached_assets/hvk-30.jpg",
     imageEn: "/attached_assets/hvk-30.jpg",
-    keywords: ["hvk-30","assault rifle","codm","loadout"],
+    keywords: ["hvk-30", "assault rifle", "codm", "loadout"],
   },
   {
     id: "kn-44",
@@ -439,7 +439,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/kn-44.jpg",
     imagePt: "/attached_assets/kn-44.jpg",
     imageEn: "/attached_assets/kn-44.jpg",
-    keywords: ["kn-44","assault rifle","codm","loadout"],
+    keywords: ["kn-44", "assault rifle", "codm", "loadout"],
   },
   {
     id: "icr-1",
@@ -455,7 +455,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/icr-1.jpg",
     imagePt: "/attached_assets/icr-1.jpg",
     imageEn: "/attached_assets/icr-1.jpg",
-    keywords: ["icr-1","assault rifle","codm","loadout"],
+    keywords: ["icr-1", "assault rifle", "codm", "loadout"],
   },
   {
     id: "man-o-war",
@@ -471,7 +471,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/man-o-war.jpg",
     imagePt: "/attached_assets/man-o-war.jpg",
     imageEn: "/attached_assets/man-o-war.jpg",
-    keywords: ["man-o-war","assault rifle","codm","loadout"],
+    keywords: ["man-o-war", "assault rifle", "codm", "loadout"],
   },
   {
     id: "as-val",
@@ -487,7 +487,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/as-val.jpg",
     imagePt: "/attached_assets/as-val.jpg",
     imageEn: "/attached_assets/as-val.jpg",
-    keywords: ["as-val","assault rifle","codm","loadout"],
+    keywords: ["as-val", "assault rifle", "codm", "loadout"],
   },
   {
     id: "bk57",
@@ -503,7 +503,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/bk57.jpg",
     imagePt: "/attached_assets/bk57.jpg",
     imageEn: "/attached_assets/bk57.jpg",
-    keywords: ["bk57","assault rifle","codm","loadout"],
+    keywords: ["bk57", "assault rifle", "codm", "loadout"],
   },
   {
     id: "lk24",
@@ -519,7 +519,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/lk24.jpg",
     imagePt: "/attached_assets/lk24.jpg",
     imageEn: "/attached_assets/lk24.jpg",
-    keywords: ["lk24","assault rifle","codm","loadout"],
+    keywords: ["lk24", "assault rifle", "codm", "loadout"],
   },
   {
     id: "peacekeeper-mk2",
@@ -535,7 +535,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/peacekeeper-mk2.jpg",
     imagePt: "/attached_assets/peacekeeper-mk2.jpg",
     imageEn: "/attached_assets/peacekeeper-mk2.jpg",
-    keywords: ["peacekeeper-mk2","assault rifle","codm","loadout"],
+    keywords: ["peacekeeper-mk2", "assault rifle", "codm", "loadout"],
   },
   {
     id: "fr-5-56",
@@ -551,7 +551,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/fr-5-56.jpg",
     imagePt: "/attached_assets/fr-5-56.jpg",
     imageEn: "/attached_assets/fr-5-56.jpg",
-    keywords: ["fr-5-56","assault rifle","codm","loadout"],
+    keywords: ["fr-5-56", "assault rifle", "codm", "loadout"],
   },
   {
     id: "hbra3",
@@ -567,7 +567,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/hbra3.jpg",
     imagePt: "/attached_assets/hbra3.jpg",
     imageEn: "/attached_assets/hbra3.jpg",
-    keywords: ["hbra3","assault rifle","codm","loadout"],
+    keywords: ["hbra3", "assault rifle", "codm", "loadout"],
   },
   {
     id: "ak117",
@@ -583,7 +583,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/ak117.jpg",
     imagePt: "/attached_assets/ak117.jpg",
     imageEn: "/attached_assets/ak117.jpg",
-    keywords: ["ak117","assault rifle","codm","loadout"],
+    keywords: ["ak117", "assault rifle", "codm", "loadout"],
   },
   {
     id: "type-25",
@@ -599,7 +599,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/type-25.jpg",
     imagePt: "/attached_assets/type-25.jpg",
     imageEn: "/attached_assets/type-25.jpg",
-    keywords: ["type-25","assault rifle","codm","loadout"],
+    keywords: ["type-25", "assault rifle", "codm", "loadout"],
   },
   {
     id: "asm10",
@@ -615,7 +615,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/asm10.jpg",
     imagePt: "/attached_assets/asm10.jpg",
     imageEn: "/attached_assets/asm10.jpg",
-    keywords: ["asm10","assault rifle","codm","loadout"],
+    keywords: ["asm10", "assault rifle", "codm", "loadout"],
   },
   {
     id: "dl-q33",
@@ -631,7 +631,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/dl-q33.jpg",
     imagePt: "/attached_assets/dl-q33.jpg",
     imageEn: "/attached_assets/dl-q33.jpg",
-    keywords: ["dl-q33","sniper","codm","loadout"],
+    keywords: ["dl-q33", "sniper", "codm", "loadout"],
   },
   {
     id: "locus-2",
@@ -647,7 +647,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/locus.jpg",
     imagePt: "/attached_assets/locus.jpg",
     imageEn: "/attached_assets/locus.jpg",
-    keywords: ["locus","sniper","codm","loadout"],
+    keywords: ["locus", "sniper", "codm", "loadout"],
   },
   {
     id: "arctic-50",
@@ -663,7 +663,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/arctic-50.jpg",
     imagePt: "/attached_assets/arctic-50.jpg",
     imageEn: "/attached_assets/arctic-50.jpg",
-    keywords: ["arctic-50","sniper","codm","loadout"],
+    keywords: ["arctic-50", "sniper", "codm", "loadout"],
   },
   {
     id: "koshka-2",
@@ -679,7 +679,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/koshka.jpg",
     imagePt: "/attached_assets/koshka.jpg",
     imageEn: "/attached_assets/koshka.jpg",
-    keywords: ["koshka","sniper","codm","loadout"],
+    keywords: ["koshka", "sniper", "codm", "loadout"],
   },
   {
     id: "zrg-20mm",
@@ -695,7 +695,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/zrg-20mm.jpg",
     imagePt: "/attached_assets/zrg-20mm.jpg",
     imageEn: "/attached_assets/zrg-20mm.jpg",
-    keywords: ["zrg-20mm","sniper","codm","loadout"],
+    keywords: ["zrg-20mm", "sniper", "codm", "loadout"],
   },
   {
     id: "sks",
@@ -711,7 +711,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/sks.jpg",
     imagePt: "/attached_assets/sks.jpg",
     imageEn: "/attached_assets/sks.jpg",
-    keywords: ["sks","marksman","codm","loadout"],
+    keywords: ["sks", "marksman", "codm", "loadout"],
   },
   {
     id: "mk2",
@@ -727,7 +727,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/mk2.jpg",
     imagePt: "/attached_assets/mk2.jpg",
     imageEn: "/attached_assets/mk2.jpg",
-    keywords: ["mk2","marksman","codm","loadout"],
+    keywords: ["mk2", "marksman", "codm", "loadout"],
   },
   {
     id: "kilo-bolt-action",
@@ -743,7 +743,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/kilo-bolt-action.jpg",
     imagePt: "/attached_assets/kilo-bolt-action.jpg",
     imageEn: "/attached_assets/kilo-bolt-action.jpg",
-    keywords: ["kilo-bolt-action","marksman","codm","loadout"],
+    keywords: ["kilo-bolt-action", "marksman", "codm", "loadout"],
   },
   {
     id: "sp-r-208",
@@ -759,7 +759,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/sp-r-208.jpg",
     imagePt: "/attached_assets/sp-r-208.jpg",
     imageEn: "/attached_assets/sp-r-208.jpg",
-    keywords: ["sp-r-208","marksman","codm","loadout"],
+    keywords: ["sp-r-208", "marksman", "codm", "loadout"],
   },
   {
     id: "kar98k",
@@ -775,7 +775,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/kar98k.jpg",
     imagePt: "/attached_assets/kar98k.jpg",
     imageEn: "/attached_assets/kar98k.jpg",
-    keywords: ["kar98k","assault rifle","codm","loadout"],
+    keywords: ["kar98k", "assault rifle", "codm", "loadout"],
   },
   {
     id: "outlaw-2",
@@ -791,7 +791,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/outlaw.jpg",
     imagePt: "/attached_assets/outlaw.jpg",
     imageEn: "/attached_assets/outlaw.jpg",
-    keywords: ["outlaw","sniper","codm","loadout"],
+    keywords: ["outlaw", "sniper", "codm", "loadout"],
   },
   {
     id: "m21-ebr",
@@ -807,7 +807,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/m21-ebr.jpg",
     imagePt: "/attached_assets/m21-ebr.jpg",
     imageEn: "/attached_assets/m21-ebr.jpg",
-    keywords: ["m21-ebr","sniper","codm","loadout"],
+    keywords: ["m21-ebr", "sniper", "codm", "loadout"],
   },
   {
     id: "xpr-50",
@@ -823,7 +823,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/xpr-50.jpg",
     imagePt: "/attached_assets/xpr-50.jpg",
     imageEn: "/attached_assets/xpr-50.jpg",
-    keywords: ["xpr-50","sniper","codm","loadout"],
+    keywords: ["xpr-50", "sniper", "codm", "loadout"],
   },
   {
     id: "na-45",
@@ -839,7 +839,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/na-45.jpg",
     imagePt: "/attached_assets/na-45.jpg",
     imageEn: "/attached_assets/na-45.jpg",
-    keywords: ["na-45","sniper","codm","loadout"],
+    keywords: ["na-45", "sniper", "codm", "loadout"],
   },
   {
     id: "d-13-sector",
@@ -855,7 +855,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/d-13-sector.jpg",
     imagePt: "/attached_assets/d-13-sector.jpg",
     imageEn: "/attached_assets/d-13-sector.jpg",
-    keywords: ["d-13-sector","assault rifle","codm","loadout"],
+    keywords: ["d-13-sector", "assault rifle", "codm", "loadout"],
   },
   {
     id: "svd",
@@ -871,7 +871,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/svd.jpg",
     imagePt: "/attached_assets/svd.jpg",
     imageEn: "/attached_assets/svd.jpg",
-    keywords: ["svd","sniper","codm","loadout"],
+    keywords: ["svd", "sniper", "codm", "loadout"],
   },
   {
     id: "r9-0",
@@ -887,7 +887,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/r9-0.jpg",
     imagePt: "/attached_assets/r9-0.jpg",
     imageEn: "/attached_assets/r9-0.jpg",
-    keywords: ["r9-0","shotgun","codm","loadout"],
+    keywords: ["r9-0", "shotgun", "codm", "loadout"],
   },
   {
     id: "krm-262",
@@ -903,7 +903,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/krm-262.jpg",
     imagePt: "/attached_assets/krm-262.jpg",
     imageEn: "/attached_assets/krm-262.jpg",
-    keywords: ["krm-262","shotgun","codm","loadout"],
+    keywords: ["krm-262", "shotgun", "codm", "loadout"],
   },
   {
     id: "by15-2",
@@ -919,7 +919,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/by15.jpg",
     imagePt: "/attached_assets/by15.jpg",
     imageEn: "/attached_assets/by15.jpg",
-    keywords: ["by15","shotgun","codm","loadout"],
+    keywords: ["by15", "shotgun", "codm", "loadout"],
   },
   {
     id: "hs0405-2",
@@ -935,7 +935,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/hs0405.jpg",
     imagePt: "/attached_assets/hs0405.jpg",
     imageEn: "/attached_assets/hs0405.jpg",
-    keywords: ["hs0405","shotgun","codm","loadout"],
+    keywords: ["hs0405", "shotgun", "codm", "loadout"],
   },
   {
     id: "hs2126",
@@ -951,7 +951,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/hs2126.jpg",
     imagePt: "/attached_assets/hs2126.jpg",
     imageEn: "/attached_assets/hs2126.jpg",
-    keywords: ["hs2126","shotgun","codm","loadout"],
+    keywords: ["hs2126", "shotgun", "codm", "loadout"],
   },
   {
     id: "echo",
@@ -967,7 +967,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/echo.jpg",
     imagePt: "/attached_assets/echo.jpg",
     imageEn: "/attached_assets/echo.jpg",
-    keywords: ["echo","shotgun","codm","loadout"],
+    keywords: ["echo", "shotgun", "codm", "loadout"],
   },
   {
     id: "striker",
@@ -983,7 +983,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/striker.jpg",
     imagePt: "/attached_assets/striker.jpg",
     imageEn: "/attached_assets/striker.jpg",
-    keywords: ["striker","shotgun","codm","loadout"],
+    keywords: ["striker", "shotgun", "codm", "loadout"],
   },
   {
     id: "jak-12",
@@ -999,7 +999,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/jak-12.jpg",
     imagePt: "/attached_assets/jak-12.jpg",
     imageEn: "/attached_assets/jak-12.jpg",
-    keywords: ["jak-12","shotgun","codm","loadout"],
+    keywords: ["jak-12", "shotgun", "codm", "loadout"],
   },
   {
     id: "hs405",
@@ -1015,7 +1015,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/hs405.jpg",
     imagePt: "/attached_assets/hs405.jpg",
     imageEn: "/attached_assets/hs405.jpg",
-    keywords: ["hs405","assault rifle","codm","loadout"],
+    keywords: ["hs405", "assault rifle", "codm", "loadout"],
   },
   {
     id: "m16",
@@ -1031,7 +1031,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/m16.jpg",
     imagePt: "/attached_assets/m16.jpg",
     imageEn: "/attached_assets/m16.jpg",
-    keywords: ["m16","assault rifle","codm","loadout"],
+    keywords: ["m16", "assault rifle", "codm", "loadout"],
   },
   {
     id: "swordfish",
@@ -1047,7 +1047,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/swordfish.jpg",
     imagePt: "/attached_assets/swordfish.jpg",
     imageEn: "/attached_assets/swordfish.jpg",
-    keywords: ["swordfish","assault rifle","codm","loadout"],
+    keywords: ["swordfish", "assault rifle", "codm", "loadout"],
   },
   {
     id: "agr-556",
@@ -1063,7 +1063,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/agr-556.jpg",
     imagePt: "/attached_assets/agr-556.jpg",
     imageEn: "/attached_assets/agr-556.jpg",
-    keywords: ["agr-556","smg","codm","loadout"],
+    keywords: ["agr-556", "smg", "codm", "loadout"],
   },
   {
     id: "m4lmg",
@@ -1079,7 +1079,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/m4lmg.jpg",
     imagePt: "/attached_assets/m4lmg.jpg",
     imageEn: "/attached_assets/m4lmg.jpg",
-    keywords: ["m4lmg","assault rifle","codm","loadout"],
+    keywords: ["m4lmg", "assault rifle", "codm", "loadout"],
   },
   {
     id: "rpd",
@@ -1095,7 +1095,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/rpd.jpg",
     imagePt: "/attached_assets/rpd.jpg",
     imageEn: "/attached_assets/rpd.jpg",
-    keywords: ["rpd","lmg","codm","loadout"],
+    keywords: ["rpd", "lmg", "codm", "loadout"],
   },
   {
     id: "chopper",
@@ -1111,7 +1111,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/chopper.jpg",
     imagePt: "/attached_assets/chopper.jpg",
     imageEn: "/attached_assets/chopper.jpg",
-    keywords: ["chopper","lmg","codm","loadout"],
+    keywords: ["chopper", "lmg", "codm", "loadout"],
   },
   {
     id: "ul736",
@@ -1127,7 +1127,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/ul736.jpg",
     imagePt: "/attached_assets/ul736.jpg",
     imageEn: "/attached_assets/ul736.jpg",
-    keywords: ["ul736","lmg","codm","loadout"],
+    keywords: ["ul736", "lmg", "codm", "loadout"],
   },
   {
     id: "hades",
@@ -1143,7 +1143,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/hades.jpg",
     imagePt: "/attached_assets/hades.jpg",
     imageEn: "/attached_assets/hades.jpg",
-    keywords: ["hades","lmg","codm","loadout"],
+    keywords: ["hades", "lmg", "codm", "loadout"],
   },
   {
     id: "holger-26",
@@ -1159,7 +1159,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/holger-26.jpg",
     imagePt: "/attached_assets/holger-26.jpg",
     imageEn: "/attached_assets/holger-26.jpg",
-    keywords: ["holger-26","assault rifle","codm","loadout"],
+    keywords: ["holger-26", "assault rifle", "codm", "loadout"],
   },
   {
     id: "dingo",
@@ -1175,7 +1175,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/dingo.jpg",
     imagePt: "/attached_assets/dingo.jpg",
     imageEn: "/attached_assets/dingo.jpg",
-    keywords: ["dingo","lmg","codm","loadout"],
+    keywords: ["dingo", "lmg", "codm", "loadout"],
   },
   {
     id: "gks",
@@ -1191,7 +1191,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/gks.jpg",
     imagePt: "/attached_assets/gks.jpg",
     imageEn: "/attached_assets/gks.jpg",
-    keywords: ["gks","smg","codm","loadout"],
+    keywords: ["gks", "smg", "codm", "loadout"],
   },
   {
     id: "pdw-57",
@@ -1207,7 +1207,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/pdw-57.jpg",
     imagePt: "/attached_assets/pdw-57.jpg",
     imageEn: "/attached_assets/pdw-57.jpg",
-    keywords: ["pdw-57","smg","codm","loadout"],
+    keywords: ["pdw-57", "smg", "codm", "loadout"],
   },
   {
     id: "razorback",
@@ -1223,7 +1223,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/razorback.jpg",
     imagePt: "/attached_assets/razorback.jpg",
     imageEn: "/attached_assets/razorback.jpg",
-    keywords: ["razorback","smg","codm","loadout"],
+    keywords: ["razorback", "smg", "codm", "loadout"],
   },
   {
     id: "msmc",
@@ -1239,7 +1239,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/msmc.jpg",
     imagePt: "/attached_assets/msmc.jpg",
     imageEn: "/attached_assets/msmc.jpg",
-    keywords: ["msmc","smg","codm","loadout"],
+    keywords: ["msmc", "smg", "codm", "loadout"],
   },
   {
     id: "hg-40",
@@ -1255,7 +1255,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/hg-40.jpg",
     imagePt: "/attached_assets/hg-40.jpg",
     imageEn: "/attached_assets/hg-40.jpg",
-    keywords: ["hg-40","smg","codm","loadout"],
+    keywords: ["hg-40", "smg", "codm", "loadout"],
   },
   {
     id: "pharo",
@@ -1271,7 +1271,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/pharo.jpg",
     imagePt: "/attached_assets/pharo.jpg",
     imageEn: "/attached_assets/pharo.jpg",
-    keywords: ["pharo","smg","codm","loadout"],
+    keywords: ["pharo", "smg", "codm", "loadout"],
   },
   {
     id: "gks-2",
@@ -1287,7 +1287,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/gks.jpg",
     imagePt: "/attached_assets/gks.jpg",
     imageEn: "/attached_assets/gks.jpg",
-    keywords: ["gks","smg","codm","loadout"],
+    keywords: ["gks", "smg", "codm", "loadout"],
   },
   {
     id: "cordite",
@@ -1303,7 +1303,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/cordite.jpg",
     imagePt: "/attached_assets/cordite.jpg",
     imageEn: "/attached_assets/cordite.jpg",
-    keywords: ["cordite","smg","codm","loadout"],
+    keywords: ["cordite", "smg", "codm", "loadout"],
   },
   {
     id: "qq9",
@@ -1319,7 +1319,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/qq9.jpg",
     imagePt: "/attached_assets/qq9.jpg",
     imageEn: "/attached_assets/qq9.jpg",
-    keywords: ["qq9","smg","codm","loadout"],
+    keywords: ["qq9", "smg", "codm", "loadout"],
   },
   {
     id: "fennec",
@@ -1335,7 +1335,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/fennec.jpg",
     imagePt: "/attached_assets/fennec.jpg",
     imageEn: "/attached_assets/fennec.jpg",
-    keywords: ["fennec","smg","codm","loadout"],
+    keywords: ["fennec", "smg", "codm", "loadout"],
   },
   {
     id: "agr-556-2",
@@ -1351,7 +1351,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/agr-556.jpg",
     imagePt: "/attached_assets/agr-556.jpg",
     imageEn: "/attached_assets/agr-556.jpg",
-    keywords: ["agr-556","smg","codm","loadout"],
+    keywords: ["agr-556", "smg", "codm", "loadout"],
   },
   {
     id: "qxr",
@@ -1367,7 +1367,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/qxr.jpg",
     imagePt: "/attached_assets/qxr.jpg",
     imageEn: "/attached_assets/qxr.jpg",
-    keywords: ["qxr","smg","codm","loadout"],
+    keywords: ["qxr", "smg", "codm", "loadout"],
   },
   {
     id: "pp19-bizon-2",
@@ -1383,7 +1383,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/pp19-bizon.jpg",
     imagePt: "/attached_assets/pp19-bizon.jpg",
     imageEn: "/attached_assets/pp19-bizon.jpg",
-    keywords: ["pp19-bizon","smg","codm","loadout"],
+    keywords: ["pp19-bizon", "smg", "codm", "loadout"],
   },
   {
     id: "cbr4",
@@ -1399,7 +1399,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/cbr4.jpg",
     imagePt: "/attached_assets/cbr4.jpg",
     imageEn: "/attached_assets/cbr4.jpg",
-    keywords: ["cbr4","smg","codm","loadout"],
+    keywords: ["cbr4", "smg", "codm", "loadout"],
   },
   {
     id: "ppsh-41",
@@ -1415,7 +1415,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/ppsh-41.jpg",
     imagePt: "/attached_assets/ppsh-41.jpg",
     imageEn: "/attached_assets/ppsh-41.jpg",
-    keywords: ["ppsh-41","smg","codm","loadout"],
+    keywords: ["ppsh-41", "smg", "codm", "loadout"],
   },
   {
     id: "mac-10",
@@ -1431,7 +1431,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/mac-10.jpg",
     imagePt: "/attached_assets/mac-10.jpg",
     imageEn: "/attached_assets/mac-10.jpg",
-    keywords: ["mac-10","smg","codm","loadout"],
+    keywords: ["mac-10", "smg", "codm", "loadout"],
   },
   {
     id: "ksp-45",
@@ -1447,7 +1447,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/ksp-45.jpg",
     imagePt: "/attached_assets/ksp-45.jpg",
     imageEn: "/attached_assets/ksp-45.jpg",
-    keywords: ["ksp-45","smg","codm","loadout"],
+    keywords: ["ksp-45", "smg", "codm", "loadout"],
   },
   {
     id: "switchblade-x9-2",
@@ -1463,7 +1463,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/switchblade-x9.jpg",
     imagePt: "/attached_assets/switchblade-x9.jpg",
     imageEn: "/attached_assets/switchblade-x9.jpg",
-    keywords: ["switchblade-x9","smg","codm","loadout"],
+    keywords: ["switchblade-x9", "smg", "codm", "loadout"],
   },
   {
     id: "lapa",
@@ -1479,7 +1479,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/lapa.jpg",
     imagePt: "/attached_assets/lapa.jpg",
     imageEn: "/attached_assets/lapa.jpg",
-    keywords: ["lapa","smg","codm","loadout"],
+    keywords: ["lapa", "smg", "codm", "loadout"],
   },
   {
     id: "ots-9",
@@ -1495,7 +1495,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/ots-9.jpg",
     imagePt: "/attached_assets/ots-9.jpg",
     imageEn: "/attached_assets/ots-9.jpg",
-    keywords: ["ots-9","smg","codm","loadout"],
+    keywords: ["ots-9", "smg", "codm", "loadout"],
   },
   {
     id: "striker-45",
@@ -1511,7 +1511,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/striker-45.jpg",
     imagePt: "/attached_assets/striker-45.jpg",
     imageEn: "/attached_assets/striker-45.jpg",
-    keywords: ["striker-45","smg","codm","loadout"],
+    keywords: ["striker-45", "smg", "codm", "loadout"],
   },
   {
     id: "tec-9",
@@ -1527,7 +1527,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/tec-9.jpg",
     imagePt: "/attached_assets/tec-9.jpg",
     imageEn: "/attached_assets/tec-9.jpg",
-    keywords: ["tec-9","smg","codm","loadout"],
+    keywords: ["tec-9", "smg", "codm", "loadout"],
   },
   {
     id: "mx9-2",
@@ -1543,7 +1543,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/mx9.jpg",
     imagePt: "/attached_assets/mx9.jpg",
     imageEn: "/attached_assets/mx9.jpg",
-    keywords: ["mx9","smg","codm","loadout"],
+    keywords: ["mx9", "smg", "codm", "loadout"],
   },
   {
     id: "cbr4-2",
@@ -1559,7 +1559,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/cbr4.jpg",
     imagePt: "/attached_assets/cbr4.jpg",
     imageEn: "/attached_assets/cbr4.jpg",
-    keywords: ["cbr4","smg","codm","loadout"],
+    keywords: ["cbr4", "smg", "codm", "loadout"],
   },
   {
     id: "ak-47-2",
@@ -1575,7 +1575,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/ak-47.jpg",
     imagePt: "/attached_assets/ak-47.jpg",
     imageEn: "/attached_assets/ak-47.jpg",
-    keywords: ["ak-47","assault rifle","codm","loadout"],
+    keywords: ["ak-47", "assault rifle", "codm", "loadout"],
   },
   {
     id: "m13-2",
@@ -1591,7 +1591,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/m13.jpg",
     imagePt: "/attached_assets/m13.jpg",
     imageEn: "/attached_assets/m13.jpg",
-    keywords: ["m13","assault rifle","codm","loadout"],
+    keywords: ["m13", "assault rifle", "codm", "loadout"],
   },
   {
     id: "kilo-141-2",
@@ -1607,7 +1607,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/kilo-141.jpg",
     imagePt: "/attached_assets/kilo-141.jpg",
     imageEn: "/attached_assets/kilo-141.jpg",
-    keywords: ["kilo-141","assault rifle","codm","loadout"],
+    keywords: ["kilo-141", "assault rifle", "codm", "loadout"],
   },
   {
     id: "m4-2",
@@ -1623,7 +1623,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/m4.jpg",
     imagePt: "/attached_assets/m4.jpg",
     imageEn: "/attached_assets/m4.jpg",
-    keywords: ["m4","assault rifle","codm","loadout"],
+    keywords: ["m4", "assault rifle", "codm", "loadout"],
   },
   {
     id: "dr-h-2",
@@ -1639,7 +1639,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/dr-h.jpg",
     imagePt: "/attached_assets/dr-h.jpg",
     imageEn: "/attached_assets/dr-h.jpg",
-    keywords: ["dr-h","assault rifle","codm","loadout"],
+    keywords: ["dr-h", "assault rifle", "codm", "loadout"],
   },
   {
     id: "hvk-30-2",
@@ -1655,7 +1655,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/hvk-30.jpg",
     imagePt: "/attached_assets/hvk-30.jpg",
     imageEn: "/attached_assets/hvk-30.jpg",
-    keywords: ["hvk-30","assault rifle","codm","loadout"],
+    keywords: ["hvk-30", "assault rifle", "codm", "loadout"],
   },
   {
     id: "kn-44-2",
@@ -1671,7 +1671,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/kn-44.jpg",
     imagePt: "/attached_assets/kn-44.jpg",
     imageEn: "/attached_assets/kn-44.jpg",
-    keywords: ["kn-44","assault rifle","codm","loadout"],
+    keywords: ["kn-44", "assault rifle", "codm", "loadout"],
   },
   {
     id: "icr-1-2",
@@ -1687,7 +1687,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/icr-1.jpg",
     imagePt: "/attached_assets/icr-1.jpg",
     imageEn: "/attached_assets/icr-1.jpg",
-    keywords: ["icr-1","assault rifle","codm","loadout"],
+    keywords: ["icr-1", "assault rifle", "codm", "loadout"],
   },
   {
     id: "man-o-war-2",
@@ -1703,7 +1703,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/man-o-war.jpg",
     imagePt: "/attached_assets/man-o-war.jpg",
     imageEn: "/attached_assets/man-o-war.jpg",
-    keywords: ["man-o-war","assault rifle","codm","loadout"],
+    keywords: ["man-o-war", "assault rifle", "codm", "loadout"],
   },
   {
     id: "as-val-2",
@@ -1719,7 +1719,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/as-val.jpg",
     imagePt: "/attached_assets/as-val.jpg",
     imageEn: "/attached_assets/as-val.jpg",
-    keywords: ["as-val","assault rifle","codm","loadout"],
+    keywords: ["as-val", "assault rifle", "codm", "loadout"],
   },
   {
     id: "bk57-2",
@@ -1735,7 +1735,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/bk57.jpg",
     imagePt: "/attached_assets/bk57.jpg",
     imageEn: "/attached_assets/bk57.jpg",
-    keywords: ["bk57","assault rifle","codm","loadout"],
+    keywords: ["bk57", "assault rifle", "codm", "loadout"],
   },
   {
     id: "lk24-2",
@@ -1751,7 +1751,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/lk24.jpg",
     imagePt: "/attached_assets/lk24.jpg",
     imageEn: "/attached_assets/lk24.jpg",
-    keywords: ["lk24","assault rifle","codm","loadout"],
+    keywords: ["lk24", "assault rifle", "codm", "loadout"],
   },
   {
     id: "peacekeeper-mk2-2",
@@ -1767,7 +1767,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/peacekeeper-mk2.jpg",
     imagePt: "/attached_assets/peacekeeper-mk2.jpg",
     imageEn: "/attached_assets/peacekeeper-mk2.jpg",
-    keywords: ["peacekeeper-mk2","assault rifle","codm","loadout"],
+    keywords: ["peacekeeper-mk2", "assault rifle", "codm", "loadout"],
   },
   {
     id: "fr-5-56-2",
@@ -1783,7 +1783,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/fr-5-56.jpg",
     imagePt: "/attached_assets/fr-5-56.jpg",
     imageEn: "/attached_assets/fr-5-56.jpg",
-    keywords: ["fr-5-56","assault rifle","codm","loadout"],
+    keywords: ["fr-5-56", "assault rifle", "codm", "loadout"],
   },
   {
     id: "hbra3-2",
@@ -1799,7 +1799,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/hbra3.jpg",
     imagePt: "/attached_assets/hbra3.jpg",
     imageEn: "/attached_assets/hbra3.jpg",
-    keywords: ["hbra3","assault rifle","codm","loadout"],
+    keywords: ["hbra3", "assault rifle", "codm", "loadout"],
   },
   {
     id: "ak117-2",
@@ -1815,7 +1815,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/ak117.jpg",
     imagePt: "/attached_assets/ak117.jpg",
     imageEn: "/attached_assets/ak117.jpg",
-    keywords: ["ak117","assault rifle","codm","loadout"],
+    keywords: ["ak117", "assault rifle", "codm", "loadout"],
   },
   {
     id: "type-25-2",
@@ -1831,7 +1831,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/type-25.jpg",
     imagePt: "/attached_assets/type-25.jpg",
     imageEn: "/attached_assets/type-25.jpg",
-    keywords: ["type-25","assault rifle","codm","loadout"],
+    keywords: ["type-25", "assault rifle", "codm", "loadout"],
   },
   {
     id: "asm10-2",
@@ -1847,7 +1847,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/asm10.jpg",
     imagePt: "/attached_assets/asm10.jpg",
     imageEn: "/attached_assets/asm10.jpg",
-    keywords: ["asm10","assault rifle","codm","loadout"],
+    keywords: ["asm10", "assault rifle", "codm", "loadout"],
   },
   {
     id: "dl-q33-2",
@@ -1863,7 +1863,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/dl-q33.jpg",
     imagePt: "/attached_assets/dl-q33.jpg",
     imageEn: "/attached_assets/dl-q33.jpg",
-    keywords: ["dl-q33","sniper","codm","loadout"],
+    keywords: ["dl-q33", "sniper", "codm", "loadout"],
   },
   {
     id: "locus-3",
@@ -1879,7 +1879,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/locus.jpg",
     imagePt: "/attached_assets/locus.jpg",
     imageEn: "/attached_assets/locus.jpg",
-    keywords: ["locus","sniper","codm","loadout"],
+    keywords: ["locus", "sniper", "codm", "loadout"],
   },
   {
     id: "arctic-50-2",
@@ -1895,7 +1895,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/arctic-50.jpg",
     imagePt: "/attached_assets/arctic-50.jpg",
     imageEn: "/attached_assets/arctic-50.jpg",
-    keywords: ["arctic-50","sniper","codm","loadout"],
+    keywords: ["arctic-50", "sniper", "codm", "loadout"],
   },
   {
     id: "koshka-3",
@@ -1911,7 +1911,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/koshka.jpg",
     imagePt: "/attached_assets/koshka.jpg",
     imageEn: "/attached_assets/koshka.jpg",
-    keywords: ["koshka","sniper","codm","loadout"],
+    keywords: ["koshka", "sniper", "codm", "loadout"],
   },
   {
     id: "zrg-20mm-2",
@@ -1927,7 +1927,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/zrg-20mm.jpg",
     imagePt: "/attached_assets/zrg-20mm.jpg",
     imageEn: "/attached_assets/zrg-20mm.jpg",
-    keywords: ["zrg-20mm","sniper","codm","loadout"],
+    keywords: ["zrg-20mm", "sniper", "codm", "loadout"],
   },
   {
     id: "sks-2",
@@ -1943,7 +1943,7 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/sks.jpg",
     imagePt: "/attached_assets/sks.jpg",
     imageEn: "/attached_assets/sks.jpg",
-    keywords: ["sks","marksman","codm","loadout"],
+    keywords: ["sks", "marksman", "codm", "loadout"],
   },
   {
     id: "mk2-2",
@@ -1959,6 +1959,6 @@ export const weaponsData: Weapon[] = [
     image: "/attached_assets/mk2.jpg",
     imagePt: "/attached_assets/mk2.jpg",
     imageEn: "/attached_assets/mk2.jpg",
-    keywords: ["mk2","marksman","codm","loadout"],
+    keywords: ["mk2", "marksman", "codm", "loadout"],
   },
 ];
