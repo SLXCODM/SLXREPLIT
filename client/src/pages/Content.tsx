@@ -4,17 +4,23 @@ import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
+import WeaponCard from "@/components/WeaponCard";
 import FollowToUnlock from "@/components/FollowToUnlock";
 import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Project } from "@shared/schema";
+import { weaponsData } from "@shared/weaponsData";
 import { SiSubstack } from "react-icons/si";
 import { PenTool, ExternalLink } from "lucide-react";
 
 export default function Content() {
   const [location] = useLocation();
   const [activeTab, setActiveTab] = useState("all");
+  const [weaponCategory, setWeaponCategory] = useState("Assault Rifle");
+  const [searchQuery, setSearchQuery] = useState("");
   const { language } = useLanguage();
 
   // Fetch projects from API
@@ -39,14 +45,28 @@ export default function Content() {
     { value: "writer", label: language === "pt" ? "Escritor" : "Writer", testId: "tab-writer" },
   ];
 
+  const weaponCategories = [
+    "Assault Rifle",
+    "Sniper",
+    "LMG",
+    "SMG",
+    "Shotgun",
+    "Marksman",
+    "Pistol"
+  ];
+
   const contentTexts = {
     pt: {
       title: "Conteúdo",
-      description: "Explore meus projetos, tutoriais e criações em diferentes áreas"
+      description: "Explore meus projetos, tutoriais e criações em diferentes áreas",
+      searchPlaceholder: "Pesquisar arma...",
+      noWeapons: "Nenhuma arma encontrada."
     },
     en: {
       title: "Content",
-      description: "Explore my projects, tutorials and creations in different areas"
+      description: "Explore my projects, tutorials and creations in different areas",
+      searchPlaceholder: "Search weapon...",
+      noWeapons: "No weapons found."
     }
   };
 
@@ -59,6 +79,14 @@ export default function Content() {
   const filteredProjects = currentTab === "writer"
     ? []
     : projects.filter(p => p.category === currentTab);
+
+  // Filter weapons
+  const filteredWeapons = weaponsData.filter(w => {
+    const matchesSearch = w.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      w.code.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = weaponCategory === "All" || w.type === weaponCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   const contentComponent = (
     <div className="min-h-screen py-24 md:py-32">
@@ -93,38 +121,48 @@ export default function Content() {
 
             {currentTab === "gaming" ? (
               <FollowToUnlock contentName="Call of Duty Mobile" language={language}>
-                <TabsContent value={currentTab} className="mt-8">
-                  {/* Error State */}
-                  {isError ? (
-                    <div className="text-center py-16 space-y-4" data-testid="error-state-content">
-                      <p className="text-destructive font-medium">
-                        {language === "pt" ? "Erro ao carregar projetos" : "Error loading projects"}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {error instanceof Error ? error.message : (language === "pt" ? "Tente novamente mais tarde" : "Try again later")}
-                      </p>
+                <TabsContent value={currentTab} className="mt-8 space-y-8">
+
+                  {/* Weapon Search and Filter */}
+                  <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-lg border border-border/50">
+                    <div className="relative w-full md:w-72">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        placeholder={ct.searchPlaceholder}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-9"
+                      />
                     </div>
-                  ) : isLoading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="loading-content-projects">
-                      {[1, 2, 3, 4, 5, 6].map(i => (
-                        <div key={i} className="h-96 bg-card border border-border rounded-lg animate-pulse" />
+
+                    <div className="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide">
+                      {weaponCategories.map(cat => (
+                        <Button
+                          key={cat}
+                          variant={weaponCategory === cat ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setWeaponCategory(cat)}
+                          className="whitespace-nowrap"
+                        >
+                          {cat}
+                        </Button>
                       ))}
                     </div>
-                  ) : filteredProjects.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
-                      {filteredProjects.map(project => (
-                        <ProjectCard key={project.id} project={project} language={language} />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-16" data-testid="empty-state-content">
-                      <p className="text-muted-foreground">
-                        {projects.length === 0
-                          ? (language === "pt" ? "Nenhum projeto disponível no momento." : "No projects available at the moment.")
-                          : (language === "pt" ? "Nenhum conteúdo encontrado nesta categoria ainda." : "No content found in this category yet.")}
-                      </p>
-                    </div>
-                  )}
+                  </div>
+
+                  {/* Weapons Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-testid="grid-weapons">
+                    {filteredWeapons.length > 0 ? (
+                      filteredWeapons.map(weapon => (
+                        <WeaponCard key={weapon.id} weapon={weapon} />
+                      ))
+                    ) : (
+                      <div className="col-span-full text-center py-12 text-muted-foreground">
+                        {ct.noWeapons}
+                      </div>
+                    )}
+                  </div>
+
                 </TabsContent>
               </FollowToUnlock>
             ) : currentTab === "photography" ? (

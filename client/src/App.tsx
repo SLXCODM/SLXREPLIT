@@ -19,6 +19,8 @@ import RafflePopup from "./components/RafflePopup";
 import NotFound from "@/pages/not-found";
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 
+import WeaponReview from "@/pages/WeaponReview";
+
 function Router() {
   return (
     <Switch>
@@ -30,6 +32,7 @@ function Router() {
       <Route path="/patrocinadores" component={Sponsors} />
       <Route path="/doacoes" component={DonationsPage} />
       <Route path="/classes" component={Classes} />
+      <Route path="/review" component={WeaponReview} />
       <Route path="/redes-sociais" component={SocialLinksPage} />
       <Route component={NotFound} />
     </Switch>

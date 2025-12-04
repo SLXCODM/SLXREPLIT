@@ -46,12 +46,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static assets from attached_assets folder
-// Serve static assets from attached_assets folder - Handled by root static serve in prod
-// app.use("/attached_assets", express.static(path.resolve(import.meta.dirname, "..", "client", "public", "attached_assets")));
+// Serve attached assets (weapon images)
+app.use('/attached_assets', express.static(path.resolve(import.meta.dirname, '..', 'client', 'public', 'attached_assets')));
 
 // Serve public assets
-app.use(express.static(path.resolve(import.meta.dirname, "..", "public")));
+app.use(express.static(path.resolve(import.meta.dirname, '..', 'client', 'public')));
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -100,16 +99,8 @@ export default async function runApp(
   // the catch-all route doesn't interfere with the other routes
   await setup(app, server);
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
+  const PORT = 3000;
+  server.listen(PORT, "0.0.0.0", () => {
+    log(`serving on port ${PORT}`);
   });
 }

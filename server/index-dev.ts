@@ -17,6 +17,7 @@ export async function setupVite(app: Express, server: Server) {
     allowedHosts: true as const,
   };
 
+  const PORT = 3000;
   const vite = await createViteServer({
     ...viteConfig,
     configFile: false,
