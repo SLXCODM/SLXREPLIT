@@ -81,9 +81,32 @@ export async function bootstrapDatabase() {
 
     console.log("All tables checked/created.");
 
-    // Seed initial data if empty
+    // Get count first so it can be used below
     const result = await db.execute(sql`SELECT count(*) FROM projects`);
     const count = result[0]?.count;
+
+    // 1. Force remove old Handcam duplicates and update the link EVERY TIME
+    // This handles cases where the link is stuck even if database is not "empty"
+    console.log("CRITICAL: Ensuring Handcam link is correct...");
+    try {
+      await db.execute(sql`
+        DELETE FROM projects 
+        WHERE (title ILIKE '%Handcam%' OR description ILIKE '%handcam%')
+          AND id != 'proj-gaming-3'
+      `);
+
+      await db.execute(sql`
+        UPDATE projects 
+        SET external_url = 'https://www.tiktok.com/@slxcodm_/collection/Handcam-7505932826018990854?is_from_webapp=1&sender_device=pc',
+            title = 'Handcam',
+            description = 'Gameplay revelada com handcam',
+            image_url = '/attached_assets/generated_images/smartphone_icon_handcam_button_background.png'
+        WHERE id = 'proj-gaming-3' OR title ILIKE '%Handcam%'
+      `);
+      console.log("CRITICAL: Handcam link sync finished.");
+    } catch (err) {
+      console.error("Failed to force update Handcam:", err);
+    }
 
     if (count === '0' || count === 0) {
       console.log("Seeding initial projects because count is:", count);
@@ -152,17 +175,8 @@ export async function bootstrapDatabase() {
         }
       ];
 
-      // 1. Force remove any project that looks like 'Handcam' to avoid duplicates with different IDs
-      console.log("Cleaning up old Handcam entries...");
-      await db.execute(sql`
-        DELETE FROM projects 
-        WHERE title ILIKE '%Handcam%' 
-           OR description ILIKE '%handcam%'
-           OR id = 'proj-gaming-3'
-      `);
-
-      // 2. Insert fresh data
       for (const p of initialProjects) {
+        if (p.id === 'proj-gaming-3') continue; // Handled above
         await db.execute(sql`
           INSERT INTO projects (id, title, category, description, image_url, external_url, featured, "order")
           VALUES (${p.id}, ${p.title}, ${p.category}, ${p.description}, ${p.image_url}, ${p.external_url}, ${p.featured}, ${p.order})
@@ -173,8 +187,15 @@ export async function bootstrapDatabase() {
             image_url = EXCLUDED.image_url
         `);
       }
-      console.log("Handcam fixed and seeding complete.");
       console.log("Seeding complete.");
+    } else {
+      // If NOT empty, at least ensure the core projects have correct links (like Handcam)
+      // This is extra safety to fix existing broken data
+      await db.execute(sql`
+        INSERT INTO projects (id, title, category, description, image_url, external_url, featured, "order")
+        VALUES ('proj-gaming-3', 'Handcam', 'gaming', 'Gameplay revelada com handcam', '/attached_assets/generated_images/smartphone_icon_handcam_button_background.png', 'https://www.tiktok.com/@slxcodm_/collection/Handcam-7505932826018990854?is_from_webapp=1&sender_device=pc', true, '3')
+        ON CONFLICT (id) DO UPDATE SET external_url = EXCLUDED.external_url
+      `);
     }
   } catch (error) {
     console.error("Failed to initialize database tables:", error);
