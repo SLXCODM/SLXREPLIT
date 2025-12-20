@@ -152,16 +152,16 @@ export async function bootstrapDatabase() {
         }
       ];
 
-      // Force update Handcam link with flexible matching (ILIKE and trim)
-      console.log("Attempting to force update Handcam link...");
-      const updateResult = await db.execute(sql`
-        UPDATE projects 
-        SET external_url = 'https://www.tiktok.com/@slxcodm_/collection/Handcam-7505932826018990854?is_from_webapp=1&sender_device=pc'
+      // 1. Force remove any project that looks like 'Handcam' to avoid duplicates with different IDs
+      console.log("Cleaning up old Handcam entries...");
+      await db.execute(sql`
+        DELETE FROM projects 
         WHERE title ILIKE '%Handcam%' 
            OR description ILIKE '%handcam%'
+           OR id = 'proj-gaming-3'
       `);
-      console.log("Handcam link update applied.");
 
+      // 2. Insert fresh data
       for (const p of initialProjects) {
         await db.execute(sql`
           INSERT INTO projects (id, title, category, description, image_url, external_url, featured, "order")
@@ -173,6 +173,7 @@ export async function bootstrapDatabase() {
             image_url = EXCLUDED.image_url
         `);
       }
+      console.log("Handcam fixed and seeding complete.");
       console.log("Seeding complete.");
     }
   } catch (error) {
