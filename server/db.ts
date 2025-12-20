@@ -152,11 +152,21 @@ export async function bootstrapDatabase() {
         }
       ];
 
+      // Force update Handcam link by title to handle ID mismatches
+      await db.execute(sql`
+        UPDATE projects 
+        SET external_url = 'https://www.tiktok.com/@slxcodm_/collection/Handcam-7505932826018990854?is_from_webapp=1&sender_device=pc'
+        WHERE title = 'Handcam'
+      `);
+
       for (const p of initialProjects) {
         await db.execute(sql`
           INSERT INTO projects (id, title, category, description, image_url, external_url, featured, "order")
           VALUES (${p.id}, ${p.title}, ${p.category}, ${p.description}, ${p.image_url}, ${p.external_url}, ${p.featured}, ${p.order})
-          ON CONFLICT (id) DO UPDATE SET external_url = EXCLUDED.external_url
+          ON CONFLICT (id) DO UPDATE SET 
+            external_url = EXCLUDED.external_url,
+            title = EXCLUDED.title,
+            description = EXCLUDED.description
         `);
       }
       console.log("Seeding complete.");
