@@ -195,17 +195,34 @@ export default function Classes() {
           (selectedType === "Assault Rifle" && weapon.type === "Assault");
         const searchMatch =
           !searchTerm ||
-          fuzzyMatch(searchTerm, weapon.name) > -1 ||
-          fuzzyMatch(searchTerm, weapon.description) > -1;
+          fuzzyMatch(searchTerm, language === "pt" ? weapon.namePt || weapon.name : weapon.nameEn || weapon.name) > -1 ||
+          fuzzyMatch(searchTerm, language === "pt" ? weapon.description || "" : weapon.descriptionEn || weapon.description || "") > -1;
         return typeMatch && searchMatch;
       })
       .sort((a, b) => {
-        if (!searchTerm) return 0;
-        const scoreA = fuzzyMatch(searchTerm, a.name);
-        const scoreB = fuzzyMatch(searchTerm, b.name);
-        return scoreB - scoreA;
+        const likesA = getWeaponLikes(a.id);
+        const likesB = getWeaponLikes(b.id);
+
+        if (searchTerm) {
+          const scoreA = fuzzyMatch(searchTerm, language === "pt" ? a.namePt || a.name : a.nameEn || a.name);
+          const scoreB = fuzzyMatch(searchTerm, language === "pt" ? b.namePt || b.name : b.nameEn || b.name);
+
+          if (scoreA !== scoreB) {
+            return scoreB - scoreA;
+          }
+        }
+
+        // Default sort by likes (most popular first)
+        if (likesB !== likesA) {
+          return likesB - likesA;
+        }
+
+        // Final tie-breaker: alphabetical
+        const nameA = language === "pt" ? a.namePt || a.name : a.nameEn || a.name;
+        const nameB = language === "pt" ? b.namePt || b.name : b.nameEn || b.name;
+        return nameA.localeCompare(nameB);
       });
-  }, [searchTerm, selectedType]);
+  }, [searchTerm, selectedType, language, allLikes, optimisticLikes]);
 
   const weaponTypes = Array.from(new Set(weaponsData.map(w => w.type)));
 
