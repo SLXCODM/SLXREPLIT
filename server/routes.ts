@@ -2,10 +2,13 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertProjectSchema, insertProductSchema, projectCategories } from "@shared/schema";
+import { bootstrapDatabase } from "./db";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Ensure database tables exist
+  await bootstrapDatabase();
   // Projects Routes
-  
+
   // GET /api/projects - Get all projects
   app.get("/api/projects", async (_req, res) => {
     try {
@@ -32,11 +35,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const project = await storage.getProject(id);
-      
+
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
-      
+
       res.json(project);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch project" });
@@ -62,17 +65,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.patch("/api/projects/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      
+
       // Validate partial update with schema
       const partialSchema = insertProjectSchema.partial();
       const validatedUpdates = partialSchema.parse(req.body);
-      
+
       const project = await storage.updateProject(id, validatedUpdates);
-      
+
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
-      
+
       res.json(project);
     } catch (error) {
       if (error instanceof Error) {
@@ -88,11 +91,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const deleted = await storage.deleteProject(id);
-      
+
       if (!deleted) {
         return res.status(404).json({ error: "Project not found" });
       }
-      
+
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: "Failed to delete project" });
@@ -100,19 +103,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // About Content Routes
-  
+
   // GET /api/about - Get about content
   app.get("/api/about", async (_req, res) => {
     try {
       const content = await storage.getAboutContent();
-      
+
       if (!content) {
-        return res.status(503).json({ 
+        return res.status(503).json({
           error: "Content temporarily unavailable",
           message: "About content is being updated. Please try again later."
         });
       }
-      
+
       res.json(content);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch about content" });
@@ -168,7 +171,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Products Routes
-  
+
   // GET /api/products - Get all products
   app.get("/api/products", async (_req, res) => {
     try {
@@ -184,11 +187,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const product = await storage.getProduct(id);
-      
+
       if (!product) {
         return res.status(404).json({ error: "Product not found" });
       }
-      
+
       res.json(product);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch product" });
@@ -214,16 +217,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.patch("/api/products/:id", async (req, res) => {
     try {
       const { id } = req.params;
-      
+
       const partialSchema = insertProductSchema.partial();
       const validatedUpdates = partialSchema.parse(req.body);
-      
+
       const product = await storage.updateProduct(id, validatedUpdates);
-      
+
       if (!product) {
         return res.status(404).json({ error: "Product not found" });
       }
-      
+
       res.json(product);
     } catch (error) {
       if (error instanceof Error) {
@@ -239,11 +242,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const deleted = await storage.deleteProduct(id);
-      
+
       if (!deleted) {
         return res.status(404).json({ error: "Product not found" });
       }
-      
+
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ error: "Failed to delete product" });
