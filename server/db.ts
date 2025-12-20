@@ -136,7 +136,7 @@ export async function bootstrapDatabase() {
           description: "Gameplay revelada com handcam",
           category: "gaming",
           image_url: "/attached_assets/generated_images/smartphone_icon_handcam_button_background.png",
-          external_url: "https://youtube.com/playlist?list=PLNjPit_9myAG0C9G8vVwO8oaPrOXyCgls&si=7wFkX0k9K0tX8vF1",
+          external_url: "https://www.tiktok.com/@slxcodm_/collection/Handcam-7505932826018990854?is_from_webapp=1&sender_device=pc",
           featured: true,
           order: "3"
         },
@@ -156,7 +156,7 @@ export async function bootstrapDatabase() {
         await db.execute(sql`
           INSERT INTO projects (id, title, category, description, image_url, external_url, featured, "order")
           VALUES (${p.id}, ${p.title}, ${p.category}, ${p.description}, ${p.image_url}, ${p.external_url}, ${p.featured}, ${p.order})
-          ON CONFLICT (id) DO NOTHING
+          ON CONFLICT (id) DO UPDATE SET external_url = EXCLUDED.external_url
         `);
       }
       console.log("Seeding complete.");

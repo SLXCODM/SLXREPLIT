@@ -215,7 +215,7 @@ export class MemStorage implements IStorage {
         title: "Handcam",
         description: "Gameplay revelada com handcam",
         imageUrl: "/attached_assets/generated_images/smartphone_icon_handcam_button_background.png",
-        externalUrl: "https://youtube.com/playlist?list=PLNjPit_9myAG0C9G8vVwO8oaPrOXyCgls&si=7wFkX0k9K0tX8vF1",
+        externalUrl: "https://www.tiktok.com/@slxcodm_/collection/Handcam-7505932826018990854?is_from_webapp=1&sender_device=pc",
         featured: true,
         category: "gaming",
         order: "3"
