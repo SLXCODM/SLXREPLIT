@@ -14,8 +14,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const projects = await storage.getProjects();
       res.json(projects);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch projects" });
+    } catch (error: any) {
+      console.error("ROUTE ERROR /api/projects:", error);
+      res.status(500).json({
+        error: "Failed to fetch projects",
+        message: error.message,
+        details: process.env.NODE_ENV === "development" ? error.stack : undefined
+      });
     }
   });
 

@@ -13,15 +13,24 @@ export const db = process.env.DATABASE_URL
 
 // Helper to initialize database tables if they don't exist
 export async function bootstrapDatabase() {
-  if (!process.env.DATABASE_URL) return;
+  if (!process.env.DATABASE_URL) {
+    console.warn("Bootstrap skipped: DATABASE_URL is not set.");
+    return;
+  }
+
+  if (!db) {
+    console.error("Bootstrap failed: Database object is null.");
+    return;
+  }
 
   try {
-    console.log("Initializing database tables...");
+    console.log("Starting database bootstrap...");
 
     // Create projects table
+    console.log("Checking projects table...");
     await db.execute(sql`
       CREATE TABLE IF NOT EXISTS projects (
-        id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
+        id TEXT PRIMARY KEY,
         title TEXT NOT NULL,
         category TEXT NOT NULL,
         description TEXT NOT NULL,
@@ -33,15 +42,17 @@ export async function bootstrapDatabase() {
     `);
 
     // Create about_content table
+    console.log("Checking about_content table...");
     await db.execute(sql`
       CREATE TABLE IF NOT EXISTS about_content (
-        id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
+        id TEXT PRIMARY KEY,
         content TEXT NOT NULL,
         last_updated TIMESTAMP DEFAULT now() NOT NULL
       )
     `);
 
     // Create weapon_likes table
+    console.log("Checking weapon_likes table...");
     await db.execute(sql`
       CREATE TABLE IF NOT EXISTS weapon_likes (
         weapon_id TEXT PRIMARY KEY,
@@ -50,9 +61,10 @@ export async function bootstrapDatabase() {
     `);
 
     // Create products table
+    console.log("Checking products table...");
     await db.execute(sql`
       CREATE TABLE IF NOT EXISTS products (
-        id TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
+        id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
         description TEXT NOT NULL,
         price TEXT NOT NULL,
@@ -67,12 +79,14 @@ export async function bootstrapDatabase() {
       )
     `);
 
-    console.log("Database tables initialized successfully.");
+    console.log("All tables checked/created.");
 
     // Seed initial data if empty
-    const [projectCount] = await db.execute(sql`SELECT count(*) FROM projects`);
-    if (projectCount && (projectCount as any)[0].count === '0') {
-      console.log("Seeding initial projects...");
+    const result = await db.execute(sql`SELECT count(*) FROM projects`);
+    const count = result[0]?.count;
+
+    if (count === '0' || count === 0) {
+      console.log("Seeding initial projects because count is:", count);
       const initialProjects = [
         {
           id: "proj-gaming-0",
