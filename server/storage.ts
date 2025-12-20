@@ -1,12 +1,19 @@
 import {
   type Project,
   type InsertProject,
-  type Contact,
-  type InsertContact,
   type AboutContent,
-  type InsertAboutContent
+  type InsertAboutContent,
+  type WeaponLike,
+  type Product,
+  type InsertProduct,
+  weaponLikes,
+  projects,
+  aboutContent,
+  products
 } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // Projects
@@ -17,22 +24,144 @@ export interface IStorage {
   updateProject(id: string, updates: Partial<InsertProject>): Promise<Project | undefined>;
   deleteProject(id: string): Promise<boolean>;
 
-  // Contacts
-  createContact(contact: InsertContact): Promise<Contact>;
-
   // About Content
   getAboutContent(): Promise<AboutContent | undefined>;
   updateAboutContent(content: InsertAboutContent): Promise<AboutContent>;
+
+  // Weapon Likes
+  getAllWeaponLikes(): Promise<WeaponLike[]>;
+  getWeaponLikes(weaponId: string): Promise<number>;
+  incrementWeaponLikes(weaponId: string): Promise<number>;
+  decrementWeaponLikes(weaponId: string): Promise<number>;
+
+  // Products
+  getProducts(): Promise<Product[]>;
+  getProduct(id: string): Promise<Product | undefined>;
+  createProduct(product: InsertProduct): Promise<Product>;
+  updateProduct(id: string, updates: Partial<InsertProduct>): Promise<Product | undefined>;
+  deleteProduct(id: string): Promise<boolean>;
+}
+
+export class DatabaseStorage implements IStorage {
+  async getProjects(): Promise<Project[]> {
+    return await db.select().from(projects).orderBy(projects.order);
+  }
+
+  async getProject(id: string): Promise<Project | undefined> {
+    const [project] = await db.select().from(projects).where(eq(projects.id, id));
+    return project;
+  }
+
+  async getProjectsByCategory(category: string): Promise<Project[]> {
+    return await db.select().from(projects).where(eq(projects.category, category)).orderBy(projects.order);
+  }
+
+  async createProject(insertProject: InsertProject): Promise<Project> {
+    const [project] = await db.insert(projects).values(insertProject).returning();
+    return project;
+  }
+
+  async updateProject(id: string, updates: Partial<InsertProject>): Promise<Project | undefined> {
+    const [project] = await db.update(projects).set(updates).where(eq(projects.id, id)).returning();
+    return project;
+  }
+
+  async deleteProject(id: string): Promise<boolean> {
+    const [deleted] = await db.delete(projects).where(eq(projects.id, id)).returning();
+    return !!deleted;
+  }
+
+  async getAboutContent(): Promise<AboutContent | undefined> {
+    const [content] = await db.select().from(aboutContent);
+    return content;
+  }
+
+  async updateAboutContent(content: InsertAboutContent): Promise<AboutContent> {
+    const existing = await this.getAboutContent();
+    if (existing) {
+      const [updated] = await db.update(aboutContent).set(content).where(eq(aboutContent.id, existing.id)).returning();
+      return updated;
+    }
+    const [newContent] = await db.insert(aboutContent).values(content).returning();
+    return newContent;
+  }
+
+  // Weapon Likes
+  async getAllWeaponLikes(): Promise<WeaponLike[]> {
+    return await db.select().from(weaponLikes);
+  }
+
+  async getWeaponLikes(weaponId: string): Promise<number> {
+    const [record] = await db.select().from(weaponLikes).where(eq(weaponLikes.weaponId, weaponId));
+    return record ? parseInt(record.likes) : 0;
+  }
+
+  async incrementWeaponLikes(weaponId: string): Promise<number> {
+    const current = await this.getWeaponLikes(weaponId);
+    const newVal = (current + 1).toString();
+    const [record] = await db.insert(weaponLikes)
+      .values({ weaponId, likes: newVal })
+      .onConflictDoUpdate({
+        target: weaponLikes.weaponId,
+        set: { likes: newVal }
+      })
+      .returning();
+    return parseInt(record.likes);
+  }
+
+  async decrementWeaponLikes(weaponId: string): Promise<number> {
+    const current = await this.getWeaponLikes(weaponId);
+    const newVal = Math.max(0, current - 1).toString();
+    const [record] = await db.insert(weaponLikes)
+      .values({ weaponId, likes: newVal })
+      .onConflictDoUpdate({
+        target: weaponLikes.weaponId,
+        set: { likes: newVal }
+      })
+      .returning();
+    return parseInt(record.likes);
+  }
+
+  // Products
+  async getProducts(): Promise<Product[]> {
+    return await db.select().from(products).orderBy(products.order);
+  }
+
+  async getProduct(id: string): Promise<Product | undefined> {
+    const [product] = await db.select().from(products).where(eq(products.id, id));
+    return product;
+  }
+
+  async createProduct(product: InsertProduct): Promise<Product> {
+    const id = randomUUID();
+    const [newProduct] = await db.insert(products).values({
+      ...product,
+      id,
+      createdAt: new Date(),
+    }).returning();
+    return newProduct;
+  }
+
+  async updateProduct(id: string, updates: Partial<InsertProduct>): Promise<Product | undefined> {
+    const [product] = await db.update(products).set(updates).where(eq(products.id, id)).returning();
+    return product;
+  }
+
+  async deleteProduct(id: string): Promise<boolean> {
+    const [deleted] = await db.delete(products).where(eq(products.id, id)).returning();
+    return !!deleted;
+  }
 }
 
 export class MemStorage implements IStorage {
   private projects: Map<string, Project>;
-  private contacts: Map<string, Contact>;
   private aboutContent: AboutContent | undefined;
+  private weaponLikesMap = new Map<string, number>();
+  private productsMap: Map<string, Product>;
 
   constructor() {
     this.projects = new Map();
-    this.contacts = new Map();
+    this.productsMap = new Map();
     this.initializeMockData();
   }
 
@@ -58,7 +187,7 @@ export class MemStorage implements IStorage {
           type: "links",
           links: [
             { label: "TikTok", url: "https://www.tiktok.com/@slxcodm_/collection/Dicas%20e%20tutoriais-7505787344423766790?is_from_webapp=1&sender_device=pc" },
-            { label: "YouTube", url: "https://youtube.com/playlist?list=PLNjPit_9myAFBhDzh635QGPgzukbXRYLg&si=Yiq6MVgx8GJG0Fq8" }
+            { label: "YouTube", url: "https://youtube.com/playlist?list=PLNjPit_9myAFBhDzh635QGPgzukbXRYLg&si=Y6MVgx8GJG0Fq8" }
           ]
         }),
         featured: true,
@@ -157,26 +286,6 @@ export class MemStorage implements IStorage {
     return this.projects.delete(id);
   }
 
-  // Contacts
-  async createContact(insertContact: InsertContact): Promise<Contact> {
-    const id = randomUUID();
-    const contact: Contact = {
-      ...insertContact,
-      id,
-      createdAt: new Date(),
-    };
-    this.contacts.set(id, contact);
-    return contact;
-  }
-
-  // Private method - not exposed in IStorage interface
-  // Only for future admin use
-  private async getContactsInternal(): Promise<Contact[]> {
-    return Array.from(this.contacts.values()).sort((a, b) =>
-      b.createdAt.getTime() - a.createdAt.getTime()
-    );
-  }
-
   // About Content
   async getAboutContent(): Promise<AboutContent | undefined> {
     return this.aboutContent;
@@ -192,6 +301,72 @@ export class MemStorage implements IStorage {
     this.aboutContent = content;
     return content;
   }
+
+  // Weapon Likes
+  async getAllWeaponLikes(): Promise<WeaponLike[]> {
+    return Array.from(this.weaponLikesMap.entries()).map(([weaponId, likes]) => ({
+      weaponId,
+      likes: likes.toString()
+    }));
+  }
+
+  async getWeaponLikes(weaponId: string): Promise<number> {
+    return this.weaponLikesMap.get(weaponId) || 0;
+  }
+
+  async incrementWeaponLikes(weaponId: string): Promise<number> {
+    const current = await this.getWeaponLikes(weaponId);
+    const newVal = current + 1;
+    this.weaponLikesMap.set(weaponId, newVal);
+    return newVal;
+  }
+
+  async decrementWeaponLikes(weaponId: string): Promise<number> {
+    const current = await this.getWeaponLikes(weaponId);
+    const newVal = Math.max(0, current - 1);
+    this.weaponLikesMap.set(weaponId, newVal);
+    return newVal;
+  }
+
+  // Products
+  async getProducts(): Promise<Product[]> {
+    return Array.from(this.productsMap.values()).sort((a, b) =>
+      (a.order || "0").localeCompare(b.order || "0")
+    );
+  }
+
+  async getProduct(id: string): Promise<Product | undefined> {
+    return this.productsMap.get(id);
+  }
+
+  async createProduct(insertProduct: InsertProduct): Promise<Product> {
+    const id = randomUUID();
+    const product: Product = {
+      ...insertProduct,
+      id,
+      createdAt: new Date(),
+      active: insertProduct.active ?? true,
+      featured: insertProduct.featured ?? false,
+      order: insertProduct.order || "0",
+      stripeProductId: null,
+      stripePriceId: null,
+    };
+    this.productsMap.set(id, product);
+    return product;
+  }
+
+  async updateProduct(id: string, updates: Partial<InsertProduct>): Promise<Product | undefined> {
+    const product = this.productsMap.get(id);
+    if (!product) return undefined;
+
+    const updated: Product = { ...product, ...updates };
+    this.productsMap.set(id, updated);
+    return updated;
+  }
+
+  async deleteProduct(id: string): Promise<boolean> {
+    return this.productsMap.delete(id);
+  }
 }
 
-export const storage = new MemStorage();
+export const storage = process.env.DATABASE_URL ? new DatabaseStorage() : new MemStorage();
