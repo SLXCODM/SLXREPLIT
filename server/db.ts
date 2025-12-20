@@ -152,12 +152,15 @@ export async function bootstrapDatabase() {
         }
       ];
 
-      // Force update Handcam link by title to handle ID mismatches
-      await db.execute(sql`
+      // Force update Handcam link with flexible matching (ILIKE and trim)
+      console.log("Attempting to force update Handcam link...");
+      const updateResult = await db.execute(sql`
         UPDATE projects 
         SET external_url = 'https://www.tiktok.com/@slxcodm_/collection/Handcam-7505932826018990854?is_from_webapp=1&sender_device=pc'
-        WHERE title = 'Handcam'
+        WHERE title ILIKE '%Handcam%' 
+           OR description ILIKE '%handcam%'
       `);
+      console.log("Handcam link update applied.");
 
       for (const p of initialProjects) {
         await db.execute(sql`
@@ -166,7 +169,8 @@ export async function bootstrapDatabase() {
           ON CONFLICT (id) DO UPDATE SET 
             external_url = EXCLUDED.external_url,
             title = EXCLUDED.title,
-            description = EXCLUDED.description
+            description = EXCLUDED.description,
+            image_url = EXCLUDED.image_url
         `);
       }
       console.log("Seeding complete.");
