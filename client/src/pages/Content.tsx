@@ -154,7 +154,25 @@ export default function Content() {
 
                       {/* Original Projects Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
-                        {filteredProjects.map(project => (
+                        {filteredProjects.slice(0, 1).map(project => (
+                          <ProjectCard key={project.id} project={project} language={language} />
+                                                ))}
+                        <a href="/training_hub.html" data-testid="button-focus-training-gaming">
+                          <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full">
+                            <div className="aspect-video overflow-hidden bg-gradient-to-br from-red-900/30 to-orange-600/20 flex items-center justify-center">
+                              <span className="text-6xl"></span>
+                            </div>
+                            <div className="p-6 space-y-3">
+                              <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                                {language === "pt" ? "Treino de Foco" : "Focus Training"}
+                              </h3>
+                              <p className="text-sm text-muted-foreground">
+                                {language === "pt" ? "5 mini-jogos para treinar reflexo" : "5 mini-games for reflex training"}
+                              </p>
+                            </div>
+                          </Card>
+                        </a>
+                        {filteredProjects.slice(1).map(project => (
                           <ProjectCard key={project.id} project={project} language={language} />
                         ))}
                       </div>
@@ -505,7 +523,7 @@ export default function Content() {
                           {language === "pt" ? "YouTube" : "YouTube"}
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
-                          {filteredProjects.map(project => (
+                          {filteredProjects.slice(0, 1).map(project => (
                             <ProjectCard key={project.id} project={project} />
                           ))}
                         </div>
@@ -553,13 +571,13 @@ export default function Content() {
                     </a>
 
                     {/* Development projects from storage (excluding duplicates if any) */}
-                    {filteredProjects.map(project => (
+                    {filteredProjects.slice(0, 1).map(project => (
                       <ProjectCard key={project.id} project={project} language={language} />
                     ))}
                   </div>
                 ) : filteredProjects.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
-                    {filteredProjects.map(project => (
+                    {filteredProjects.slice(0, 1).map(project => (
                       <ProjectCard key={project.id} project={project} />
                     ))}
                   </div>
