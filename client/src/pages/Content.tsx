@@ -156,7 +156,7 @@ export default function Content() {
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
                         {filteredProjects.slice(0, 1).map(project => (
                           <ProjectCard key={project.id} project={project} language={language} />
-                                                ))}
+                        ))}
                         <a href="/training_hub.html" data-testid="button-focus-training-gaming">
                           <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full">
                             <div className="aspect-video overflow-hidden relative"><img src="/attached_assets/treino_de_foco.png" alt="Treino de Foco" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" /><div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
@@ -167,7 +167,7 @@ export default function Content() {
                                 {language === "pt" ? "Treino de Foco" : "Focus Training"}
                               </h3>
                               <p className="text-sm text-muted-foreground">
-                                {language === "pt" ? "5 mini-jogos para treinar reflexo" : "5 mini-games for reflex training"}
+                                {language === "pt" ? "Níveis impossíveis e reflexos extremos. O único treino capaz de superar o SLX." : "Impossible levels and extreme reflexes. The only training capable of surpassing SLX."}
                               </p>
                             </div>
                           </Card>
