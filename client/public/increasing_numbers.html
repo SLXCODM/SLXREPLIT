@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Números Crescentes - SLX Training</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --primary-glow: rgba(0, 242, 255, 0.4);
+            --bg: #0a0e14;
+            --card-bg: #1a1f26;
+            --text: #ffffff;
+            --error: #ff4d4d;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --font-main: 'Outfit', sans-serif;
+        }
+
+        /* --- SKINS --- */
+        body.skin-diamond {
+            --primary: #ffd700;
+            --primary-glow: rgba(255, 215, 0, 0.7);
+            background: radial-gradient(circle at 50% 50%, #1a1600 0%, #050505 100%);
+        }
+
+        body.skin-aether {
+            --primary: #bf00ff;
+            --primary-glow: rgba(191, 0, 255, 0.8);
+            background: #0d001a;
+        }
+
+        body.skin-fairy {
+            --primary: #ff003c;
+            --primary-glow: rgba(255, 0, 60, 0.8);
+            background: #0f0004;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            overflow: hidden;
+            transition: 0.5s;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        header {
+            flex-shrink: 0;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-weight: 900;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .nav-top {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .selectors {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .label-group {
+            font-size: 0.7rem;
+            color: #555;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .selector-group {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-ui {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .btn-ui.active {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .btn-ui.locked {
+            opacity: 0.6;
+        }
+
+        .btn-ui.locked::after {
+            content: ' 🔒';
+            font-size: 0.6rem;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #666;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .stat-val {
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+
+        /* ÁREA DE JOGO */
+        .grid-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 0;
+            width: 100%;
+            padding: 10px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 10px;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: 1;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+            width: min(70vh, 70vw);
+            height: min(70vh, 70vw);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+            width: min(75vh, 75vw);
+            height: min(75vh, 75vw);
+        }
+
+        .grid-5 {
+            grid-template-columns: repeat(5, 1fr);
+            width: min(80vh, 80vw);
+            height: min(80vh, 80vw);
+        }
+
+        .cell {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.2s;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(1rem, 4vw, 2.5rem);
+            position: relative;
+        }
+
+        .cell.hidden {
+            color: transparent !important;
+            background: var(--card-bg);
+        }
+
+        .cell.hidden::after {
+            content: '?';
+            color: rgba(255, 255, 255, 0.05);
+            font-size: 1.5rem;
+            position: absolute;
+        }
+
+        .cell.active {
+            border-color: var(--primary);
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        .cell.correct {
+            background: var(--success);
+            color: #000 !important;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            border: none;
+        }
+
+        .cell.correct::after {
+            display: none;
+        }
+
+        .cell.wrong {
+            background: var(--error);
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-5px)
+            }
+
+            75% {
+                transform: translateX(5px)
+            }
+        }
+
+        .footer-btns {
+            flex-shrink: 0;
+            padding: 20px 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 15px 45px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 10, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            display: none;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .support-card {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 450px;
+        }
+
+        .ad-timer {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        #memo-timer {
+            color: var(--warning);
+            font-weight: 900;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav-top"><a href="training_hub.html" class="btn-back">← Hub</a></div>
+
+    <div class="container">
+        <header>
+            <h1>Números Crescentes</h1>
+        </header>
+
+        <div class="selectors">
+            <div class="label-group">Patente de Memória</div>
+            <div class="selector-group">
+                <button class="btn-ui diff-btn active" onclick="setDiff(3, this)">Pro (3x3)</button>
+                <button class="btn-ui diff-btn locked" id="lock-4" onclick="tryUnlock(4, this)">Mestre (4x4)</button>
+                <button class="btn-ui diff-btn locked" id="lock-5" onclick="tryUnlock(5, this)">Lendário (5x5)</button>
+            </div>
+
+            <div class="selector-group">
+                <button class="btn-ui skin-btn active" onclick="setSkin('default', this)">Neon</button>
+                <button class="btn-ui skin-btn" onclick="setSkin('diamond', this)">Gold</button>
+                <button class="btn-ui skin-btn" onclick="setSkin('aether', this)">Aether</button>
+                <button class="btn-ui skin-btn" onclick="setSkin('fairy', this)">Red</button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item"><span class="stat-label">Nível</span><br><span id="level-val" class="stat-val">1 /
+                    8</span></div>
+            <div class="stat-item"><span class="stat-label">Precisão</span><br><span id="acc-val"
+                    class="stat-val">100%</span></div>
+            <div class="stat-item"><span class="stat-label">Memorize em:</span><br><span id="memo-timer"
+                    class="stat-val">--</span></div>
+        </div>
+
+        <div class="grid-container">
+            <div id="main-grid" class="grid grid-3"></div>
+        </div>
+
+        <div class="footer-btns">
+            <button id="start-btn" class="btn-main">Iniciar Missão</button>
+            <button id="reset-btn" class="btn-main"
+                style="display: none; background: rgba(255,77,77,0.2); color: #ff4d4d;"
+                onclick="resetGame()">Abortar</button>
+        </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div id="res-overlay" class="overlay">
+        <h2 id="res-title" style="font-size: 2.5rem; margin-bottom: 20px;">MISSÃO COMPLETA</h2>
+        <div class="stat-val" style="margin-bottom: 25px;">
+            Nível Alcançado: <span id="final-lv">--</span><br>Precisão Final: <span id="final-acc">--</span>
+        </div>
+        <div id="fail-msg" style="color: var(--error); font-weight: 900; margin-bottom: 25px; display: none;">⚠️
+            REPROVADO: PRECISÃO ABAIXO DE 92%</div>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+            <button onclick="handleRetry()" class="btn-main">Tentar Novamente</button>
+            <button id="next-lv-btn" onclick="advanceLevelWithAd()" class="btn-main"
+                style="background: #ffd700; color: #000; display: none;">Próxima Patente (Ad)</button>
+            <button onclick="window.location.href='training_hub.html'" class="btn-main"
+                style="background: rgba(255,255,255,0.1); color: #fff;">Sair</button>
+        </div>
+        <div class="support-card">
+            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;">Deu trabalho fazer esses jogos! Apoie o SLX
+                para continuarmos criando novos treinos.</p>
+            <a href="https://slx-codm.vercel.app/doacoes" target="_blank" class="btn-main"
+                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;">Apoiar via
+                Livepix</a>
+        </div>
+    </div>
+
+    <!-- ANÚNCIO SIMULADO -->
+    <div id="ad-box" class="overlay" style="z-index: 300; background: #000;">
+        <h3 style="letter-spacing: 2px;">DESBLOQUEANDO NÍVEL...</h3>
+        <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">Aguarde o vídeo terminar para liberar por 24h</p>
+        <div class="ad-timer" id="ad-count">15</div>
+        <div style="border: 1px dashed #333; padding: 10px; font-size: 0.7rem; color: #444;">[ REWARD ADS SIMULATION ]
+        </div>
+    </div>
+
+    <script>
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let actx;
+        function getCtx() { if (!actx) actx = new AudioCtx(); return actx; }
+        function playSnd(f, d, v) { try { const c = getCtx(); if (c.state === 'suspended') c.resume(); const o = c.createOscillator(); const g = c.createGain(); o.connect(g); g.connect(c.destination); o.type = 'sine'; o.frequency.setValueAtTime(f, c.currentTime); g.gain.setValueAtTime(v, c.currentTime); g.gain.exponentialRampToValueAtTime(0.01, c.currentTime + d); o.start(); o.stop(c.currentTime + d); } catch (e) { } }
+        const snds = { tap: () => playSnd(800, 0.1, 0.06), fail: () => playSnd(150, 0.2, 0.1), win: () => { playSnd(500, 0.3, 0.04); setTimeout(() => playSnd(900, 0.3, 0.04), 120) }, tick: () => playSnd(1200, 0.05, 0.02) };
+
+        const gridEl = document.getElementById('main-grid');
+        const levelEl = document.getElementById('level-val');
+        const memoEl = document.getElementById('memo-timer');
+        const startBtn = document.getElementById('start-btn');
+        const resetBtn = document.getElementById('reset-btn');
+
+        let gridSize = 3; let level = 1; let maxLevel = 8; let isPlaying = false;
+        let sequence = []; let userIdx = 0; let totalHits = 0; let totalMisses = 0;
+        let memoInterval; let memoTime = 0;
+        let resetCounter = 0;
+
+        function updateLocks() { [4, 5].forEach(lv => { const unt = localStorage.getItem('slx_unlock_game3_v2_' + lv) || 0; const btn = document.getElementById('lock-' + lv); if (Date.now() < unt) btn.classList.remove('locked'); else btn.classList.add('locked'); }); }
+        updateLocks();
+
+        function showAd(callback) {
+            const ad = document.getElementById('ad-box'); const count = document.getElementById('ad-count'); ad.style.display = 'flex';
+            let t = 15; count.textContent = t;
+            const idx = setInterval(() => { t--; count.textContent = t; if (t <= 0) { clearInterval(idx); ad.style.display = 'none'; callback(); } }, 1000);
+        }
+
+        function tryUnlock(lv, b) {
+            const unt = localStorage.getItem('slx_unlock_game3_v2_' + lv) || 0;
+            if (Date.now() < unt) { setDiff(lv, b); return; }
+            if (isPlaying) resetGame();
+            showAd(() => {
+                localStorage.setItem('slx_unlock_game3_v2_' + lv, Date.now() + (24 * 60 * 60 * 1000));
+                updateLocks(); setDiff(lv, b);
+            });
+        }
+
+        function handleRetry() {
+            resetCounter++;
+            if (resetCounter >= 5) {
+                resetCounter = 0;
+                showAd(() => startGame());
+            } else {
+                startGame();
+            }
+        }
+
+        function advanceLevelWithAd() {
+            const nextMap = { 3: 4, 4: 5 };
+            if (!nextMap[gridSize]) return;
+            const nextLv = nextMap[gridSize];
+            showAd(() => {
+                localStorage.setItem('slx_unlock_game3_v2_' + nextLv, Date.now() + (24 * 60 * 60 * 1000));
+                updateLocks();
+                setDiff(nextLv, document.getElementById('lock-' + nextLv));
+                startGame();
+            });
+        }
+
+        function setDiff(s, b) { if (isPlaying) resetGame(); gridSize = s; document.querySelectorAll('.diff-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); gridEl.className = `grid grid-${s}`; initLevel(); snds.tap(); }
+        function setSkin(s, b) { document.body.className = `skin-${s}`; document.querySelectorAll('.skin-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); snds.tap(); }
+
+        function initLevel() {
+            gridEl.innerHTML = '';
+            const totalCells = gridSize * gridSize;
+            const numsToSpawn = 3 + level; // Nível 1 = 4 números, Nível 8 = 11 números
+
+            // Gerar posições aleatórias
+            let positions = Array.from({ length: totalCells }, (_, i) => i).sort(() => Math.random() - 0.5);
+            sequence = positions.slice(0, numsToSpawn); // Índices das células com números
+
+            for (let i = 0; i < totalCells; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                const seqIdx = sequence.indexOf(i);
+                if (seqIdx !== -1) {
+                    cell.textContent = seqIdx + 1;
+                    cell.dataset.num = seqIdx + 1;
+                } else {
+                    cell.dataset.num = "empty";
+                }
+                cell.onclick = (e) => handleCellClick(e, i);
+                gridEl.appendChild(cell);
+            }
+            userIdx = 0;
+        }
+
+        function startMemorization() {
+            isPlaying = false;
+            initLevel();
+            memoTime = Math.max(1, 4 - (level * 0.3)); // Tempo diminui conforme o nível
+            memoEl.textContent = memoTime.toFixed(1);
+
+            clearInterval(memoInterval);
+            memoInterval = setInterval(() => {
+                memoTime -= 0.1;
+                if (memoTime <= 0) {
+                    clearInterval(memoInterval);
+                    hideNumbers();
+                }
+                memoEl.textContent = Math.abs(memoTime).toFixed(1);
+            }, 100);
+        }
+
+        function hideNumbers() {
+            isPlaying = true;
+            document.querySelectorAll('.cell').forEach(c => {
+                if (c.dataset.num !== "empty") c.classList.add('hidden');
+            });
+            memoEl.textContent = "AGORA!";
+            memoEl.style.color = "var(--primary)";
+        }
+
+        function handleCellClick(e, gridIdx) {
+            if (!isPlaying) return;
+            const cell = e.target;
+            const num = parseInt(cell.dataset.num);
+            const expected = userIdx + 1;
+
+            if (isNaN(num)) return; // Célula vazia no modo crescente não faz nada ou erro?
+            // Para ser um treino de memória, clicar em célula vazia deve ser MISS
+            if (cell.dataset.num === "empty") {
+                totalMisses++;
+                cell.classList.add('wrong');
+                snds.fail();
+                setTimeout(() => cell.classList.remove('wrong'), 200);
+            } else if (num === expected) {
+                totalHits++;
+                userIdx++;
+                cell.classList.remove('hidden');
+                cell.classList.add('correct');
+                snds.tap();
+                if (userIdx === sequence.length) {
+                    if (level === maxLevel) endGame(true);
+                    else {
+                        level++;
+                        levelEl.textContent = `${level} / ${maxLevel}`;
+                        setTimeout(startMemorization, 500);
+                    }
+                }
+            } else {
+                totalMisses++;
+                cell.classList.add('wrong');
+                snds.fail();
+                setTimeout(() => cell.classList.remove('wrong'), 200);
+            }
+            updateAcc();
+        }
+
+        function updateAcc() {
+            const acc = Math.round((totalHits / (totalHits + totalMisses || 1)) * 100);
+            document.getElementById('acc-val').textContent = `${acc}%`;
+        }
+
+        function startGame() {
+            getCtx().resume().catch(() => { });
+            document.getElementById('res-overlay').style.display = 'none';
+            level = 1; totalHits = 0; totalMisses = 0;
+            levelEl.textContent = `1 / ${maxLevel}`;
+            document.getElementById('acc-val').textContent = '100%';
+            memoEl.style.color = "var(--warning)";
+            startBtn.style.display = 'none';
+            resetBtn.style.display = 'inline-block';
+            startMemorization();
+        }
+
+        function resetGame() {
+            isPlaying = false;
+            clearInterval(memoInterval);
+            startBtn.style.display = 'inline-block';
+            resetBtn.style.display = 'none';
+            gridEl.innerHTML = '';
+            memoEl.textContent = '--';
+            snds.fail();
+        }
+
+        function endGame(done) {
+            isPlaying = false; clearInterval(memoInterval);
+            const acc = Math.round((totalHits / (totalHits + totalMisses || 1)) * 100);
+            const success = done && acc >= 92;
+            document.getElementById('final-lv').textContent = level;
+            document.getElementById('final-acc').textContent = `${acc}%`;
+            document.getElementById('fail-msg').style.display = (done && acc < 92) ? 'block' : 'none';
+            const title = document.getElementById('res-title');
+            if (success) {
+                snds.win(); title.textContent = "MISSÃO COMPLETA"; title.style.color = "var(--success)";
+                if (gridSize < 5) document.getElementById('next-lv-btn').style.display = 'block';
+                else document.getElementById('next-lv-btn').style.display = 'none';
+            }
+            else {
+                snds.fail(); title.textContent = "MISSÃO FALHOU"; title.style.color = "var(--error)";
+                document.getElementById('next-lv-btn').style.display = 'none';
+            }
+            document.getElementById('res-overlay').style.display = 'flex';
+        }
+
+        startBtn.onclick = startGame;
+    </script>
+</body>
+
+</html>
