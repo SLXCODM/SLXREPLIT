@@ -1,4 +1,4 @@
-import { ArrowDown, Gamepad2, Camera, Sprout, Brain } from "lucide-react";
+import { ArrowDown, Gamepad2, Camera, Sprout, Brain, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -66,6 +66,17 @@ export default function Home() {
       imageUrl: "/attached_assets/generated_images/bright_glowing_brain_icon_personal_development.png",
       link: "/conteudo?category=development",
       testId: "card-category-development"
+    },
+    {
+      id: "focusTraining",
+      titlePt: "Treino de Foco",
+      titleEn: "Focus Training",
+      icon: Target,
+      descriptionPt: "5 mini-jogos exclusivos para treinar reflexo, precisão e visão periférica",
+      descriptionEn: "5 exclusive mini-games to train reflex, precision and peripheral vision",
+      imageUrl: "",
+      link: "/training_hub.html",
+      testId: "card-category-focus-training"
     },
   ];
 
