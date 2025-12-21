@@ -159,7 +159,7 @@ export default function Content() {
                                                 ))}
                         <a href="/training_hub.html" data-testid="button-focus-training-gaming">
                           <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full">
-                            <div className="aspect-video overflow-hidden bg-gradient-to-br from-red-900/30 to-orange-600/20 flex items-center justify-center">
+                            <div className="aspect-video overflow-hidden relative"><img src="/attached_assets/treino_de_foco.png" alt="Treino de Foco" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" /><div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
                               <span className="text-6xl"></span>
                             </div>
                             <div className="p-6 space-y-3">

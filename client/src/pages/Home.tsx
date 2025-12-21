@@ -74,7 +74,7 @@ export default function Home() {
       icon: Target,
       descriptionPt: "5 mini-jogos exclusivos para treinar reflexo, precisão e visão periférica",
       descriptionEn: "5 exclusive mini-games to train reflex, precision and peripheral vision",
-      imageUrl: "",
+      imageUrl: "/attached_assets/treino_de_foco.png",
       link: "/training_hub.html",
       testId: "card-category-focus-training"
     },
