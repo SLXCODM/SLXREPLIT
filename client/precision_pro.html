@@ -290,15 +290,17 @@
 
     <div class="container">
         <header>
-            <h1>Mira de Elite</h1>
+            <h1 data-i18n="title">Mira de Elite</h1>
         </header>
 
         <div class="selectors">
-            <div class="label-group">Patente de Precisão</div>
+            <div class="label-group" data-i18n="precisionRank">Patente de Precisão</div>
             <div class="selector-group">
-                <button class="btn-ui diff-btn active" onclick="setDiff(1, this)">Pro</button>
-                <button class="btn-ui diff-btn locked" id="lock-2" onclick="tryUnlock(2, this)">Mestre</button>
-                <button class="btn-ui diff-btn locked" id="lock-3" onclick="tryUnlock(3, this)">Lendário</button>
+                <button class="btn-ui diff-btn active" onclick="setDiff(1, this)" data-i18n="pro">Pro</button>
+                <button class="btn-ui diff-btn locked" id="lock-2" onclick="tryUnlock(2, this)"
+                    data-i18n="master">Mestre</button>
+                <button class="btn-ui diff-btn locked" id="lock-3" onclick="tryUnlock(3, this)"
+                    data-i18n="legendary">Lendário</button>
             </div>
 
             <div class="selector-group">
@@ -310,11 +312,12 @@
         </div>
 
         <div class="stats-bar">
-            <div class="stat-item"><span class="stat-label">Alvos</span><br><span id="count-val" class="stat-val">0 /
+            <div class="stat-item"><span class="stat-label" data-i18n="targets">Alvos</span><br><span id="count-val"
+                    class="stat-val">0 /
                     20</span></div>
-            <div class="stat-item"><span class="stat-label">Precisão</span><br><span id="acc-val"
+            <div class="stat-item"><span class="stat-label" data-i18n="accuracy">Precisão</span><br><span id="acc-val"
                     class="stat-val">100%</span></div>
-            <div class="stat-item"><span class="stat-label">Tempo</span><br><span id="timer-val"
+            <div class="stat-item"><span class="stat-label" data-i18n="time">Tempo</span><br><span id="timer-val"
                     class="stat-val">0.00s</span></div>
         </div>
 
@@ -323,7 +326,8 @@
         </div>
 
         <div class="footer-btns">
-            <button id="start-btn" class="btn-main" onclick="event.stopPropagation(); startGame()">Iniciar
+            <button id="start-btn" class="btn-main" onclick="event.stopPropagation(); startGame()"
+                data-i18n="startOp">Iniciar
                 Operação</button>
         </div>
     </div>
@@ -339,27 +343,32 @@
         <div id="fail-msg"
             style="color: var(--error); font-weight: 900; margin-bottom: 20px; display: none; font-size: 0.8rem;"></div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-            <button onclick="handleRetry()" class="btn-main" style="padding: 12px 30px;">Reiniciar</button>
+            <button onclick="handleRetry()" class="btn-main" style="padding: 12px 30px;"
+                data-i18n="restart">Reiniciar</button>
             <button id="next-lv-btn" onclick="advanceLevelWithAd()" class="btn-main"
-                style="padding: 12px 30px; background: #ffd700; color: #000; display: none;">Próxima Patente
+                style="padding: 12px 30px; background: #ffd700; color: #000; display: none;"
+                data-i18n="nextRank">Próxima Patente
                 (Ad)</button>
             <button onclick="window.location.href='training_hub.html'" class="btn-main"
-                style="padding: 12px 30px; background: rgba(255,255,255,0.05); color: #fff;">Sair</button>
+                style="padding: 12px 30px; background: rgba(255,255,255,0.05); color: #fff;"
+                data-i18n="exit">Sair</button>
         </div>
         <div class="support-card">
-            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;">Deu trabalho fazer esses jogos! Apoie o SLX
+            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;" data-i18n="support">Deu trabalho fazer
+                esses jogos! Apoie o SLX
                 para continuarmos criando novos treinos.</p>
             <a href="https://slx-codm.vercel.app/doacoes" target="_blank" class="btn-main"
-                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;">Apoiar via
+                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;"
+                data-i18n="donate">Apoiar via
                 Livepix</a>
         </div>
     </div>
 
     <!-- ANÚNCIO SIMULADO -->
     <div id="ad-box" class="overlay" style="z-index: 300; background: #000;">
-        <h3 style="letter-spacing: 2px;">DESBLOQUEANDO PATENTE...</h3>
+        <h3 style="letter-spacing: 2px;" data-i18n="unlocking">DESBLOQUEANDO PATENTE...</h3>
         <div style="font-size: 4rem; font-weight: 900; color: var(--primary); margin: 20px 0;" id="ad-count">15</div>
-        <p style="color: #444; font-size: 0.7rem;">SIMULAÇÃO DE ADS Reward</p>
+        <p style="color: #444; font-size: 0.7rem;" data-i18n="adSimulation">SIMULAÇÃO DE ADS Reward</p>
     </div>
 
     <script>
@@ -538,6 +547,136 @@
 
             overlay.style.display = 'flex';
             document.getElementById('start-btn').style.display = 'block';
+        }
+        const translations = {
+            pt: {
+                title: "Mira de Elite",
+                precisionRank: "Patente de Precisão",
+                pro: "Pro",
+                master: "Mestre",
+                legendary: "Lendário",
+                targets: "Alvos",
+                accuracy: "Precisão",
+                time: "Tempo",
+                startOp: "Iniciar Operação",
+                restart: "Reiniciar",
+                nextRank: "Próxima Patente (Ad)",
+                exit: "Sair",
+                support: "Deu trabalho fazer esses jogos! Apoie o SLX para continuarmos criando novos treinos.",
+                donate: "Apoiar via Livepix",
+                unlocking: "DESBLOQUEANDO PATENTE...",
+                adSimulation: "SIMULAÇÃO DE ADS Reward",
+                missionComplete: "ALVO ELIMINADO",
+                missionFailed: "MISSÃO FALHOU",
+                tooSlow: "Você foi muito lento!",
+                manyErrors: "MUITOS ERROS! Máximo de 5 no Lendário.",
+                rankUp: "Trocou de patente!",
+                hub: "← Hub"
+            },
+            en: {
+                title: "Elite Aim",
+                precisionRank: "Precision Rank",
+                pro: "Pro",
+                master: "Master",
+                legendary: "Legendary",
+                targets: "Targets",
+                accuracy: "Accuracy",
+                time: "Time",
+                startOp: "Start Operation",
+                restart: "Restart",
+                nextRank: "Next Rank (Ad)",
+                exit: "Exit",
+                support: "These games took effort! Support SLX to keep creating new training.",
+                donate: "Support via Livepix",
+                unlocking: "UNLOCKING RANK...",
+                adSimulation: "REWARD ADS SIMULATION",
+                missionComplete: "TARGET ELIMINATED",
+                missionFailed: "MISSION FAILED",
+                tooSlow: "You were too slow!",
+                manyErrors: "TOO MANY ERRORS! Max 5 on Legendary.",
+                rankUp: "Rank Switched!",
+                hub: "← Hub"
+            }
+        };
+
+        function applyLanguage() {
+            const lang = localStorage.getItem('slx_language') || 'pt'; // KEY CORRIGIDA
+            const t = translations[lang] || translations.pt;
+
+            // Textos estáticos
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            // Botão Hub
+            document.querySelector('.btn-back').textContent = t.hub;
+        }
+
+        // Chamar tradução ao carregar
+        applyLanguage();
+
+        // Modificar funções para usar textos traduzidos dinamicamente
+        function getT(key) {
+            const lang = localStorage.getItem('slx_language') || 'pt';
+            return (translations[lang] || translations.pt)[key];
+        }
+
+        function endGame(success, msg) {
+            isPlaying = false;
+            clearInterval(timerInterval);
+            clearTimeout(targetTimeout);
+            area.innerHTML = '';
+
+            const overlay = document.getElementById('res-overlay');
+            const title = document.getElementById('res-title');
+            const failMsg = document.getElementById('fail-msg');
+
+            document.getElementById('final-time').textContent = timerVal.textContent;
+            document.getElementById('final-targets').textContent = hits + " / " + totalTargets;
+            document.getElementById('final-acc').textContent = accVal.textContent;
+
+            if (success) {
+                snds.win();
+                title.textContent = getT('missionComplete');
+                title.style.color = "var(--success)";
+                failMsg.style.display = 'none';
+                if (diff < 3) document.getElementById('next-lv-btn').style.display = 'block';
+                else document.getElementById('next-lv-btn').style.display = 'none';
+            } else {
+                snds.fail();
+                title.textContent = getT('missionFailed');
+                title.style.color = "var(--error)";
+                failMsg.style.display = 'block';
+
+                // Traduzir mensagens de erro específicas ou usar genérica
+                if (msg === "MUITOS ERROS! Máximo de 5 no Lendário.") failMsg.textContent = getT('manyErrors');
+                else failMsg.textContent = msg || getT('tooSlow');
+
+                document.getElementById('next-lv-btn').style.display = 'none';
+            }
+
+            overlay.style.display = 'flex';
+            document.getElementById('start-btn').style.display = 'block';
+        }
+
+        function setDiff(lv, b) {
+            // Usar função auxiliar para mensagem de troca de nível
+            if (isPlaying) endGame(false, getT('rankUp'));
+            diff = lv;
+            document.querySelectorAll('.diff-btn').forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            snds.tap();
+        }
+
+        function handleMiss() {
+            if (!isPlaying || (performance.now() - gameStartTime < 500)) return;
+            misses++;
+            updateStats();
+            snds.fail();
+            if (diff === 3 && misses >= 5) {
+                endGame(false, getT('manyErrors')); // Usar tradução
+            }
         }
     </script>
 </body>

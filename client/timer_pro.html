@@ -292,18 +292,19 @@
 
     <div class="container">
         <header>
-            <h1>Reflexo Pro</h1>
+            <h1 data-i18n="title">Reflexo Pro</h1>
         </header>
 
         <div class="selectors">
-            <div class="label-group">Patente de Reação</div>
+            <div class="label-group" data-i18n="reactionRank">Patente de Reação</div>
             <div class="selector-group">
-                <button class="btn-ui diff-btn active" onclick="event.stopPropagation(); setDiff(1, this)">Pro (Sub
+                <button class="btn-ui diff-btn active" onclick="event.stopPropagation(); setDiff(1, this)"
+                    data-i18n="pro">Pro (Sub
                     280ms)</button>
-                <button class="btn-ui diff-btn locked" id="lock-2"
-                    onclick="event.stopPropagation(); tryUnlock(2, this)">Mestre (Sub 240ms)</button>
-                <button class="btn-ui diff-btn locked" id="lock-3"
-                    onclick="event.stopPropagation(); tryUnlock(3, this)">Lendário (Sub 210ms)</button>
+                <button class="btn-ui diff-btn locked" id="lock-2" onclick="event.stopPropagation(); tryUnlock(2, this)"
+                    data-i18n="master">Mestre (Sub 240ms)</button>
+                <button class="btn-ui diff-btn locked" id="lock-3" onclick="event.stopPropagation(); tryUnlock(3, this)"
+                    data-i18n="legendary">Lendário (Sub 210ms)</button>
             </div>
 
             <div class="selector-group">
@@ -318,26 +319,28 @@
         </div>
 
         <div class="stats-bar" onclick="event.stopPropagation()">
-            <div class="stat-item"><span class="stat-label">Melhor</span><br><span id="best-val"
+            <div class="stat-item"><span class="stat-label" data-i18n="best">Melhor</span><br><span id="best-val"
                     class="stat-val">--</span></div>
-            <div class="stat-item"><span class="stat-label">Tentativa</span><br><span id="try-val" class="stat-val">0 /
+            <div class="stat-item"><span class="stat-label" data-i18n="attempt">Tentativa</span><br><span id="try-val"
+                    class="stat-val">0 /
                     5</span></div>
-            <div class="stat-item"><span class="stat-label">Média</span><br><span id="avg-val"
+            <div class="stat-item"><span class="stat-label" data-i18n="average">Média</span><br><span id="avg-val"
                     class="stat-val">--</span></div>
         </div>
 
         <div id="game-area" class="game-area">
-            <div id="status-txt" class="status-text">Pronto para o Treino?</div>
+            <div id="status-txt" class="status-text" data-i18n="readyPrompt">Pronto para o Treino?</div>
             <div id="time-txt" class="main-time">000ms</div>
-            <div class="click-hint">Clique abaixo para começar</div>
+            <div class="click-hint" data-i18n="clickHint">Clique abaixo para começar</div>
         </div>
 
         <div class="footer-btns" onclick="event.stopPropagation()">
-            <button id="start-btn" class="btn-main" onclick="event.stopPropagation(); startWaiting()">Iniciar
+            <button id="start-btn" class="btn-main" onclick="event.stopPropagation(); startWaiting()"
+                data-i18n="startTraining">Iniciar
                 Treino</button>
             <button id="reset-btn" class="btn-main"
-                style="display: none; background: rgba(255,77,77,0.2); color: #ff4d4d;"
-                onclick="resetSession()">Reiniciar</button>
+                style="display: none; background: rgba(255,77,77,0.2); color: #ff4d4d;" onclick="resetSession()"
+                data-i18n="restart">Reiniciar</button>
         </div>
     </div>
 
@@ -351,27 +354,32 @@
         <div id="fail-msg" style="color: var(--error); font-weight: 900; margin-bottom: 25px; display: none;">⚠️
             REPROVADO: MUITO LENTO PARA ESSA PATENTE</div>
         <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-            <button onclick="handleRetry()" class="btn-main">De Novo</button>
+            <button onclick="handleRetry()" class="btn-main" data-i18n="again">De Novo</button>
             <button id="next-lv-btn" onclick="advanceLevelWithAd()" class="btn-main"
-                style="background: #ffd700; color: #000; display: none;">Próxima Patente (Ad)</button>
+                style="background: #ffd700; color: #000; display: none;" data-i18n="nextRank">Próxima Patente
+                (Ad)</button>
             <button onclick="window.location.href='training_hub.html'" class="btn-main"
-                style="background: rgba(255,255,255,0.1); color: #fff;">Sair</button>
+                style="background: rgba(255,255,255,0.1); color: #fff;" data-i18n="exit">Sair</button>
         </div>
         <div class="support-card">
-            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;">Deu trabalho fazer esses jogos! Apoie o SLX
+            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;" data-i18n="support">Deu trabalho fazer
+                esses jogos! Apoie o SLX
                 para continuarmos criando novos treinos.</p>
             <a href="https://slx-codm.vercel.app/doacoes" target="_blank" class="btn-main"
-                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;">Apoiar via
+                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;"
+                data-i18n="donate">Apoiar via
                 Livepix</a>
         </div>
     </div>
 
     <!-- ANÚNCIO SIMULADO -->
     <div id="ad-box" class="overlay" style="z-index: 300; background: #000;">
-        <h3 style="letter-spacing: 2px;">DESBLOQUEANDO NÍVEL...</h3>
-        <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">Aguarde o vídeo terminar para liberar por 24h</p>
+        <h3 style="letter-spacing: 2px;" data-i18n="unlocking">DESBLOQUEANDO NÍVEL...</h3>
+        <p style="color: #666; font-size: 0.8rem; margin-top: 5px;" data-i18n="waitVideo">Aguarde o vídeo terminar para
+            liberar por 24h</p>
         <div class="ad-timer" id="ad-count">15</div>
-        <div style="border: 1px dashed #333; padding: 10px; font-size: 0.7rem; color: #444;">[ REWARD ADS SIMULATION ]
+        <div style="border: 1px dashed #333; padding: 10px; font-size: 0.7rem; color: #444;" data-i18n="adSimulation">[
+            REWARD ADS SIMULATION ]
         </div>
     </div>
 
@@ -462,7 +470,7 @@
                 state = "READY";
                 startTime = performance.now();
                 area.className = "game-area ready";
-                statusTxt.textContent = "CLIQUE!";
+                statusTxt.textContent = getT('click');
                 statusTxt.style.color = "var(--success)";
             }, delay);
         }
@@ -532,23 +540,132 @@
 
             const title = document.getElementById('res-title');
             const failMsg = document.getElementById('fail-msg');
+            const overlay = document.getElementById('res-overlay'); // Define overlay here
 
             if (success) {
                 snds.win();
-                title.textContent = "SESSÃO COMPLETA";
+                title.textContent = getT('sessionComplete');
                 title.style.color = "var(--success)";
                 failMsg.style.display = 'none';
                 if (diff < 3) document.getElementById('next-lv-btn').style.display = 'block';
                 else document.getElementById('next-lv-btn').style.display = 'none';
             } else {
                 snds.fail();
-                title.textContent = "REFLEXO LENTO";
+                title.textContent = getT('slowReflex');
                 title.style.color = "var(--error)";
                 failMsg.style.display = 'block';
-                failMsg.textContent = `⚠️ Meta: ${targets[diff]}ms | Média: ${avg}ms`;
+                failMsg.textContent = getT('reproved');
                 document.getElementById('next-lv-btn').style.display = 'none';
             }
-            document.getElementById('res-overlay').style.display = 'flex';
+
+            overlay.style.display = 'flex';
+        }
+
+        const translations = {
+            pt: {
+                title: "Reflexo Pro",
+                reactionRank: "Patente de Reação",
+                pro: "Pro (Sub 280ms)",
+                master: "Mestre (Sub 240ms)",
+                legendary: "Lendário (Sub 210ms)",
+                best: "Melhor",
+                attempt: "Tentativa",
+                average: "Média",
+                readyPrompt: "Pronto para o Treino?",
+                clickHint: "Clique abaixo para começar",
+                startTraining: "Iniciar Treino",
+                restart: "Reiniciar",
+                again: "De Novo",
+                nextRank: "Próxima Patente (Ad)",
+                exit: "Sair",
+                support: "Deu trabalho fazer esses jogos! Apoie o SLX para continuarmos criando novos treinos.",
+                donate: "Apoiar via Livepix",
+                unlocking: "DESBLOQUEANDO NÍVEL...",
+                waitVideo: "Aguarde o vídeo terminar para liberar por 24h",
+                adSimulation: "[ SIMULAÇÃO DE ADS Reward ]",
+                wait: "Aguarde...",
+                click: "CLIQUE!",
+                tooEarly: "MUITO CEDO!",
+                result: "RESULTADO",
+                sessionComplete: "SESSÃO COMPLETA",
+                slowReflex: "REFLEXO LENTO",
+                reproved: "⚠️ REPROVADO: MUITO LENTO PARA ESSA PATENTE",
+                hub: "← Hub"
+            },
+            en: {
+                title: "Reflex Pro",
+                reactionRank: "Reaction Rank",
+                pro: "Pro (Sub 280ms)",
+                master: "Master (Sub 240ms)",
+                legendary: "Legendary (Sub 210ms)",
+                best: "Best",
+                attempt: "Attempt",
+                average: "Average",
+                readyPrompt: "Ready to Train?",
+                clickHint: "Click below to start",
+                startTraining: "Start Training",
+                restart: "Restart",
+                again: "Again",
+                nextRank: "Next Rank (Ad)",
+                exit: "Exit",
+                support: "These games took effort! Support SLX to keep creating new training.",
+                donate: "Support via Livepix",
+                unlocking: "UNLOCKING LEVEL...",
+                waitVideo: "Wait for video to finish to unlock for 24h",
+                adSimulation: "[ REWARD ADS SIMULATION ]",
+                wait: "Wait...",
+                click: "CLICK!",
+                tooEarly: "TOO EARLY!",
+                result: "RESULT",
+                sessionComplete: "SESSION COMPLETE",
+                slowReflex: "SLOW REFLEX",
+                reproved: "⚠️ FAIL: TOO SLOW FOR THIS RANK",
+                hub: "← Hub"
+            }
+        };
+
+        function getT(key) {
+            const lang = localStorage.getItem('slx_language') || 'pt'; // KEY CORRIGIDA
+            return (translations[lang] || translations.pt)[key];
+        }
+
+        function applyLanguage() {
+            const lang = localStorage.getItem('slx_language') || 'pt';
+            const t = translations[lang] || translations.pt;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            document.querySelector('.btn-back').textContent = t.hub;
+        }
+
+        applyLanguage();
+
+        // Updates dinâmicos
+        const _origStartWaiting = startWaiting;
+        startWaiting = function () {
+            _origStartWaiting();
+            document.getElementById('status-txt').textContent = getT('wait');
+        }
+
+        const _origTooEarly = tooEarly;
+        tooEarly = function () {
+            _origTooEarly();
+            document.getElementById('status-txt').textContent = getT('tooEarly');
+        }
+
+        const _origFinishTry = finishTry;
+        finishTry = function () {
+            _origFinishTry();
+            document.getElementById('status-txt').textContent = getT('result');
+        }
+
+        const _origResetSession = resetSession;
+        resetSession = function () {
+            _origResetSession();
+            document.getElementById('status-txt').textContent = getT('readyPrompt');
         }
     </script>
 </body>

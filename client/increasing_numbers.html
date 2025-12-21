@@ -353,15 +353,17 @@
 
     <div class="container">
         <header>
-            <h1>Números Crescentes</h1>
+            <h1 data-i18n="title">Números Crescentes</h1>
         </header>
 
         <div class="selectors">
-            <div class="label-group">Patente de Memória</div>
+            <div class="label-group" data-i18n="memoryRank">Patente de Memória</div>
             <div class="selector-group">
-                <button class="btn-ui diff-btn active" onclick="setDiff(3, this)">Pro (3x3)</button>
-                <button class="btn-ui diff-btn locked" id="lock-4" onclick="tryUnlock(4, this)">Mestre (4x4)</button>
-                <button class="btn-ui diff-btn locked" id="lock-5" onclick="tryUnlock(5, this)">Lendário (5x5)</button>
+                <button class="btn-ui diff-btn active" onclick="setDiff(3, this)" data-i18n="pro">Pro (3x3)</button>
+                <button class="btn-ui diff-btn locked" id="lock-4" onclick="tryUnlock(4, this)"
+                    data-i18n="master">Mestre (4x4)</button>
+                <button class="btn-ui diff-btn locked" id="lock-5" onclick="tryUnlock(5, this)"
+                    data-i18n="legendary">Lendário (5x5)</button>
             </div>
 
             <div class="selector-group">
@@ -373,12 +375,13 @@
         </div>
 
         <div class="stats-bar">
-            <div class="stat-item"><span class="stat-label">Nível</span><br><span id="level-val" class="stat-val">1 /
+            <div class="stat-item"><span class="stat-label" data-i18n="level">Nível</span><br><span id="level-val"
+                    class="stat-val">1 /
                     8</span></div>
-            <div class="stat-item"><span class="stat-label">Precisão</span><br><span id="acc-val"
+            <div class="stat-item"><span class="stat-label" data-i18n="accuracy">Precisão</span><br><span id="acc-val"
                     class="stat-val">100%</span></div>
-            <div class="stat-item"><span class="stat-label">Memorize em:</span><br><span id="memo-timer"
-                    class="stat-val">--</span></div>
+            <div class="stat-item"><span class="stat-label" data-i18n="memorizeIn">Memorize em:</span><br><span
+                    id="memo-timer" class="stat-val">--</span></div>
         </div>
 
         <div class="grid-container">
@@ -386,10 +389,10 @@
         </div>
 
         <div class="footer-btns">
-            <button id="start-btn" class="btn-main">Iniciar Missão</button>
+            <button id="start-btn" class="btn-main" data-i18n="startMission">Iniciar Missão</button>
             <button id="reset-btn" class="btn-main"
-                style="display: none; background: rgba(255,77,77,0.2); color: #ff4d4d;"
-                onclick="resetGame()">Abortar</button>
+                style="display: none; background: rgba(255,77,77,0.2); color: #ff4d4d;" onclick="resetGame()"
+                data-i18n="abort">Abortar</button>
         </div>
     </div>
 
@@ -402,27 +405,32 @@
         <div id="fail-msg" style="color: var(--error); font-weight: 900; margin-bottom: 25px; display: none;">⚠️
             REPROVADO: PRECISÃO ABAIXO DE 92%</div>
         <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-            <button onclick="handleRetry()" class="btn-main">Tentar Novamente</button>
+            <button onclick="handleRetry()" class="btn-main" data-i18n="tryAgain">Tentar Novamente</button>
             <button id="next-lv-btn" onclick="advanceLevelWithAd()" class="btn-main"
-                style="background: #ffd700; color: #000; display: none;">Próxima Patente (Ad)</button>
+                style="background: #ffd700; color: #000; display: none;" data-i18n="nextRank">Próxima Patente
+                (Ad)</button>
             <button onclick="window.location.href='training_hub.html'" class="btn-main"
-                style="background: rgba(255,255,255,0.1); color: #fff;">Sair</button>
+                style="background: rgba(255,255,255,0.1); color: #fff;" data-i18n="exit">Sair</button>
         </div>
         <div class="support-card">
-            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;">Deu trabalho fazer esses jogos! Apoie o SLX
+            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;" data-i18n="support">Deu trabalho fazer
+                esses jogos! Apoie o SLX
                 para continuarmos criando novos treinos.</p>
             <a href="https://slx-codm.vercel.app/doacoes" target="_blank" class="btn-main"
-                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;">Apoiar via
+                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;"
+                data-i18n="donate">Apoiar via
                 Livepix</a>
         </div>
     </div>
 
     <!-- ANÚNCIO SIMULADO -->
     <div id="ad-box" class="overlay" style="z-index: 300; background: #000;">
-        <h3 style="letter-spacing: 2px;">DESBLOQUEANDO NÍVEL...</h3>
-        <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">Aguarde o vídeo terminar para liberar por 24h</p>
+        <h3 style="letter-spacing: 2px;" data-i18n="unlocking">DESBLOQUEANDO NÍVEL...</h3>
+        <p style="color: #666; font-size: 0.8rem; margin-top: 5px;" data-i18n="waitVideo">Aguarde o vídeo terminar para
+            liberar por 24h</p>
         <div class="ad-timer" id="ad-count">15</div>
-        <div style="border: 1px dashed #333; padding: 10px; font-size: 0.7rem; color: #444;">[ REWARD ADS SIMULATION ]
+        <div style="border: 1px dashed #333; padding: 10px; font-size: 0.7rem; color: #444;" data-i18n="adSimulation">[
+            REWARD ADS SIMULATION ]
         </div>
     </div>
 
@@ -580,16 +588,125 @@
             document.getElementById('acc-val').textContent = `${acc}%`;
         }
 
-        function startGame() {
-            getCtx().resume().catch(() => { });
+        const translations = {
+            pt: {
+                title: "Números Crescentes",
+                memoryRank: "Patente de Memória",
+                pro: "Pro (3x3)",
+                master: "Mestre (4x4)",
+                legendary: "Lendário (5x5)",
+                level: "Nível",
+                accuracy: "Precisão",
+                memorizeIn: "Memorize em:",
+                startMission: "Iniciar Missão",
+                abort: "Abortar",
+                tryAgain: "Tentar Novamente",
+                nextRank: "Próxima Patente (Ad)",
+                exit: "Sair",
+                support: "Deu trabalho fazer esses jogos! Apoie o SLX para continuarmos criando novos treinos.",
+                donate: "Apoiar via Livepix",
+                unlocking: "DESBLOQUEANDO NÍVEL...",
+                waitVideo: "Aguarde o vídeo terminar para liberar por 24h",
+                adSimulation: "[ SIMULAÇÃO DE ADS Reward ]",
+                now: "AGORA!",
+                missionComplete: "MISSÃO COMPLETA",
+                reproved: "⚠️ REPROVADO: PRECISÃO ABAIXO DE 92%",
+                hub: "← Hub"
+            },
+            en: {
+                title: "Increasing Numbers",
+                memoryRank: "Memory Rank",
+                pro: "Pro (3x3)",
+                master: "Master (4x4)",
+                legendary: "Legendary (5x5)",
+                level: "Level",
+                accuracy: "Accuracy",
+                memorizeIn: "Memorize in:",
+                startMission: "Start Mission",
+                abort: "Abort",
+                tryAgain: "Try Again",
+                nextRank: "Next Rank (Ad)",
+                exit: "Exit",
+                support: "These games took effort! Support SLX to keep creating new training.",
+                donate: "Support via Livepix",
+                unlocking: "UNLOCKING LEVEL...",
+                waitVideo: "Wait for video to finish to unlock for 24h",
+                adSimulation: "[ REWARD ADS SIMULATION ]",
+                now: "NOW!",
+                missionComplete: "MISSION COMPLETE",
+                reproved: "⚠️ FAIL: ACCURACY BELOW 92%",
+                hub: "← Hub"
+            }
+        };
+
+        function getT(key) {
+            const lang = localStorage.getItem('slx_language') || 'pt'; // KEY CORRIGIDA
+            return (translations[lang] || translations.pt)[key];
+        }
+
+        function applyLanguage() {
+            const lang = localStorage.getItem('slx_language') || 'pt';
+            const t = translations[lang] || translations.pt;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            document.querySelector('.btn-back').textContent = t.hub;
+        }
+
+        applyLanguage();
+
+        // Updates dinâmicos
+        const _origHideNumbers = hideNumbers;
+        hideNumbers = function () {
+            _origHideNumbers();
+            document.getElementById('memo-timer').textContent = getT('now');
+        }
+
+        // Funções para atualizar o overlay de resultado e nível
+        function endGame(success) {
+            isPlaying = false;
+            document.getElementById('res-overlay').style.display = 'flex';
+            document.getElementById('final-lv').textContent = level;
+            document.getElementById('final-acc').textContent = document.getElementById('acc-val').textContent;
+            resetBtn.style.display = 'none';
+
+            // Check if accuracy is above threshold
+            const accNum = parseInt(document.getElementById('acc-val').textContent);
+            const passed = accNum >= 92;
+
+            const title = document.getElementById('res-title');
+            const failMsg = document.getElementById('fail-msg');
+
+            if (passed && success) {
+                snds.win();
+                title.textContent = getT('missionComplete');
+                title.style.color = "var(--success)";
+                failMsg.style.display = 'none';
+                // Lógica de próximo nível
+                if (gridSize < 5) document.getElementById('next-lv-btn').style.display = 'block';
+                else document.getElementById('next-lv-btn').style.display = 'none';
+            } else {
+                snds.fail();
+                title.textContent = getT('reproved');
+                title.textContent = "REP. " + accNum + "%"; // Simplificado
+                title.style.color = "var(--error)";
+                failMsg.style.display = 'block';
+                failMsg.textContent = getT('reproved');
+                document.getElementById('next-lv-btn').style.display = 'none';
+            }
+        }
+
+        const _origStartGame = startGame;
+        startGame = function () {
+            _origStartGame();
             document.getElementById('res-overlay').style.display = 'none';
-            level = 1; totalHits = 0; totalMisses = 0;
-            levelEl.textContent = `1 / ${maxLevel}`;
-            document.getElementById('acc-val').textContent = '100%';
-            memoEl.style.color = "var(--warning)";
-            startBtn.style.display = 'none';
-            resetBtn.style.display = 'inline-block';
-            startMemorization();
+        }
+        startBtn.style.display = 'none';
+        resetBtn.style.display = 'inline-block';
+        startMemorization();
         }
 
         function resetGame() {

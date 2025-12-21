@@ -475,11 +475,11 @@
 
     <div class="container">
         <header>
-            <h1>Schulte Challenge</h1>
+            <h1 data-i18n="title">Schulte Challenge</h1>
         </header>
 
         <div class="selectors">
-            <div class="label-group">Operação</div>
+            <div class="label-group" data-i18n="operation">Operação</div>
             <div class="selector-group">
                 <button class="btn-ui diff-btn" onclick="setDiff(3, this)">3x3</button>
                 <button class="btn-ui diff-btn active" onclick="setDiff(5, this)">5x5</button>
@@ -488,8 +488,10 @@
                 <button class="btn-ui diff-btn locked" id="lock-11" onclick="tryUnlock(11, this)">11x11</button>
             </div>
             <div class="selector-group">
-                <button class="btn-ui" id="smoke-btn" onclick="toggleSmoke(this)">Modo Smoke: OFF</button>
-                <button class="btn-ui" id="flash-btn" onclick="toggleFlash(this)">Modo Flash: OFF</button>
+                <button class="btn-ui" id="smoke-btn" onclick="toggleSmoke(this)" data-i18n="smokeMode">Modo Smoke:
+                    OFF</button>
+                <button class="btn-ui" id="flash-btn" onclick="toggleFlash(this)" data-i18n="flashMode">Modo Flash:
+                    OFF</button>
                 <button class="btn-ui skin-btn active" onclick="setSkin('default', this)">Neon</button>
                 <button class="btn-ui skin-btn" onclick="setSkin('diamond', this)">Gold</button>
                 <button class="btn-ui skin-btn" onclick="setSkin('aether', this)">Aether</button>
@@ -498,11 +500,11 @@
         </div>
 
         <div class="stats-bar">
-            <div class="stat-item"><span style="font-size: 0.6rem; color: #666;">ALVO</span><br><span id="target-num"
-                    class="stat-val" style="color: var(--primary)">1</span></div>
-            <div class="stat-item"><span style="font-size: 0.6rem; color: #666;">PRECISÃO</span><br><span id="acc-val"
-                    class="stat-val">100%</span></div>
-            <div class="stat-item"><span style="font-size: 0.6rem; color: #666;">TEMPO</span><br><span
+            <div class="stat-item"><span style="font-size: 0.6rem; color: #666;" data-i18n="target">ALVO</span><br><span
+                    id="target-num" class="stat-val" style="color: var(--primary)">1</span></div>
+            <div class="stat-item"><span style="font-size: 0.6rem; color: #666;"
+                    data-i18n="accuracy">PRECISÃO</span><br><span id="acc-val" class="stat-val">100%</span></div>
+            <div class="stat-item"><span style="font-size: 0.6rem; color: #666;" data-i18n="time">TEMPO</span><br><span
                     id="timer-display" class="stat-val">45.00</span></div>
         </div>
 
@@ -511,8 +513,8 @@
         </div>
 
         <div class="footer-btns">
-            <button id="start-game-btn" class="btn-main">Iniciar Missão</button>
-            <button id="reset-game-btn" class="btn-main btn-reset" onclick="resetGame()">
+            <button id="start-game-btn" class="btn-main" data-i18n="startMission">Iniciar Missão</button>
+            <button id="reset-game-btn" class="btn-main btn-reset" onclick="resetGame()" data-i18n="restart">
                 <div class="btn-restart-icon"></div> Reiniciar
             </button>
         </div>
@@ -526,27 +528,32 @@
         <div id="fail-txt" style="color: var(--error); font-weight: 900; margin-bottom: 25px; display: none;">⚠️
             REPROVADO: PRECISÃO ABAIXO DE 96%</div>
         <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-            <button onclick="handleRetry()" class="btn-main">De Novo</button>
+            <button onclick="handleRetry()" class="btn-main" data-i18n="again">De Novo</button>
             <button id="next-lv-btn" onclick="advanceLevelWithAd()" class="btn-main"
-                style="background: #ffd700; color: #000; display: none;">Próxima Patente (Ad)</button>
+                style="background: #ffd700; color: #000; display: none;" data-i18n="nextRank">Próxima Patente
+                (Ad)</button>
             <button onclick="window.location.href='training_hub.html'" class="btn-main"
-                style="background: rgba(255,255,255,0.1); color: #fff;">Sair</button>
+                style="background: rgba(255,255,255,0.1); color: #fff;" data-i18n="exit">Sair</button>
         </div>
 
         <div class="support-card">
-            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;">Deu trabalho fazer esses jogos! Apoie o SLX
+            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;" data-i18n="support">Deu trabalho fazer
+                esses jogos! Apoie o SLX
                 para continuarmos criando novos treinos.</p>
             <a href="https://slx-codm.vercel.app/doacoes" target="_blank" class="btn-main"
-                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;">Apoiar via
+                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;"
+                data-i18n="donate">Apoiar via
                 Livepix</a>
         </div>
     </div>
 
     <div id="ad-box" class="overlay" style="z-index: 300; background: #000;">
-        <h3 style="letter-spacing: 2px;">DESBLOQUEANDO NÍVEL...</h3>
-        <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">Assista para liberar por 24h</p>
+        <h3 style="letter-spacing: 2px;" data-i18n="unlocking">DESBLOQUEANDO NÍVEL...</h3>
+        <p style="color: #666; font-size: 0.8rem; margin-top: 5px;" data-i18n="waitVideo">Assista para liberar por 24h
+        </p>
         <div class="ad-timer" id="ad-count">15</div>
-        <div style="border: 1px dashed #333; padding: 10px; font-size: 0.7rem; color: #444;">[ REWARD ADS SIMULATION ]
+        <div style="border: 1px dashed #333; padding: 10px; font-size: 0.7rem; color: #444;" data-i18n="adSimulation">[
+            REWARD ADS SIMULATION ]
         </div>
     </div>
 
@@ -609,35 +616,225 @@
             });
         }
         function setSkin(s, b) { if (isPlaying) resetGame(); document.body.className = `skin-${s}${smokeOn ? ' smoke-active' : ''}${flashOn ? ' flash-active' : ''}`; document.querySelectorAll('.skin-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); snds.tap(); }
-        function toggleSmoke(b) { if (isPlaying) resetGame(); smokeOn = !smokeOn; b.textContent = `Modo Smoke: ${smokeOn ? 'ON' : 'OFF'}`; document.body.classList.toggle('smoke-active'); snds.tap(); }
-        function toggleFlash(b) { if (isPlaying) resetGame(); flashOn = !flashOn; b.textContent = `Modo Flash: ${flashOn ? 'ON' : 'OFF'}`; document.body.classList.toggle('flash-active'); snds.tap(); }
 
-        function setDiff(s, b) { if (isPlaying) resetGame(); gridSize = s; document.querySelectorAll('.diff-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); gridEl.className = `grid grid-${s}`; const times = { 3: 15, 5: 45, 7: 120, 9: 210, 11: 330 }; timeLeft = times[s]; timerEl.textContent = timeLeft.toFixed(2); initGrid(); snds.tap(); }
-        function updateTime() { timeLeft -= 0.01; if (timeLeft <= 0) { timeLeft = 0; stopGame(false); } if (timeLeft < 10) { timerEl.classList.add('warning'); if (Math.round(timeLeft * 10) % 10 === 0) snds.tick(); } else { timerEl.classList.remove('warning'); } timerEl.textContent = Math.abs(timeLeft).toFixed(2); }
-        function resetGame() { isPlaying = false; clearInterval(interval); startBtn.style.display = 'inline-block'; resetBtn.style.display = 'none'; initGrid(); nextVal = 1; hits = 0; misses = 0; document.getElementById('target-num').textContent = '1'; document.getElementById('acc-val').textContent = '100%'; const times = { 3: 15, 5: 45, 7: 120, 9: 210, 11: 330 }; timeLeft = times[gridSize]; timerEl.textContent = timeLeft.toFixed(2); timerEl.classList.remove('warning'); snds.fail(); }
-        function stopGame(done) {
-            isPlaying = false; clearInterval(interval);
-            startBtn.style.display = 'inline-block'; resetBtn.style.display = 'none';
+        function toggleSmoke(b) {
+            smokeOn = !smokeOn; b.classList.toggle('active');
+            b.textContent = smokeOn ? getT('smokeMode') + ": ON" : getT('smokeMode') + ": OFF";
+            document.body.classList.toggle('smoke-active');
+            snds.tap();
+        }
+
+        function toggleFlash(b) {
+            flashOn = !flashOn; b.classList.toggle('active');
+            b.textContent = flashOn ? getT('flashMode') + ": ON" : getT('flashMode') + ": OFF";
+            document.body.classList.toggle('flash-active');
+            snds.tap();
+        }
+
+        function setDiff(s, b) {
+            if (isPlaying) resetGame();
+            gridSize = s;
+            document.querySelectorAll('.diff-btn').forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            gridEl.className = `grid grid-${s}`;
+            const times = { 3: 15, 5: 45, 7: 120, 9: 210, 11: 330 };
+            timeLeft = times[s];
+            timerEl.textContent = timeLeft.toFixed(2);
+            initGrid();
+            snds.tap();
+        }
+
+        function updateTime() {
+            timeLeft -= 0.01;
+            if (timeLeft <= 0) {
+                timeLeft = 0;
+                endGame(false);
+            }
+            if (timeLeft < 10) {
+                timerEl.classList.add('warning');
+                if (Math.round(timeLeft * 10) % 10 === 0) snds.tick();
+            } else {
+                timerEl.classList.remove('warning');
+            }
+            timerEl.textContent = Math.abs(timeLeft).toFixed(2);
+        }
+
+        function resetGame() {
+            isPlaying = false;
+            clearInterval(interval);
+            startBtn.style.display = 'inline-block';
+            resetBtn.style.display = 'none';
+            initGrid();
+            nextVal = 1; hits = 0; misses = 0;
+            document.getElementById('target-num').textContent = '1';
+            document.getElementById('acc-val').textContent = '100%';
+            const times = { 3: 15, 5: 45, 7: 120, 9: 210, 11: 330 };
+            timeLeft = times[gridSize];
+            timerEl.textContent = timeLeft.toFixed(2);
+            timerEl.classList.remove('warning');
+            snds.fail();
+        }
+
+        function endGame(done) {
+            isPlaying = false;
+            clearInterval(interval);
+            resOverlay.style.display = 'flex';
             const acc = Math.round((hits / (hits + misses || 1)) * 100);
             const success = done && acc >= 96;
-            document.getElementById('final-time').textContent = done ? `${timeLeft.toFixed(1)}s` : "ESGOTADO";
+
+            document.getElementById('final-time').textContent = done ? `${timeLeft.toFixed(2)}s` : "ESGOTADO";
             document.getElementById('final-acc').textContent = `${acc}%`;
-            document.getElementById('fail-txt').style.display = (done && acc < 96) ? 'block' : 'none';
+
             const title = document.getElementById('res-title');
+            const failMsg = document.getElementById('fail-txt');
+
             if (success) {
-                snds.win(); title.textContent = "MISSÃO COMPLETA"; title.style.color = "var(--success)";
+                snds.win();
+                title.textContent = getT('missionComplete');
+                title.style.color = "var(--success)";
+                failMsg.style.display = 'none';
                 if (gridSize < 11) document.getElementById('next-lv-btn').style.display = 'block';
                 else document.getElementById('next-lv-btn').style.display = 'none';
             } else {
-                snds.fail(); title.textContent = "MISSÃO FALHOU"; title.style.color = "var(--error)";
+                snds.fail();
+                title.textContent = getT('reproved');
+                title.style.color = "var(--error)";
+                failMsg.style.display = 'block';
+                failMsg.textContent = getT('reproved');
                 document.getElementById('next-lv-btn').style.display = 'none';
             }
-            resOverlay.style.display = 'flex';
         }
-        function cellClick(e) { if (!isPlaying) return; const n = parseInt(e.target.dataset.num); if (n === nextVal) { hits++; snds.tap(); e.target.classList.add('correct'); nextVal++; if (nextVal > gridSize * gridSize) stopGame(true); else document.getElementById('target-num').textContent = nextVal; } else { misses++; snds.fail(); e.target.classList.add('wrong'); setTimeout(() => e.target.classList.remove('wrong'), 200); } document.getElementById('acc-val').textContent = `${Math.round((hits / (hits + misses || 1)) * 100)}%`; }
-        function startGame() { try { getCtx().resume().catch(() => { }); } catch (e) { } resOverlay.style.display = 'none'; gridEl.innerHTML = ''; nextVal = 1; hits = 0; misses = 0; const times = { 3: 15, 5: 45, 7: 120, 9: 210, 11: 330 }; timeLeft = times[gridSize]; isPlaying = true; const nums = Array.from({ length: gridSize * gridSize }, (_, i) => i + 1).sort(() => Math.random() - 0.5); nums.forEach(n => { const c = document.createElement('div'); c.className = 'cell'; c.textContent = n; c.dataset.num = n; c.onclick = cellClick; gridEl.appendChild(c); }); clearInterval(interval); interval = setInterval(updateTime, 10); startBtn.style.display = 'none'; resetBtn.style.display = 'inline-flex'; snds.tap(); document.getElementById('target-num').textContent = '1'; document.getElementById('acc-val').textContent = '100%'; }
-        function initGrid() { gridEl.innerHTML = ''; for (let i = 0; i < gridSize * gridSize; i++) { const c = document.createElement('div'); c.className = 'cell'; c.style.opacity = '0.2'; c.textContent = '?'; gridEl.appendChild(c); } startBtn.style.display = 'inline-block'; }
-        startBtn.onclick = startGame; initGrid();
+
+        function cellClick(e) {
+            if (!isPlaying) return;
+            const n = parseInt(e.target.dataset.num);
+            if (n === nextVal) {
+                hits++;
+                snds.tap();
+                e.target.classList.add('correct');
+                nextVal++;
+                if (nextVal > gridSize * gridSize) endGame(true);
+                else document.getElementById('target-num').textContent = nextVal;
+            } else {
+                misses++;
+                snds.fail();
+                e.target.classList.add('wrong');
+                setTimeout(() => e.target.classList.remove('wrong'), 200);
+            }
+            document.getElementById('acc-val').textContent = `${Math.round((hits / (hits + misses || 1)) * 100)}%`;
+        }
+
+        function startGame() {
+            try { getCtx().resume().catch(() => { }); } catch (e) { }
+            resOverlay.style.display = 'none';
+            gridEl.innerHTML = '';
+            nextVal = 1; hits = 0; misses = 0;
+            const times = { 3: 15, 5: 45, 7: 120, 9: 210, 11: 330 };
+            timeLeft = times[gridSize];
+            isPlaying = true;
+
+            const nums = Array.from({ length: gridSize * gridSize }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
+            nums.forEach(n => {
+                const c = document.createElement('div');
+                c.className = 'cell';
+                c.textContent = n;
+                c.dataset.num = n;
+                c.onclick = cellClick;
+                gridEl.appendChild(c);
+            });
+
+            clearInterval(interval);
+            interval = setInterval(updateTime, 10);
+            startBtn.style.display = 'none';
+            resetBtn.style.display = 'inline-flex';
+            snds.tap();
+            document.getElementById('target-num').textContent = '1';
+            document.getElementById('acc-val').textContent = '100%';
+        }
+
+        function initGrid() {
+            gridEl.innerHTML = '';
+            for (let i = 0; i < gridSize * gridSize; i++) {
+                const c = document.createElement('div');
+                c.className = 'cell';
+                c.style.opacity = '0.2';
+                c.textContent = '?';
+                gridEl.appendChild(c);
+            }
+            startBtn.style.display = 'inline-block';
+        }
+
+        const translations = {
+            pt: {
+                title: "Schulte Challenge",
+                operation: "Operação",
+                smokeMode: "Modo Smoke",
+                flashMode: "Modo Flash",
+                target: "ALVO",
+                accuracy: "PRECISÃO",
+                time: "TEMPO",
+                startMission: "Iniciar Missão",
+                restart: "Reiniciar",
+                again: "De Novo",
+                nextRank: "Próxima Patente (Ad)",
+                exit: "Sair",
+                support: "Deu trabalho fazer esses jogos! Apoie o SLX para continuarmos criando novos treinos.",
+                donate: "Apoiar via Livepix",
+                unlocking: "DESBLOQUEANDO NÍVEL...",
+                waitVideo: "Assista para liberar por 24h",
+                adSimulation: "[ SIMULAÇÃO DE ADS Reward ]",
+                missionComplete: "MISSÃO COMPLETA",
+                reproved: "⚠️ REPROVADO: PRECISÃO ABAIXO DE 96%",
+                hub: "← Hub"
+            },
+            en: {
+                title: "Schulte Challenge",
+                operation: "Operation",
+                smokeMode: "Smoke Mode",
+                flashMode: "Flash Mode",
+                target: "TARGET",
+                accuracy: "ACCURACY",
+                time: "TIME",
+                startMission: "Start Mission",
+                restart: "Restart",
+                again: "Again",
+                nextRank: "Next Rank (Ad)",
+                exit: "Exit",
+                support: "These games took effort! Support SLX to keep creating new training.",
+                donate: "Support via Livepix",
+                unlocking: "UNLOCKING LEVEL...",
+                waitVideo: "Watch to unlock for 24h",
+                adSimulation: "[ REWARD ADS SIMULATION ]",
+                missionComplete: "MISSION COMPLETE",
+                reproved: "⚠️ FAIL: ACCURACY BELOW 96%",
+                hub: "← Hub"
+            }
+        };
+
+        function getT(key) {
+            const lang = localStorage.getItem('slx_language') || 'pt'; // KEY CORRIGIDA
+            return (translations[lang] || translations.pt)[key];
+        }
+
+        function applyLanguage() {
+            const lang = localStorage.getItem('slx_language') || 'pt';
+            const t = translations[lang] || translations.pt;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            // Toggle buttons
+            document.getElementById('smoke-btn').textContent = smokeOn ? t.smokeMode + ": ON" : t.smokeMode + ": OFF";
+            document.getElementById('flash-btn').textContent = flashOn ? t.flashMode + ": ON" : t.flashMode + ": OFF";
+
+            document.querySelector('.btn-back').textContent = t.hub;
+        }
+
+        startBtn.onclick = startGame;
+        initGrid();
+        applyLanguage();
     </script>
 </body>
 
