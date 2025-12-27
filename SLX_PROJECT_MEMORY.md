@@ -1,29 +1,29 @@
 # SLX Training Project - MEMORY LOG 🧠
 
-Este arquivo serve como o backup de contexto para o Antigravity. Se eu "esquecer" algo ou a sessão resetar, basta me pedir para ler este arquivo.
+Este arquivo serve como o backup de contexto para o Antigravity.
+
+> [!IMPORTANT]
+> **REGRA DE OURO:** Todo conteúdo DEVE ser traduzido (PT/EN). Se o usuário selecionar Inglês, TUDO (menus, botões, ranks, mensagens) deve estar em Inglês.
 
 ## 📍 Status Atual
-- **Hub Central:** `client/training_hub.html` (Menu com 5 jogos).
-- **Jogo 1 Concluído:** `client/schulte_game.html` (Schulte Pro).
-- **Jogo 3 Concluído:** `client/increasing_numbers.html` (Números Crescentes).
-- **Jogo 4 em Desenvolvimento:** `client/timer_pro.html`.
+- **Site Web:** React (Vercel) + Jogos HTML5 (Public Folder).
+- **Monetização:** AdSense (Banners). Vídeos rewards removidos/desbloqueados para web.
+- **Hub:** `client/training_hub.html` (Com navegação e seletor de idioma).
 
-## 🕹️ Jogo 4: Cronômetro Pro (Dificuldades Planejadas)
-1. **Pro:** Parar o cronômetro no alvo de 1.000s (Margem de erro: ±50ms).
-2. **Mestre:** Alvos rápidos (ex: 0.500s) e margem menor (±30ms).
-3. **Lendário:** Alvos dinâmicos estilo Sniper (ex: < 190ms de reação).
+## 🕹️ Jogos (Concluídos e Traduzidos)
+1. **Schulte Pro:** `client/schulte_game.html`
+2. **Operação Dominante:** `client/higher_number.html`
+3. **Números Crescentes:** `client/increasing_numbers.html`
+4. **Reflexo Pro:** `client/timer_pro.html`
+5. **Mira de Elite:** `client/precision_pro.html` (Mestre: Min 80% Acc).
 
 ## 🛠️ Tecnologias
-- **Frontend:** HTML5, CSS3 (Vanilla), JavaScript (Vanilla).
-- **Estilo:** Fonte 'Outfit', Design Neo-Gamer Premium.
-- **Backend (Pendente):** Migração para Render (PostgreSQL) para salvar "Status Pro" eterno.
+- **Frontend:** HTML5, CSS3 (Vanilla).
+- **Integração:** Navegação via LocalStorage (`slx_language`).
 
 ## 🚀 Próximos Passos
-1. **Jogo 2:** Maior Número (Analisar dois números e clicar no maior).
-    - Meta: 97% Precisão / 63 Jogadas.
-2. **Jogo 3:** Números Crescentes (Memória visual).
-3. **Jogo 4:** Cronômetro Sniper (Reação < 190ms).
-4. **Jogo 5:** Dificuldade Fatal (A definir).
+- Garantir que todos os botões "Voltar" levem para a Home e Hub.
+- Manter polimento visual "Premium".
 
 ---
 > [!TIP]

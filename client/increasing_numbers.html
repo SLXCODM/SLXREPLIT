@@ -349,7 +349,10 @@
 
 <body>
 
-    <div class="nav-top"><a href="training_hub.html" class="btn-back">← Hub</a></div>
+    <div class="nav-top">
+        <a href="/" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
+        <a href="training_hub.html" class="btn-back">← Hub</a>
+    </div>
 
     <div class="container">
         <header>
@@ -456,20 +459,7 @@
         updateLocks();
 
         function showAd(callback) {
-            const ad = document.getElementById('ad-box');
-            const count = document.getElementById('ad-count');
-            ad.style.display = 'flex';
-            let t = 4;
-            count.textContent = "Aguarde " + t + "s";
-            const idx = setInterval(() => {
-                t--;
-                count.textContent = "Aguarde " + t + "s";
-                if (t <= 0) {
-                    clearInterval(idx);
-                    ad.style.display = 'none';
-                    callback();
-                }
-            }, 1000);
+            callback();
         }
 
         function tryUnlock(lv, b) {
@@ -728,26 +718,6 @@
             gridEl.innerHTML = '';
             memoEl.textContent = '--';
             snds.fail();
-        }
-
-        function endGame(done) {
-            isPlaying = false; clearInterval(memoInterval);
-            const acc = Math.round((totalHits / (totalHits + totalMisses || 1)) * 100);
-            const success = done && acc >= 92;
-            document.getElementById('final-lv').textContent = level;
-            document.getElementById('final-acc').textContent = `${acc}%`;
-            document.getElementById('fail-msg').style.display = (done && acc < 92) ? 'block' : 'none';
-            const title = document.getElementById('res-title');
-            if (success) {
-                snds.win(); title.textContent = "MISSÃO COMPLETA"; title.style.color = "var(--success)";
-                if (gridSize < 5) document.getElementById('next-lv-btn').style.display = 'block';
-                else document.getElementById('next-lv-btn').style.display = 'none';
-            }
-            else {
-                snds.fail(); title.textContent = "MISSÃO FALHOU"; title.style.color = "var(--error)";
-                document.getElementById('next-lv-btn').style.display = 'none';
-            }
-            document.getElementById('res-overlay').style.display = 'flex';
         }
 
         startBtn.onclick = startGame;
