@@ -514,18 +514,21 @@
 
         <div class="footer-btns">
             <button id="start-game-btn" class="btn-main" data-i18n="startMission">Iniciar Missão</button>
-            <button id="reset-game-btn" class="btn-main btn-reset" onclick="resetGame()" data-i18n="restart">
-                <div class="btn-restart-icon"></div> Reiniciar
+            <button id="reset-game-btn" class="btn-main btn-reset" onclick="resetGame()">
+                <div class="btn-restart-icon"></div> <span data-i18n="restart">Reiniciar</span>
             </button>
         </div>
     </div>
 
     <!-- RESULTADOS -->
     <div id="res-overlay" class="overlay">
-        <h2 id="res-title" style="font-size: 2.5rem; margin-bottom: 10px;">MISSÃO COMPLETA</h2>
-        <div class="stat-val" style="margin-bottom: 20px;">Tempo: <span id="final-time">--</span> | Precisão: <span
-                id="final-acc">--</span></div>
-        <div id="fail-txt" style="color: var(--error); font-weight: 900; margin-bottom: 25px; display: none;">⚠️
+        <h2 id="res-title" style="font-size: 2.5rem; margin-bottom: 10px;" data-i18n="missionComplete">MISSÃO COMPLETA
+        </h2>
+        <div class="stat-val" style="margin-bottom: 20px;"><span data-i18n="time">Tempo</span>: <span
+                id="final-time">--</span> | <span data-i18n="accuracy">Precisão</span>: <span id="final-acc">--</span>
+        </div>
+        <div id="fail-txt" style="color: var(--error); font-weight: 900; margin-bottom: 25px; display: none;"
+            data-i18n="reproved">⚠️
             REPROVADO: PRECISÃO ABAIXO DE 96%</div>
         <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
             <button onclick="handleRetry()" class="btn-main" data-i18n="again">De Novo</button>
@@ -663,6 +666,7 @@
             isPlaying = false;
             clearInterval(interval);
             startBtn.style.display = 'inline-block';
+            startBtn.textContent = getT('startMission');
             resetBtn.style.display = 'none';
             initGrid();
             nextVal = 1; hits = 0; misses = 0;

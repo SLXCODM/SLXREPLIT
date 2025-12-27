@@ -703,16 +703,16 @@
         startGame = function () {
             _origStartGame();
             document.getElementById('res-overlay').style.display = 'none';
-        }
-        startBtn.style.display = 'none';
-        resetBtn.style.display = 'inline-block';
-        startMemorization();
+            startBtn.style.display = 'none';
+            resetBtn.style.display = 'inline-block';
+            startMemorization();
         }
 
         function resetGame() {
             isPlaying = false;
             clearInterval(memoInterval);
             startBtn.style.display = 'inline-block';
+            if (typeof getT === 'function') startBtn.textContent = getT('startMission');
             resetBtn.style.display = 'none';
             gridEl.innerHTML = '';
             memoEl.textContent = '--';

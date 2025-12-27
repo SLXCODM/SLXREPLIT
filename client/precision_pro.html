@@ -570,6 +570,7 @@
                 missionFailed: "MISSÃO FALHOU",
                 tooSlow: "Você foi muito lento!",
                 manyErrors: "MUITOS ERROS! Máximo de 5 no Lendário.",
+                minAcc80: "Precisão Mínima de 80% exigida no Mestre.",
                 rankUp: "Trocou de patente!",
                 hub: "← Hub"
             },
@@ -594,6 +595,7 @@
                 missionFailed: "MISSION FAILED",
                 tooSlow: "You were too slow!",
                 manyErrors: "TOO MANY ERRORS! Max 5 on Legendary.",
+                minAcc80: "Min Accuracy 80% required for Master.",
                 rankUp: "Rank Switched!",
                 hub: "← Hub"
             }
@@ -635,6 +637,15 @@
             document.getElementById('final-time').textContent = timerVal.textContent;
             document.getElementById('final-targets').textContent = hits + " / " + totalTargets;
             document.getElementById('final-acc').textContent = accVal.textContent;
+
+            // CHECK: Precisão mínima para Mestre (80%)
+            if (success && diff === 2) {
+                const finalAcc = Math.round((hits / (hits + misses || 1)) * 100);
+                if (finalAcc < 80) {
+                    success = false;
+                    msg = getT('minAcc80');
+                }
+            }
 
             if (success) {
                 snds.win();

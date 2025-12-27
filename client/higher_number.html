@@ -549,6 +549,7 @@
             isPlaying = false;
             clearInterval(interval);
             startBtn.style.display = 'inline-block';
+            if (typeof getT === 'function') startBtn.textContent = getT('startTraining');
             resetBtn.style.display = 'none';
             document.getElementById('res-overlay').style.display = 'none';
             document.getElementById('card-left').textContent = '?';
@@ -659,24 +660,6 @@
         }
 
         applyLanguage();
-
-        const acc = Math.round((hits / (hits + misses || 1)) * 100);
-        const success = done && acc >= 97;
-        document.getElementById('final-prog').textContent = `${currentPlay} / ${totalPlays}`;
-        document.getElementById('final-acc').textContent = `${acc}%`;
-        document.getElementById('fail-msg').style.display = (done && acc < 97) ? 'block' : 'none';
-        const title = document.getElementById('res-title');
-        if (success) {
-            snds.win(); title.textContent = "MISSÃO COMPLETA"; title.style.color = "var(--success)";
-            if (diff < 3) document.getElementById('next-lv-btn').style.display = 'block';
-            else document.getElementById('next-lv-btn').style.display = 'none';
-        }
-        else {
-            snds.fail(); title.textContent = "MISSÃO FALHOU"; title.style.color = "var(--error)";
-            document.getElementById('next-lv-btn').style.display = 'none';
-        }
-        document.getElementById('res-overlay').style.display = 'flex';
-        }
 
         document.getElementById('start-btn').onclick = startGame;
     </script>
