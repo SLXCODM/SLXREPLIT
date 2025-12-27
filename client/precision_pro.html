@@ -390,9 +390,20 @@
         updateLocks();
 
         function showAd(callback) {
-            const ad = document.getElementById('ad-box'); const count = document.getElementById('ad-count'); ad.style.display = 'flex';
-            let t = 15; count.textContent = t;
-            const idx = setInterval(() => { t--; count.textContent = t; if (t <= 0) { clearInterval(idx); ad.style.display = 'none'; callback(); } }, 1000);
+            const ad = document.getElementById('ad-box');
+            const count = document.getElementById('ad-count');
+            ad.style.display = 'flex';
+            let t = 4;
+            count.textContent = "Aguarde " + t + "s";
+            const idx = setInterval(() => {
+                t--;
+                count.textContent = "Aguarde " + t + "s";
+                if (t <= 0) {
+                    clearInterval(idx);
+                    ad.style.display = 'none';
+                    callback();
+                }
+            }, 1000);
         }
 
         function tryUnlock(lv, b) {

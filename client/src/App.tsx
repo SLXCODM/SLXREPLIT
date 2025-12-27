@@ -16,6 +16,8 @@ import Classes from "./pages/Classes";
 import SocialLinksPage from "./pages/SocialLinksPage";
 import LanguageSelect from "./pages/LanguageSelect";
 import RafflePopup from "./components/RafflePopup";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import NotFound from "@/pages/not-found";
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 
@@ -34,6 +36,8 @@ function Router() {
       <Route path="/classes" component={Classes} />
       <Route path="/review" component={WeaponReview} />
       <Route path="/redes-sociais" component={SocialLinksPage} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -23,7 +23,9 @@ export default function Footer() {
       contact: "Contato",
       social: "Redes Sociais",
       copyright: `© ${currentYear} SLX. Todos os direitos reservados.`,
-      resetSelector: "Resetar Seletor"
+      resetSelector: "Resetar Seletor",
+      terms: "Termos de Uso",
+      privacy: "Política de Privacidade"
     },
     en: {
       tagline: "Mental strategist. Gifted focused on mental excellence, discipline and deep content creation that transforms ideas.",
@@ -35,7 +37,9 @@ export default function Footer() {
       contact: "Contact",
       social: "Social Media",
       copyright: `© ${currentYear} SLX. All rights reserved.`,
-      resetSelector: "Reset Language"
+      resetSelector: "Reset Language",
+      terms: "Terms of Use",
+      privacy: "Privacy Policy"
     }
   };
 
@@ -86,6 +90,8 @@ export default function Footer() {
               <li><a href="/sobre" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300" data-testid="link-footer-sobre">{t.about}</a></li>
               <li><a href="/conteudo" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300" data-testid="link-footer-conteudo">{t.content}</a></li>
               <li><a href="/contato" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300" data-testid="link-footer-contato">{t.contact}</a></li>
+              <li><a href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">{t.terms}</a></li>
+              <li><a href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">{t.privacy}</a></li>
             </ul>
           </div>
         </div>
