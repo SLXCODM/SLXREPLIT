@@ -28,9 +28,10 @@ export async function apiRequest(
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
   };
-  // Only include credentials for same-origin requests (relative URLs)
-  // Cross-origin requests to Render (wildcard origin) must not include credentials
-  if (!url.startsWith("http")) {
+  // Only include credentials for same-origin requests
+  // Cross-origin requests to Render (using Access-Control-Allow-Origin: *) must not include credentials
+  // If getApiBaseUrl() returns a non-empty string, it's a cross-origin request
+  if (!url.startsWith("http") && !getApiBaseUrl()) {
     fetchOptions.credentials = "include";
   }
   const res = await fetch(fullUrl, fetchOptions);

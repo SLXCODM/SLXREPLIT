@@ -64,8 +64,8 @@ export default function Classes() {
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff
   });
 
-  // Server is the only source of truth
-  const serverLikes = new Map(allLikes.map(w => [w.weaponId, w.likes]));
+  // Server is the only source of truth (handle string likes from API)
+  const serverLikes = new Map(allLikes.map(w => [w.weaponId, Number(w.likes)]));
 
   // Get likes with optimistic updates
   const getWeaponLikes = (weaponId: string): number => {
@@ -383,7 +383,7 @@ export default function Classes() {
                           }`}
                       />
                       <span className="text-xs font-medium text-muted-foreground">
-                        {serverLikes.get(weapon.id) || 0}
+                        {getWeaponLikes(weapon.id)}
                       </span>
                     </button>
                   </div>
