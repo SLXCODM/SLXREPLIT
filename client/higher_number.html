@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maior Número - SLX Training</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --primary-glow: rgba(0, 242, 255, 0.4);
+            --bg: #0a0e14;
+            --card-bg: #1a1f26;
+            --text: #ffffff;
+            --error: #ff4d4d;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --font-main: 'Outfit', sans-serif;
+        }
+
+        /* --- SKINS --- */
+        body.skin-diamond {
+            --primary: #ffd700;
+            --primary-glow: rgba(255, 215, 0, 0.7);
+            background: radial-gradient(circle at 50% 50%, #1a1600 0%, #050505 100%);
+        }
+
+        body.skin-aether {
+            --primary: #bf00ff;
+            --primary-glow: rgba(191, 0, 255, 0.8);
+            background: #0d001a;
+        }
+
+        body.skin-fairy {
+            --primary: #ff003c;
+            --primary-glow: rgba(255, 0, 60, 0.8);
+            background: #0f0004;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            overflow: hidden;
+            transition: 0.5s;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        header {
+            flex-shrink: 0;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-weight: 900;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .nav-top {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .selectors {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .label-group {
+            font-size: 0.7rem;
+            color: #555;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .selector-group {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-ui {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .btn-ui.active {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .btn-ui.locked {
+            opacity: 0.6;
+        }
+
+        .btn-ui.locked::after {
+            content: ' 🔒';
+            font-size: 0.6rem;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #666;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .stat-val {
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+
+        /* ÁREA DE JOGO */
+        .game-area {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+            min-height: 0;
+            width: 100%;
+        }
+
+        .num-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            width: min(250px, 40vw);
+            height: min(250px, 40vw);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-size: 5rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .num-card:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .num-card:active {
+            transform: scale(0.95);
+        }
+
+        .num-card.correct {
+            border-color: var(--success);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .num-card.wrong {
+            border-color: var(--error);
+            box-shadow: 0 0 30px rgba(255, 77, 77, 0.3);
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-10px)
+            }
+
+            75% {
+                transform: translateX(10px)
+            }
+        }
+
+        .footer-btns {
+            flex-shrink: 0;
+            padding: 20px 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 16px 50px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 10, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            display: none;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .support-card {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 450px;
+        }
+
+        .ad-timer {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        /* MODO LENDÁRIO (MOVIMENTO ULTRA RÁPIDO) */
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(45px, -45px);
+            }
+
+            50% {
+                transform: translate(-45px, 45px);
+            }
+
+            75% {
+                transform: translate(45px, 45px);
+            }
+
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        .floating {
+            animation: float 1.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav-top">
+        <a href="/" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
+        <a href="training_hub.html" class="btn-back">← Hub</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 data-i18n="title">Operação Dominante</h1>
+        </header>
+
+        <div class="selectors">
+            <div class="label-group" data-i18n="trainingRank">Patente de Treino</div>
+            <div class="selector-group">
+                <button class="btn-ui diff-btn active" onclick="setDiff(1, this)" data-i18n="pro">Pro</button>
+                <button class="btn-ui diff-btn locked" id="lock-2" onclick="tryUnlock(2, this)"
+                    data-i18n="master">Mestre</button>
+                <button class="btn-ui diff-btn locked" id="lock-3" onclick="tryUnlock(3, this)"
+                    data-i18n="legendary">Lendário</button>
+            </div>
+
+            <div class="selector-group">
+                <button class="btn-ui skin-btn active" onclick="setSkin('default', this)">Neon</button>
+                <button class="btn-ui skin-btn" onclick="setSkin('diamond', this)">Gold</button>
+                <button class="btn-ui skin-btn" onclick="setSkin('aether', this)">Aether</button>
+                <button class="btn-ui skin-btn" onclick="setSkin('fairy', this)">Red</button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item"><span class="stat-label" data-i18n="progress">Progresso</span><br><span id="prog-val"
+                    class="stat-val">0 /
+                    63</span></div>
+            <div class="stat-item"><span class="stat-label" data-i18n="accuracy">Precisão</span><br><span id="acc-val"
+                    class="stat-val">100%</span></div>
+            <div class="stat-item"><span class="stat-label" data-i18n="timeLeft">Tempo Restante</span><br><span
+                    id="timer-val" class="stat-val">60.00</span></div>
+        </div>
+
+        <div class="game-area">
+            <div id="card-left" class="num-card" onclick="checkAnswer(0)">?</div>
+            <div id="card-right" class="num-card" onclick="checkAnswer(1)">?</div>
+        </div>
+
+        <div class="footer-btns">
+            <button id="start-btn" class="btn-main" data-i18n="startTraining">Iniciar Treino</button>
+            <button id="reset-btn" class="btn-main"
+                style="display: none; background: rgba(255,77,77,0.2); color: #ff4d4d;" onclick="resetGame()"
+                data-i18n="restart">Reiniciar</button>
+        </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div id="res-overlay" class="overlay">
+        <h2 id="res-title" style="font-size: 2.5rem; margin-bottom: 20px;">MISSÃO COMPLETA</h2>
+        <div class="stat-val" style="margin-bottom: 25px;">
+            Compilação: <span id="final-prog">--</span><br>Precisão: <span id="final-acc">--</span>
+        </div>
+        <div id="fail-msg" style="color: var(--error); font-weight: 900; margin-bottom: 25px; display: none;">⚠️
+            REPROVADO: PRECISÃO ABAIXO DE 97%</div>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+            <button onclick="handleRetry()" class="btn-main" data-i18n="again">De Novo</button>
+            <button id="next-lv-btn" onclick="advanceLevelWithAd()" class="btn-main"
+                style="background: #ffd700; color: #000; display: none;" data-i18n="nextRank">Próxima Patente
+                (Ad)</button>
+            <button onclick="window.location.href='training_hub.html'" class="btn-main"
+                style="background: rgba(255,255,255,0.1); color: #fff;" data-i18n="exit">Sair</button>
+        </div>
+        <div class="support-card">
+            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;" data-i18n="support">Deu trabalho fazer
+                esses jogos! Apoie o SLX
+                para continuarmos criando novos treinos.</p>
+            <a href="https://slx-codm.vercel.app/doacoes" target="_blank" class="btn-main"
+                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;"
+                data-i18n="donate">Apoiar via
+                Livepix</a>
+        </div>
+    </div>
+
+    <!-- ANÚNCIO SIMULADO -->
+    <div id="ad-box" class="overlay" style="z-index: 300; background: #000;">
+        <h3 style="letter-spacing: 2px;" data-i18n="unlocking">DESBLOQUEANDO NÍVEL...</h3>
+        <p style="color: #666; font-size: 0.8rem; margin-top: 5px;" data-i18n="waitVideo">Aguarde o vídeo terminar para
+            liberar por 24h</p>
+        <div class="ad-timer" id="ad-count">15</div>
+        <div style="border: 1px dashed #333; padding: 10px; font-size: 0.7rem; color: #444;" data-i18n="adSimulation">[
+            REWARD ADS SIMULATION ]
+        </div>
+    </div>
+
+    <script>
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let actx;
+        function getCtx() { if (!actx) actx = new AudioCtx(); return actx; }
+        function playSnd(f, d, v) { try { const c = getCtx(); if (c.state === 'suspended') c.resume(); const o = c.createOscillator(); const g = c.createGain(); o.connect(g); g.connect(c.destination); o.type = 'sine'; o.frequency.setValueAtTime(f, c.currentTime); g.gain.setValueAtTime(v, c.currentTime); g.gain.exponentialRampToValueAtTime(0.01, c.currentTime + d); o.start(); o.stop(c.currentTime + d); } catch (e) { } }
+        const snds = { tap: () => playSnd(800, 0.1, 0.06), fail: () => playSnd(150, 0.2, 0.1), win: () => { playSnd(500, 0.3, 0.04); setTimeout(() => playSnd(900, 0.3, 0.04), 120) } };
+
+        const startBtn = document.getElementById('start-btn');
+        const resetBtn = document.getElementById('reset-btn');
+
+        let diff = 1; let currentPlay = 0; let totalPlays = 63; let hits = 0; let misses = 0;
+        let timeLeft = 60; let interval; let isPlaying = false; let currentNums = [0, 0];
+        let resetCounter = 0;
+
+        function updateLocks() { [2, 3].forEach(lv => { const unt = localStorage.getItem('slx_unlock_game2_v2_' + lv) || 0; const btn = document.getElementById('lock-' + lv); if (Date.now() < unt) btn.classList.remove('locked'); else btn.classList.add('locked'); }); }
+        updateLocks();
+
+        function showAd(callback) {
+            callback();
+        }
+
+        function tryUnlock(lv, b) {
+            const unt = localStorage.getItem('slx_unlock_game2_v2_' + lv) || 0;
+            if (Date.now() < unt) { setDiff(lv, b); return; }
+            if (isPlaying) resetGame();
+            showAd(() => {
+                localStorage.setItem('slx_unlock_game2_v2_' + lv, Date.now() + (24 * 60 * 60 * 1000));
+                updateLocks(); setDiff(lv, b);
+            });
+        }
+
+        function handleRetry() {
+            resetCounter++;
+            if (resetCounter >= 5) {
+                resetCounter = 0;
+                showAd(() => startGame());
+            } else {
+                startGame();
+            }
+        }
+
+        function advanceLevelWithAd() {
+            if (diff >= 3) return;
+            const nextLv = diff + 1;
+            showAd(() => {
+                localStorage.setItem('slx_unlock_game2_v2_' + nextLv, Date.now() + (24 * 60 * 60 * 1000));
+                updateLocks();
+                setDiff(nextLv, document.getElementById('lock-' + nextLv));
+                startGame();
+            });
+        }
+
+        function setDiff(lv, b) { if (isPlaying) resetGame(); diff = lv; document.querySelectorAll('.diff-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); snds.tap(); }
+        function setSkin(s, b) { document.body.className = `skin-${s}`; document.querySelectorAll('.skin-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); snds.tap(); }
+
+        function generateNumbers() {
+            let n1 = Math.floor(Math.random() * 90) + 10;
+            let n2 = Math.floor(Math.random() * 90) + 10;
+            while (n1 === n2) n2 = Math.floor(Math.random() * 90) + 10;
+            currentNums = [n1, n2];
+            const L = document.getElementById('card-left'); const R = document.getElementById('card-right');
+            L.textContent = n1; R.textContent = n2;
+            L.className = 'num-card'; R.className = 'num-card';
+
+            // Resetar estilos de engano
+            L.style.transform = ''; R.style.transform = '';
+            L.style.fontSize = '5rem'; R.style.fontSize = '5rem';
+            L.style.opacity = '1'; R.style.opacity = '1';
+
+            if (diff >= 2) { // OPERADOR: ENGANO VISUAL
+                if (Math.random() > 0.5) {
+                    const smallerIdx = n1 < n2 ? 0 : 1;
+                    const card = smallerIdx === 0 ? L : R;
+                    card.style.fontSize = '7.5rem'; // O menor fica fisicamente maior
+                    card.style.color = 'var(--primary)';
+                }
+            }
+            if (diff >= 3) { // LENDÁRIO: MOVIMENTO
+                L.classList.add('floating'); R.classList.add('floating');
+                L.style.animationDelay = '0s'; R.style.animationDelay = '-2s';
+            }
+        }
+
+        function checkAnswer(idx) {
+            if (!isPlaying) return;
+            const chosen = currentNums[idx];
+            const other = currentNums[idx === 0 ? 1 : 0];
+            const L = document.getElementById('card-left'); const R = document.getElementById('card-right');
+            const card = idx === 0 ? L : R;
+
+            if (chosen > other) { hits++; snds.tap(); card.classList.add('correct'); }
+            else { misses++; snds.fail(); card.classList.add('wrong'); }
+
+            currentPlay++;
+            document.getElementById('prog-val').textContent = `${currentPlay} / ${totalPlays}`;
+            document.getElementById('acc-val').textContent = `${Math.round((hits / (hits + misses || 1)) * 100)}%`;
+
+            if (currentPlay >= totalPlays) endGame(true);
+            else setTimeout(generateNumbers, 100);
+        }
+
+        function updateTimer() {
+            timeLeft -= 0.01; if (timeLeft <= 0) { timeLeft = 0; endGame(false); }
+            document.getElementById('timer-val').textContent = Math.abs(timeLeft).toFixed(2);
+            if (timeLeft < 10) document.getElementById('timer-val').style.color = 'var(--error)';
+            else document.getElementById('timer-val').style.color = '';
+        }
+
+        function startGame() {
+            getCtx().resume().catch(() => { });
+            document.getElementById('res-overlay').style.display = 'none';
+            level = 1; hits = 0; misses = 0; currentPlay = 0;
+            totalPlays = 63; // 45s de jogo / ~0.7s por jogada
+            switch (diff) {
+                case 1: timeLeft = 60; break;
+                case 2: timeLeft = 50; break;
+                case 3: timeLeft = 45; break;
+            }
+            isPlaying = true;
+            document.getElementById('timer-val').textContent = timeLeft.toFixed(2);
+            document.getElementById('prog-val').textContent = "0 / " + totalPlays;
+            document.getElementById('acc-val').textContent = "100%";
+            startBtn.style.display = 'none';
+            resetBtn.style.display = 'inline-block';
+            generateNumbers();
+            interval = setInterval(updateTimer, 10);
+        }
+
+        function resetGame() {
+            isPlaying = false;
+            clearInterval(interval);
+            startBtn.style.display = 'inline-block';
+            if (typeof getT === 'function') startBtn.textContent = getT('startTraining');
+            resetBtn.style.display = 'none';
+            document.getElementById('res-overlay').style.display = 'none';
+            document.getElementById('card-left').textContent = '?';
+            document.getElementById('card-right').textContent = '?';
+        }
+
+        // Funções para atualizar o overlay de resultado e nível
+        function endGame(success) {
+            isPlaying = false;
+            clearInterval(interval);
+            document.getElementById('res-overlay').style.display = 'flex';
+            document.getElementById('final-prog').textContent = currentPlay + " / " + totalPlays;
+            document.getElementById('final-acc').textContent = document.getElementById('acc-val').textContent;
+            resetBtn.style.display = 'none';
+
+            // Check if accuracy is above threshold
+            const accNum = parseInt(document.getElementById('acc-val').textContent);
+            const passed = accNum >= 97;
+
+            const title = document.getElementById('res-title');
+            const failMsg = document.getElementById('fail-msg');
+
+            if (passed && success) {
+                snds.win();
+                title.textContent = getT('missionComplete');
+                title.style.color = "var(--success)";
+                failMsg.style.display = 'none';
+                // Lógica de próximo nível
+                if (diff < 3) document.getElementById('next-lv-btn').style.display = 'block';
+                else document.getElementById('next-lv-btn').style.display = 'none';
+            } else {
+                snds.fail();
+                title.textContent = getT('reproved');
+                title.textContent = "REP. " + accNum + "%"; // Simplificado
+                title.style.color = "var(--error)";
+                failMsg.style.display = 'block';
+                failMsg.textContent = getT('reproved');
+                document.getElementById('next-lv-btn').style.display = 'none';
+            }
+        }
+
+        const translations = {
+            pt: {
+                title: "Operação Dominante",
+                trainingRank: "Patente de Treino",
+                pro: "Pro",
+                master: "Mestre",
+                legendary: "Lendário",
+                progress: "Progresso",
+                accuracy: "Precisão",
+                timeLeft: "Tempo Restante",
+                startTraining: "Iniciar Treino",
+                restart: "Reiniciar",
+                again: "De Novo",
+                nextRank: "Próxima Patente (Ad)",
+                exit: "Sair",
+                support: "Deu trabalho fazer esses jogos! Apoie o SLX para continuarmos criando novos treinos.",
+                donate: "Apoiar via Livepix",
+                unlocking: "DESBLOQUEANDO NÍVEL...",
+                waitVideo: "Aguarde o vídeo terminar para liberar por 24h",
+                adSimulation: "[ SIMULAÇÃO DE ADS Reward ]",
+                compilation: "COMPILAÇÃO",
+                missionComplete: "MISSÃO COMPLETA",
+                reproved: "⚠️ REPROVADO: PRECISÃO ABAIXO DE 97%",
+                hub: "← Hub"
+            },
+            en: {
+                title: "Dominant Operation",
+                trainingRank: "Training Rank",
+                pro: "Pro",
+                master: "Master",
+                legendary: "Legendary",
+                progress: "Progress",
+                accuracy: "Accuracy",
+                timeLeft: "Time Left",
+                startTraining: "Start Training",
+                restart: "Restart",
+                again: "Again",
+                nextRank: "Next Rank (Ad)",
+                exit: "Exit",
+                support: "These games took effort! Support SLX to keep creating new training.",
+                donate: "Support via Livepix",
+                unlocking: "UNLOCKING LEVEL...",
+                waitVideo: "Wait for video to finish to unlock for 24h",
+                adSimulation: "[ REWARD ADS SIMULATION ]",
+                compilation: "COMPILATION",
+                missionComplete: "MISSION COMPLETE",
+                reproved: "⚠️ FAIL: ACCURACY BELOW 97%",
+                hub: "← Hub"
+            }
+        };
+
+        function getT(key) {
+            const lang = localStorage.getItem('slx_language') || 'pt'; // KEY CORRIGIDA
+            return (translations[lang] || translations.pt)[key];
+        }
+
+        function applyLanguage() {
+            const lang = localStorage.getItem('slx_language') || 'pt';
+            const t = translations[lang] || translations.pt;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            document.querySelector('.btn-back').textContent = t.hub;
+        }
+
+        applyLanguage();
+
+        document.getElementById('start-btn').onclick = startGame;
+    </script>
+</body>
+
+</html>
