@@ -28,8 +28,9 @@ export async function apiRequest(
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
   };
-  // Only include credentials for same-origin requests
-  if (!fullUrl.includes("railway.app")) {
+  // Only include credentials for same-origin requests (relative URLs)
+  // Cross-origin requests to Render (wildcard origin) must not include credentials
+  if (!url.startsWith("http")) {
     fetchOptions.credentials = "include";
   }
   const res = await fetch(fullUrl, fetchOptions);
@@ -43,18 +44,18 @@ export const getQueryFn: <T>(options: {
   on401: UnauthorizedBehavior;
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
-  async ({ queryKey }) => {
-    const url = queryKey.join("/") as string;
-    const fullUrl = url.startsWith("http") ? url : `${getApiBaseUrl()}${url}`;
-    const res = await fetch(fullUrl);
+    async ({ queryKey }) => {
+      const url = queryKey.join("/") as string;
+      const fullUrl = url.startsWith("http") ? url : `${getApiBaseUrl()}${url}`;
+      const res = await fetch(fullUrl);
 
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
-    }
+      if (unauthorizedBehavior === "returnNull" && res.status === 401) {
+        return null;
+      }
 
-    await throwIfResNotOk(res);
-    return await res.json();
-  };
+      await throwIfResNotOk(res);
+      return await res.json();
+    };
 
 export const queryClient = new QueryClient({
   defaultOptions: {
