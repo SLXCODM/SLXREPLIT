@@ -42,15 +42,14 @@ export const db = new Proxy({}, {
 
 // Helper to initialize database tables if they don't exist
 export async function bootstrapDatabase() {
-  if (!process.env.DATABASE_URL) {
-    console.warn("Bootstrap skipped: DATABASE_URL is not set.");
+  // In production (Vercel), we skip everything to avoid "ReadOnly" filesystem errors
+  if (process.env.VERCEL === "1") {
+    console.log("[Vercel] Skip bootstrap to avoid ReadOnly filesystem errors.");
     return;
   }
 
-  // In production (Vercel), we skip heavy bootstrap steps to avoid timeouts
-  // since the user already ran the SQL manually.
-  if (process.env.VERCEL === "1") {
-    console.log("Production environment detected. Skipping heavy bootstrap.");
+  if (!process.env.DATABASE_URL) {
+    console.warn("Bootstrap skipped: DATABASE_URL is not set.");
     return;
   }
 
