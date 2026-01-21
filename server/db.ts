@@ -32,8 +32,12 @@ export const db = new Proxy({}, {
         _db = drizzle(client, { schema });
         console.log("Database client initialized successfully.");
       } catch (err: any) {
-        console.error("CRITICAL: Database initialization failed:", err.message);
-        throw err;
+        let helpMessage = err.message;
+        if (err.message.includes("ENOTFOUND")) {
+          helpMessage = `DICA SUPABASE: O banco ${url.split('@')[1].split(':')[0]} não foi encontrado. Verifique se o projeto não está PAUSADO no Supabase ou se a URL está correta.`;
+        }
+        console.error("CRITICAL: Database initialization failed:", helpMessage);
+        throw new Error(helpMessage);
       }
     }
     return _db[prop];
