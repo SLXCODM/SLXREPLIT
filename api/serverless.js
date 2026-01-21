@@ -2,19 +2,27 @@ import { app, setupPromise } from '../../dist/index.js';
 
 export default async (req, res) => {
     try {
-        console.log("Serverless request received:", req.method, req.url);
+        console.log(`[Vercel] Request: ${req.method} ${req.url}`);
 
-        // Wait for the server setup (DB connection, etc.)
+        // Step 1: Check Environment
+        if (!process.env.DATABASE_URL) {
+            console.error("[Vercel] CRITICAL: DATABASE_URL is not defined!");
+            return res.status(500).json({ error: "Missing DATABASE_URL" });
+        }
+
+        // Step 2: Wait for Server Initialization
+        console.log("[Vercel] Waiting for setupPromise...");
         await setupPromise;
+        console.log("[Vercel] setupPromise resolved.");
 
-        // Handle request
+        // Step 3: Handle Request
         app(req, res);
     } catch (err) {
-        console.error("SERVERLESS CRASH:", err.message);
+        console.error("[Vercel] SERVERLESS FATAL ERROR:", err.message);
         if (err.stack) console.error(err.stack);
 
         res.status(500).json({
-            error: "Serverless Function Crashed",
+            error: "Serverless Function Crashed during initialization",
             message: err.message,
             code: "INIT_FAILURE"
         });

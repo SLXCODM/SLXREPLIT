@@ -7,24 +7,38 @@ if (!process.env.DATABASE_URL && process.env.NODE_ENV === "production") {
   console.warn("DATABASE_URL environment variable is not set. Database functionality will be disabled.");
 }
 
-const getDb = () => {
-  const url = process.env.DATABASE_URL;
-  if (!url) return null;
+// Lazy database connection helper
+let _db: any = null;
 
-  try {
-    // Standard connection for postgres-js
-    return drizzle(postgres(url, {
-      ssl: 'require',
-      connect_timeout: 10,
-      max: 1 // Vercel limited connections
-    }), { schema });
-  } catch (err) {
-    console.error("Critical: Failed to initialize database client", err);
-    return null;
+export const db = new Proxy({}, {
+  get(_target, prop) {
+    if (!_db) {
+      const url = process.env.DATABASE_URL;
+      if (!url) {
+        console.error("DATABASE_URL is missing!");
+        throw new Error("Missing DATABASE_URL");
+      }
+
+      try {
+        // Mask password for logging
+        const maskedUrl = url.replace(/:([^:@]+)@/, ":****@");
+        console.log(`Initializing database connection with: ${maskedUrl}`);
+
+        const client = postgres(url, {
+          ssl: 'require',
+          connect_timeout: 30, // Increase timeout for cold starts
+          max: 1 // Vercel limited connections
+        });
+        _db = drizzle(client, { schema });
+        console.log("Database client initialized successfully.");
+      } catch (err: any) {
+        console.error("CRITICAL: Database initialization failed:", err.message);
+        throw err;
+      }
+    }
+    return _db[prop];
   }
-};
-
-export const db = getDb() as any;
+}) as any;
 
 // Helper to initialize database tables if they don't exist
 export async function bootstrapDatabase() {
