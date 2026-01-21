@@ -44,9 +44,14 @@ export function setupAuth(app: Express) {
             };
 
             res.json({ success: true, user: (req.session as any).user });
-        } catch (error) {
-            console.error("Register error:", error);
-            res.status(500).json({ message: "Erro ao criar conta." });
+        } catch (error: any) {
+            console.error("CRITICAL Register error:", error.message);
+            if (error.stack) console.error(error.stack);
+            res.status(500).json({
+                message: "Erro ao criar conta.",
+                debug: error.message,
+                db_url_exists: !!process.env.DATABASE_URL
+            });
         }
     });
 
@@ -81,6 +86,12 @@ export function setupAuth(app: Express) {
     // 3. Login Real do Google (OAuth 2.0)
     app.get("/api/community/auth/google", (req, res) => {
         const client_id = process.env.GOOGLE_CLIENT_ID;
+
+        console.log(`[Google Auth] Initiating redirect with Client ID length: ${client_id?.length || 0}`);
+        if (!client_id) {
+            console.error("[Google Auth] CRITICAL: GOOGLE_CLIENT_ID is missing in environment variables!");
+        }
+
         const redirect_uri = `${req.protocol}://${req.get("host")}/api/community/auth/google/callback`;
         const scope = "openid email profile";
         const response_type = "code";

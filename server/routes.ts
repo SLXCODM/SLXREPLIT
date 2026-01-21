@@ -65,9 +65,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Health Check to verify server update
-  app.get("/api/health", (_req, res) => {
-    res.json({ status: "ok", version: "1.3.0-community-merged", time: new Date().toISOString() });
+  // Health Check to verify server and database
+  app.get("/api/health", async (_req, res) => {
+    try {
+      // Test DB connection
+      const dbStatus = await db.execute(sql`SELECT 1 as connected`);
+      res.json({
+        status: "ok",
+        db: dbStatus[0]?.connected === 1 ? "connected" : "error",
+        version: "1.3.1-auth-debug",
+        time: new Date().toISOString()
+      });
+    } catch (err: any) {
+      console.error("Health Check DB Error:", err.message);
+      res.status(200).json({
+        status: "alive_no_db",
+        error: err.message,
+        version: "1.3.1-auth-debug"
+      });
+    }
   });
 
   // Rankings Routes (Supabase) - MOVED TO TOP FOR PRIORITY
