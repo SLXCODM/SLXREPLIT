@@ -1,6 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { db } from "./db";
+import { sql } from "drizzle-orm";
 import { insertProjectSchema, insertProductSchema, projectCategories } from "@shared/schema";
 import { bootstrapDatabase } from "./db";
 import { supabase } from "./lib/supabase";
