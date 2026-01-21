@@ -1,4 +1,4 @@
-import { app, setupPromise } from '../../dist/index.js';
+import { app, setupPromise } from '../dist/index.js';
 
 export default async (req, res) => {
     try {
