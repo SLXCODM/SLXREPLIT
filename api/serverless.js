@@ -5,12 +5,11 @@ export default async (req, res) => {
     try {
         console.log(`[Vercel] Request: ${req.method} ${req.url}`);
 
-        // 🟢 Quick Health/Ping Bypass (No server needed)
-        if (req.url === "/api/health" || req.url === "/api/ping") {
+        // 🟢 Quick Ping Bypass
+        if (req.url === "/api/ping") {
             return res.status(200).json({
                 status: "alive",
-                timestamp: new Date().toISOString(),
-                env: process.env.VERCEL ? "production" : "local"
+                timestamp: new Date().toISOString()
             });
         }
 
