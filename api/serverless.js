@@ -7,13 +7,17 @@ export default async (req, res) => {
         // Step 1: Check Environment
         if (!process.env.DATABASE_URL) {
             console.error("[Vercel] CRITICAL: DATABASE_URL is not defined!");
-            return res.status(500).json({ error: "Missing DATABASE_URL" });
         }
 
-        // Step 2: Wait for Server Initialization
+        // Step 2: Health Check Bypass
+        if (req.url === "/api/health" || req.url === "/api/ping") {
+            return res.status(200).json({ status: "alive", time: new Date().toISOString() });
+        }
+
+        // Step 3: Wait for Server Initialization
         console.log("[Vercel] Waiting for setupPromise...");
         await setupPromise;
-        console.log("[Vercel] setupPromise resolved.");
+        console.log("[Vercel] setupPromise resolved successfully.");
 
         // Step 3: Handle Request
         app(req, res);
