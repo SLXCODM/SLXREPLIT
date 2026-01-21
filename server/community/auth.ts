@@ -85,14 +85,16 @@ export function setupAuth(app: Express) {
 
     // 3. Login Real do Google (OAuth 2.0)
     app.get("/api/community/auth/google", (req, res) => {
-        const client_id = process.env.GOOGLE_CLIENT_ID;
+        const client_id = process.env.GOOGLE_CLIENT_ID?.trim();
 
         console.log(`[Google Auth] Initiating redirect with Client ID length: ${client_id?.length || 0}`);
         if (!client_id) {
             console.error("[Google Auth] CRITICAL: GOOGLE_CLIENT_ID is missing in environment variables!");
         }
 
-        const redirect_uri = `${req.protocol}://${req.get("host")}/api/community/auth/google/callback`;
+        // Force HTTPS in production (Vercel)
+        const protocol = process.env.VERCEL === "1" ? "https" : req.protocol;
+        const redirect_uri = `${protocol}://${req.get("host")}/api/community/auth/google/callback`;
         const scope = "openid email profile";
         const response_type = "code";
 
@@ -117,15 +119,16 @@ export function setupAuth(app: Express) {
             return res.status(400).send("Código de autorização não fornecido pelo Google. Verifique se o seu Client ID e Redirect URI estão corretos no Google Cloud Console.");
         }
 
-        const client_id = process.env.GOOGLE_CLIENT_ID;
-        const client_secret = process.env.GOOGLE_CLIENT_SECRET;
+        const client_id = process.env.GOOGLE_CLIENT_ID?.trim();
+        const client_secret = process.env.GOOGLE_CLIENT_SECRET?.trim();
 
         if (!client_id || !client_secret) {
             console.error(`[Google OAuth Error] Missing credentials in environment variables.`);
             return res.status(500).send("Erro interno: Chaves do Google não encontradas no servidor. Verifique o seu arquivo .env.");
         }
 
-        const redirect_uri = `${req.protocol}://${req.get("host")}/api/community/auth/google/callback`;
+        const protocol = process.env.VERCEL === "1" ? "https" : req.protocol;
+        const redirect_uri = `${protocol}://${req.get("host")}/api/community/auth/google/callback`;
 
         try {
             // 1. Trocar código por token
