@@ -2,22 +2,29 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-// Ensure uploads directory exists
-const uploadDir = path.join(process.cwd(), "server", "uploads");
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
+// Configuração de storage: Vercel é Read-Only, usamos memoryStorage
+const isVercel = process.env.VERCEL === "1";
+
+if (!isVercel) {
+    // Ensure uploads directory exists ONLY if NOT on Vercel
+    const uploadDir = path.join(process.cwd(), "server", "uploads");
+    if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+    }
 }
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        // Generate unique filename: timestamp-random-originalName
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
+const storage = isVercel 
+    ? multer.memoryStorage() 
+    : multer.diskStorage({
+        destination: function (req, file, cb) {
+            const uploadDir = path.join(process.cwd(), "server", "uploads");
+            cb(null, uploadDir);
+        },
+        filename: function (req, file, cb) {
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            cb(null, uniqueSuffix + path.extname(file.originalname));
+        }
+    });
 
 export const upload = multer({
     storage: storage,
