@@ -101,6 +101,7 @@ app.use((req, res, next) => {
 
 export default async function runApp(
   setup: (app: Express, server: Server) => Promise<void>,
+  startListening: boolean = true
 ) {
   log("Starting application routes registration...");
 
@@ -119,8 +120,10 @@ export default async function runApp(
   // Now handle static files and catch-all via setup
   await setup(app, server);
 
-  const PORT = parseInt(process.env.PORT || "3001", 10);
-  server.listen(PORT, "0.0.0.0", () => {
-    log(`serving on port ${PORT}`);
-  });
+  if (startListening) {
+    const PORT = parseInt(process.env.PORT || "3001", 10);
+    server.listen(PORT, "0.0.0.0", () => {
+      log(`serving on port ${PORT}`);
+    });
+  }
 }

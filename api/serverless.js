@@ -1,4 +1,6 @@
-// Vercel Serverless Function
-import app from '../../dist/index.js';
+import { app, setupPromise } from '../../dist/index.js';
 
-export default app;
+export default async (req, res) => {
+    await setupPromise;
+    app(req, res);
+};

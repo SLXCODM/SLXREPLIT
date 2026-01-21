@@ -33,6 +33,11 @@ export async function serveStatic(app: Express, _server: Server) {
   });
 }
 
-(async () => {
-  await runApp(serveStatic);
-})();
+// Export app for serverless use
+export { app } from "./app";
+
+// Initialize app but don't listen if imported (for tests/serverless), unless directly run or not in Vercel
+const isVercel = process.env.VERCEL === '1';
+const shouldListen = !isVercel;
+
+export const setupPromise = runApp(serveStatic, shouldListen);
