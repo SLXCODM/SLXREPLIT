@@ -1,4 +1,4 @@
-import { pgTable, text, varchar, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, boolean, serial, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { sql } from "drizzle-orm";
@@ -46,8 +46,7 @@ export type Project = typeof projects.$inferSelect;
 export type InsertAboutContent = z.infer<typeof insertAboutContentSchema>;
 export type AboutContent = typeof aboutContent.$inferSelect;
 
-// Weapon Likes
-// Weapon Likes
+// Weapons Likes
 export const weaponLikes = pgTable("weapon_likes", {
   weaponId: varchar("weapon_id").primaryKey(),
   likes: text("likes").default("0").notNull(),
@@ -56,6 +55,95 @@ export const weaponLikes = pgTable("weapon_likes", {
 export const insertWeaponLikeSchema = createInsertSchema(weaponLikes);
 export type InsertWeaponLike = z.infer<typeof insertWeaponLikeSchema>;
 export type WeaponLike = typeof weaponLikes.$inferSelect;
+
+// --- COMMUNITY TABLES ---
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  email: text("email").unique().notNull(),
+  password: text("password"),
+  name: text("name"),
+  openId: text("open_id"),
+  loginMethod: text("login_method"), // "google", "local"
+  role: text("role").default("user").notNull(), // "user", "analyst", "admin"
+  lastSignedIn: timestamp("last_signed_in").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const videos = pgTable("videos", {
+  id: serial("id").primaryKey(),
+  paymentId: integer("payment_id").notNull(),
+  clientId: integer("client_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  s3Key: text("s3_key").notNull(),
+  s3Url: text("s3_url").notNull(),
+  fileSize: integer("file_size"),
+  duration: integer("duration"),
+  status: text("status").default("awaiting_payment").notNull(), // "awaiting_payment", "uploaded", "processing", "completed", "failed"
+  allowPublic: boolean("allow_public").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const payments = pgTable("payments", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  amount: text("amount").notNull(),
+  currency: text("currency").default("BRL").notNull(),
+  status: text("status").notNull(), // "pending", "succeeded", "failed"
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const analyses = pgTable("analyses", {
+  id: serial("id").primaryKey(),
+  videoId: integer("video_id").notNull().unique(),
+  analystId: integer("analyst_id").notNull(),
+  overallRating: integer("overall_rating").notNull(),
+  summary: text("summary").notNull(),
+  feedbackVideoUrl: text("feedback_video_url"),
+  recommendedVideoUrl: text("recommended_video_url"),
+  teaserText: text("teaser_text"),
+  isPublic: boolean("is_public").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const analysisComments = pgTable("analysis_comments", {
+  id: serial("id").primaryKey(),
+  analysisId: integer("analysis_id").notNull(),
+  timestamp: integer("timestamp").notNull(), // timestamp in seconds from start of video
+  comment: text("comment").notNull(),
+  type: text("type").default("general").notNull(), // "aim", "positioning", "decision", "general"
+});
+
+export const galleryItems = pgTable("gallery_items", {
+  id: serial("id").primaryKey(),
+  analysisId: integer("analysis_id").notNull().unique(),
+  featured: boolean("featured").default(false).notNull(),
+  category: text("category"), // "clutch", "movement", "tactical"
+  order: integer("order").default(0).notNull(),
+});
+
+// Zod Schemas
+export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true, lastSignedIn: true });
+export const insertVideoSchema = createInsertSchema(videos).omit({ id: true, createdAt: true, updatedAt: true });
+export const insertPaymentSchema = createInsertSchema(payments).omit({ id: true, createdAt: true, updatedAt: true });
+export const insertAnalysisSchema = createInsertSchema(analyses).omit({ id: true, createdAt: true, updatedAt: true });
+
+// Types
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type Video = typeof videos.$inferSelect;
+export type InsertVideo = z.infer<typeof insertVideoSchema>;
+export type Payment = typeof payments.$inferSelect;
+export type InsertPayment = z.infer<typeof insertPaymentSchema>;
+export type Analysis = typeof analyses.$inferSelect;
+export type InsertAnalysis = z.infer<typeof insertAnalysisSchema>;
 
 // Produtos da Loja
 export const products = pgTable("products", {

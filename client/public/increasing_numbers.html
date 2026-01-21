@@ -317,11 +317,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             z-index: 200;
             display: none;
-            padding: 40px;
+            padding: 60px 20px;
             text-align: center;
+            overflow-y: auto;
         }
 
         .support-card {
@@ -424,6 +425,7 @@
                 data-i18n="donate">Apoiar via
                 Livepix</a>
         </div>
+        <div id="ranking-container" style="width: 100%; max-width: 400px; margin-top: 20px;"></div>
     </div>
 
     <!-- ANÚNCIO SIMULADO -->
@@ -437,6 +439,7 @@
         </div>
     </div>
 
+    <script src="ranking-system.js"></script>
     <script>
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         let actx;
@@ -698,6 +701,28 @@
                 failMsg.textContent = getT('reproved');
                 document.getElementById('next-lv-btn').style.display = 'none';
             }
+
+            // ATUALIZAR RANKING
+            const gameId = 'increasing_numbers';
+            if (passed && success) {
+                const finalScore = level * 100 + totalHits * 10;
+                const user = prompt("EXCELENTE MEMÓRIA! Digite seu nome:", "Especialista");
+                if (user) {
+                    RankingSystem.submitScore(gameId, user, finalScore).then(() => {
+                        RankingSystem.fetchTopRanks(gameId).then(data => {
+                            RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+                        });
+                    });
+                } else {
+                    RankingSystem.fetchTopRanks(gameId).then(data => {
+                        RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+                    });
+                }
+            } else {
+                RankingSystem.fetchTopRanks(gameId).then(data => {
+                    RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+                });
+            }
         }
 
         // Fix: Define startGame directly
@@ -720,6 +745,11 @@
         }
 
         startBtn.onclick = startGame;
+
+        // Mostrar ranking inicial
+        RankingSystem.fetchTopRanks('increasing_numbers').then(data => {
+            RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+        });
     </script>
 </body>
 

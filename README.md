@@ -1,38 +1,39 @@
-# README – Site Simples
+# 🎮 SLX Community - Plataforma de Análise de Gameplay CODM
 
-## O que é este site?
-Este repositório contém páginas HTML simples que demonstram pequenos jogos e utilitários de front‑end. Cada página pode ser aberta diretamente no navegador.
+Plataforma completa para análise profissional de gameplays de Call of Duty Mobile.
 
-## Como usar
-1. **Clone ou copie o repositório**
-   ```bash
-   git clone <url-do-repositorio>
-   cd SLXREPLIT-main
-   ```
-2. **Abra os arquivos HTML**
-   - `client/precision_pro.html` – cronômetro com precisão.
-   - `client/increasing_numbers.html` – jogo de números crescentes.
-   - `client/other pages...` – outros exemplos.
-   Basta dar **duplo‑clique** no arquivo ou abrir com `file://` no navegador.
+## 🚀 Deploy Rápido
 
-## Executar com um servidor local (opcional)
-Se quiser usar um servidor simples:
-```bash
-# Python 3 tem um servidor HTTP embutido
-python -m http.server 8000
-```
-Abra `http://localhost:8000/client/precision_pro.html` no navegador.
+**LEIA ANTES:** [DEPLOY_GUIDE.md](./DEPLOY_GUIDE.md)
 
-## Como contribuir
-- **Fork** o repositório.
-- Crie uma branch para sua mudança:
-  ```bash
-  git checkout -b minha-mudanca
-  ```
-- Faça as alterações e **commit** usando mensagens curtas, por exemplo:
-  - `feat: adicionar novo jogo`
-  - `fix: corrigir erro no cronômetro`
-- Abra um **Pull Request** descrevendo o que mudou.
+## ✨ Funcionalidades
 
-## Licença
-Este projeto está sob a licença MIT – sinta‑se livre para usar e modificar.
+- 🎯 Sistema de autenticação (Google OAuth + Email/Senha)
+- 💳 Pagamentos via Stripe (PIX + Cartão)
+- 📹 Upload e análise de vídeos
+- 🎨 Galeria pública de análises
+- 👨‍💼 Dashboard de administrador
+- 📊 Dashboard de aluno
+
+## 🛠️ Tecnologias
+
+- **Frontend:** React + TypeScript + Vite
+- **Backend:** Express + tRPC
+- **Banco:** PostgreSQL (Supabase)
+- **Deploy:** Vercel
+- **Pagamentos:** Stripe
+
+## 🔐 Segurança
+
+- Conta admin criada via SQL (não via interface web)
+- Variáveis de ambiente protegidas
+- Autenticação JWT
+- Senhas hashadas com scrypt
+
+## 📝 Licença
+
+Propriedade de SLX - Todos os direitos reservados
+
+---
+
+**Desenvolvido com 💚 para a comunidade CODM**

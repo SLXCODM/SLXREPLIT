@@ -261,11 +261,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             z-index: 200;
             display: none;
-            padding: 40px;
+            padding: 60px 20px;
             text-align: center;
+            overflow-y: auto;
         }
 
         .support-card {
@@ -364,15 +365,8 @@
             <button onclick="window.location.href='training_hub.html'" class="btn-main"
                 style="background: rgba(255,255,255,0.1); color: #fff;" data-i18n="exit">Sair</button>
         </div>
-        <div class="support-card">
-            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;" data-i18n="support">Deu trabalho fazer
-                esses jogos! Apoie o SLX
-                para continuarmos criando novos treinos.</p>
-            <a href="https://slx-codm.vercel.app/doacoes" target="_blank" class="btn-main"
-                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;"
-                data-i18n="donate">Apoiar via
-                Livepix</a>
-        </div>
+    </div>
+    <div id="ranking-container" style="width: 100%; max-width: 400px; margin-top: 20px;"></div>
     </div>
 
     <!-- ANÚNCIO SIMULADO -->
@@ -386,6 +380,7 @@
         </div>
     </div>
 
+    <script src="ranking-system.js"></script>
     <script>
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         let actx;
@@ -560,6 +555,28 @@
             }
 
             overlay.style.display = 'flex';
+
+            // ATUALIZAR RANKING
+            const gameId = 'timer_pro';
+            if (success) {
+                const finalScoreValue = Math.max(1, 1000 - avg) * 5;
+                const user = prompt("SENSACIONAL! Digite seu nome para o Ranking:", "Elite");
+                if (user) {
+                    RankingSystem.submitScore(gameId, user, finalScoreValue).then(() => {
+                        RankingSystem.fetchTopRanks(gameId).then(data => {
+                            RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+                        });
+                    });
+                } else {
+                    RankingSystem.fetchTopRanks(gameId).then(data => {
+                        RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+                    });
+                }
+            } else {
+                RankingSystem.fetchTopRanks(gameId).then(data => {
+                    RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+                });
+            }
         }
 
         const translations = {
@@ -668,6 +685,11 @@
             _origResetSession();
             document.getElementById('status-txt').textContent = getT('readyPrompt');
         }
+
+        // Mostrar ranking inicial
+        RankingSystem.fetchTopRanks('timer_pro').then(data => {
+            RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+        });
     </script>
 </body>
 

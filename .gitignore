@@ -1,6 +1,34 @@
-node_modules
-dist
+# Dependências
+node_modules/
+dist/
+.replit
+.config/
+
+# Ambiente
+.env
+.env.local
+.env.production
+.env.development
+
+# Build
+*.log
+.vite
+.cache
+
+# OS
 .DS_Store
-server/public
-vite.config.ts.*
-*.tar.gz
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporários de desenvolvimento
+*.tmp
+.temp/
+uploads/
+
+# Não versionar admin-setup (segurança)
+client/public/admin-setup.html

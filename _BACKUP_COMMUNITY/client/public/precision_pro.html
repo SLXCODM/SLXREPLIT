@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mira de Elite - SLX Training</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff003c;
+            --primary-glow: rgba(255, 0, 60, 0.4);
+            --bg: #0a0b0d;
+            --card-bg: #161a1f;
+            --text: #ffffff;
+            --error: #ff4d4d;
+            --success: #00ff88;
+            --font-main: 'Outfit', sans-serif;
+            --target-size: 40px;
+        }
+
+        /* --- SKINS --- */
+        body.skin-diamond {
+            --primary: #ffd700;
+            --primary-glow: rgba(255, 215, 0, 0.6);
+            background: radial-gradient(circle at 50% 50%, #1a1600 0%, #050505 100%);
+        }
+
+        body.skin-aether {
+            --primary: #bf00ff;
+            --primary-glow: rgba(191, 0, 255, 0.6);
+            background: #0d001a;
+        }
+
+        body.skin-neon {
+            --primary: #00f2ff;
+            --primary-glow: rgba(0, 242, 255, 0.6);
+            background: #0a0e14;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 20px;
+        }
+
+        header {
+            flex-shrink: 0;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-weight: 900;
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .nav-top {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 100;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .selectors {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .label-group {
+            font-size: 0.65rem;
+            color: #555;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .selector-group {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn-ui {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #666;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.7rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .btn-ui.active {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .btn-ui.locked::after {
+            content: ' 🔒';
+            font-size: 0.55rem;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.6rem;
+            color: #555;
+            text-transform: uppercase;
+            display: block;
+            font-weight: 900;
+        }
+
+        .stat-val {
+            font-size: 1.1rem;
+            font-weight: 900;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .game-area {
+            flex-grow: 1;
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        .target {
+            position: absolute;
+            width: var(--target-size);
+            height: var(--target-size);
+            background: radial-gradient(circle, #fff 10%, var(--primary) 20%, #700 90%);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--primary-glow);
+            transform: scale(0);
+            animation: spawn 0.4s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        @keyframes spawn {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shrink {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(0);
+            }
+        }
+
+        .footer-btns {
+            flex-shrink: 0;
+            padding-bottom: 10px;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1rem;
+            font-weight: 900;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 10, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            display: none;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .support-card {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            max-width: 400px;
+        }
+
+        /* STRAFE ANIMATION */
+        @keyframes strafe {
+            0% {
+                margin-left: -20px;
+            }
+
+            50% {
+                margin-left: 20px;
+            }
+
+            100% {
+                margin-left: -20px;
+            }
+        }
+
+        .strafe-active {
+            animation: strafe 0.6s infinite ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="skin-default">
+
+    <div class="nav-top">
+        <a href="/" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
+        <a href="training_hub.html" class="btn-back">← Hub</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 data-i18n="title">Mira de Elite</h1>
+        </header>
+
+        <div class="selectors">
+            <div class="label-group" data-i18n="precisionRank">Patente de Precisão</div>
+            <div class="selector-group">
+                <button class="btn-ui diff-btn active" onclick="setDiff(1, this)" data-i18n="pro">Pro</button>
+                <button class="btn-ui diff-btn locked" id="lock-2" onclick="tryUnlock(2, this)"
+                    data-i18n="master">Mestre</button>
+                <button class="btn-ui diff-btn locked" id="lock-3" onclick="tryUnlock(3, this)"
+                    data-i18n="legendary">Lendário</button>
+            </div>
+
+            <div class="selector-group">
+                <button class="btn-ui skin-btn active" onclick="setSkin('fairy', this)">RedSprite</button>
+                <button class="btn-ui skin-btn" onclick="setSkin('diamond', this)">Diamond</button>
+                <button class="btn-ui skin-btn" onclick="setSkin('aether', this)">Aether</button>
+                <button class="btn-ui skin-btn" onclick="setSkin('neon', this)">Neon</button>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item"><span class="stat-label" data-i18n="targets">Alvos</span><br><span id="count-val"
+                    class="stat-val">0 /
+                    20</span></div>
+            <div class="stat-item"><span class="stat-label" data-i18n="accuracy">Precisão</span><br><span id="acc-val"
+                    class="stat-val">100%</span></div>
+            <div class="stat-item"><span class="stat-label" data-i18n="time">Tempo</span><br><span id="timer-val"
+                    class="stat-val">0.00s</span></div>
+        </div>
+
+        <div id="game-area" class="game-area" onclick="handleMiss()">
+            <!-- Alvos aparecem aqui -->
+        </div>
+
+        <div class="footer-btns">
+            <button id="start-btn" class="btn-main" onclick="event.stopPropagation(); startGame()"
+                data-i18n="startOp">Iniciar
+                Operação</button>
+        </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div id="res-overlay" class="overlay">
+        <h2 id="res-title" style="font-size: 2rem; margin-bottom: 15px;">MISSÃO COMPLETA</h2>
+        <div class="stat-val" style="margin-bottom: 20px; font-size: 1rem;">
+            Tempo Total: <span id="final-time" style="color: var(--primary);">--</span><br>
+            Alvos: <span id="final-targets">--</span><br>
+            Precisão: <span id="final-acc">--</span>
+        </div>
+        <div id="fail-msg"
+            style="color: var(--error); font-weight: 900; margin-bottom: 20px; display: none; font-size: 0.8rem;"></div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+            <button onclick="handleRetry()" class="btn-main" style="padding: 12px 30px;"
+                data-i18n="restart">Reiniciar</button>
+            <button id="next-lv-btn" onclick="advanceLevelWithAd()" class="btn-main"
+                style="padding: 12px 30px; background: #ffd700; color: #000; display: none;"
+                data-i18n="nextRank">Próxima Patente
+                (Ad)</button>
+            <button onclick="window.location.href='/community'" class="btn-main"
+                style="padding: 12px 30px; background: rgba(255,255,255,0.05); color: #fff;"
+                data-i18n="exit">Sair</button>
+        </div>
+        <div class="support-card">
+            <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 15px;" data-i18n="support">Deu trabalho fazer
+                esses jogos! Apoie o SLX
+                para continuarmos criando novos treinos.</p>
+            <a href="https://slx-codm.vercel.app/doacoes" target="_blank" class="btn-main"
+                style="background: #32bcad; text-decoration: none; display: block; margin: 0 auto;"
+                data-i18n="donate">Apoiar via
+                Livepix</a>
+        </div>
+    </div>
+
+    <div id="game-container">
+        <script>
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            let actx;
+            function getCtx() { if (!actx) actx = new AudioCtx(); return actx; }
+            function playSnd(f, d, v) { try { const c = getCtx(); if (c.state === 'suspended') c.resume(); const o = c.createOscillator(); const g = c.createGain(); o.connect(g); g.connect(c.destination); o.type = 'sine'; o.frequency.setValueAtTime(f, c.currentTime); g.gain.setValueAtTime(v, c.currentTime); g.gain.exponentialRampToValueAtTime(0.01, c.currentTime + d); o.start(); o.stop(c.currentTime + d); } catch (e) { } }
+            const snds = { tap: () => playSnd(1000, 0.08, 0.08), fail: () => playSnd(150, 0.3, 0.15), win: () => playSnd(600, 0.5, 0.08) };
+
+            let diff = 1; let isPlaying = false;
+            let hits = 0; let misses = 0; let totalTargets = 20;
+            let startTime, timerInterval;
+            let currentTarget = null;
+            let targetTimeout;
+            let resetCounter = 0;
+            let gameStartTime = 0;
+
+            function updateLocks() { [2, 3].forEach(lv => { const unt = localStorage.getItem('slx_unlock_precision_v2_' + lv) || 0; const btn = document.getElementById('lock-' + lv); if (Date.now() < unt) btn.classList.remove('locked'); else btn.classList.add('locked'); }); }
+            updateLocks();
+
+            function showAd(callback) {
+                callback();
+            }
+
+            function tryUnlock(lv, b) {
+                const unt = localStorage.getItem('slx_unlock_precision_v2_' + lv) || 0; if (Date.now() < unt) { setDiff(lv, b); return; }
+                showAd(() => {
+                    localStorage.setItem('slx_unlock_precision_v2_' + lv, Date.now() + (24 * 60 * 60 * 1000));
+                    updateLocks(); setDiff(lv, b);
+                });
+            }
+
+            function handleRetry() {
+                resetCounter++;
+                if (resetCounter >= 5) {
+                    resetCounter = 0;
+                    showAd(() => startGame());
+                } else {
+                    startGame();
+                }
+            }
+
+            function advanceLevelWithAd() {
+                if (diff >= 3) return;
+                const nextLv = diff + 1;
+                showAd(() => {
+                    localStorage.setItem('slx_unlock_precision_v2_' + nextLv, Date.now() + (24 * 60 * 60 * 1000));
+                    updateLocks();
+                    setDiff(nextLv, document.getElementById('lock-' + nextLv));
+                    startGame();
+                });
+            }
+
+            function setDiff(lv, b) { if (isPlaying) endGame(false, "Trocou de patente!"); diff = lv; document.querySelectorAll('.diff-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); snds.tap(); }
+            function setSkin(s, b) { document.body.className = `skin-${s}`; document.querySelectorAll('.skin-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); snds.tap(); }
+
+            const area = document.getElementById('game-area');
+            const countVal = document.getElementById('count-val');
+            const accVal = document.getElementById('acc-val');
+            const timerVal = document.getElementById('timer-val');
+
+            function startGame() {
+                getCtx().resume();
+                // Lendário tem mais alvos (25), outros têm 20
+                totalTargets = diff === 3 ? 25 : 20;
+                isPlaying = true; hits = 0; misses = 0;
+                gameStartTime = performance.now();
+                document.getElementById('res-overlay').style.display = 'none';
+                document.getElementById('start-btn').style.display = 'none';
+                clearInterval(timerInterval);
+                clearTimeout(targetTimeout);
+                area.innerHTML = '';
+                startTime = performance.now();
+                updateStats();
+                timerInterval = setInterval(() => {
+                    const now = (performance.now() - startTime) / 1000;
+                    timerVal.textContent = now.toFixed(2) + 's';
+                }, 50);
+                // Delay de 500ms antes do primeiro alvo para evitar cliques acidentais
+                targetTimeout = setTimeout(() => spawnTarget(), 500);
+            }
+
+            function spawnTarget() {
+                if (hits >= totalTargets) { endGame(true); return; }
+                area.innerHTML = '';
+
+                const target = document.createElement('div');
+                target.className = 'target';
+
+                const size = diff === 1 ? 50 : (diff === 2 ? 40 : 35);
+                document.documentElement.style.setProperty('--target-size', size + 'px');
+
+                const maxX = area.clientWidth - size - 20;
+                const maxY = area.clientHeight - size - 20;
+                const x = Math.random() * maxX + 10;
+                const y = Math.random() * maxY + 10;
+
+                target.style.left = x + 'px';
+                target.style.top = y + 'px';
+
+                target.onclick = (e) => {
+                    e.stopPropagation();
+                    hits++;
+                    snds.tap();
+                    updateStats();
+                    clearTimeout(targetTimeout);
+                    spawnTarget();
+                };
+
+                area.appendChild(target);
+
+                // Lendário: 600ms, Mestre: 800ms, Pro: 1200ms
+                const timeToClick = diff === 1 ? 1200 : (diff === 2 ? 800 : 600);
+                targetTimeout = setTimeout(() => {
+                    if (!isPlaying) return;
+                    misses++;
+                    updateStats();
+                    // Lendário: máximo 5 erros
+                    if (diff === 3 && misses >= 5) {
+                        endGame(false, "MUITOS ERROS! Máximo de 5 no Lendário.");
+                    } else {
+                        spawnTarget();
+                    }
+                }, timeToClick);
+            }
+
+            function handleMiss() {
+                if (!isPlaying || (performance.now() - gameStartTime < 500)) return;
+                misses++;
+                updateStats();
+                snds.fail();
+                // Lendário: máximo 5 erros
+                if (diff === 3 && misses >= 5) {
+                    endGame(false, "MUITOS ERROS! Máximo de 5 no Lendário.");
+                }
+            }
+
+            function updateStats() {
+                countVal.textContent = `${hits} / ${totalTargets}`;
+                const total = hits + misses;
+                const acc = total === 0 ? 100 : Math.round((hits / total) * 100);
+                accVal.textContent = acc + '%';
+            }
+
+            function endGame(success, msg) {
+                isPlaying = false;
+                clearInterval(timerInterval);
+                clearTimeout(targetTimeout);
+                area.innerHTML = '';
+
+                const overlay = document.getElementById('res-overlay');
+                const title = document.getElementById('res-title');
+                const failMsg = document.getElementById('fail-msg');
+
+                document.getElementById('final-time').textContent = timerVal.textContent;
+                document.getElementById('final-targets').textContent = hits + " / " + totalTargets;
+                document.getElementById('final-acc').textContent = accVal.textContent;
+
+                if (success) {
+                    snds.win();
+                    title.textContent = "ALVO ELIMINADO";
+                    title.style.color = "var(--success)";
+                    failMsg.style.display = 'none';
+                    if (diff < 3) document.getElementById('next-lv-btn').style.display = 'block';
+                    else document.getElementById('next-lv-btn').style.display = 'none';
+                } else {
+                    snds.fail();
+                    title.textContent = "MISSÃO FALHOU";
+                    title.style.color = "var(--error)";
+                    failMsg.style.display = 'block';
+                    failMsg.textContent = msg || "Você foi muito lento!";
+                    document.getElementById('next-lv-btn').style.display = 'none';
+                }
+
+                overlay.style.display = 'flex';
+                document.getElementById('start-btn').style.display = 'block';
+            }
+            const translations = {
+                pt: {
+                    title: "Mira de Elite",
+                    precisionRank: "Patente de Precisão",
+                    pro: "Pro",
+                    master: "Mestre",
+                    legendary: "Lendário",
+                    targets: "Alvos",
+                    accuracy: "Precisão",
+                    time: "Tempo",
+                    startOp: "Iniciar Operação",
+                    restart: "Reiniciar",
+                    nextRank: "Próxima Patente (Ad)",
+                    exit: "Sair",
+                    support: "Deu trabalho fazer esses jogos! Apoie o SLX para continuarmos criando novos treinos.",
+                    donate: "Apoiar via Livepix",
+                    unlocking: "DESBLOQUEANDO PATENTE...",
+                    adSimulation: "SIMULAÇÃO DE ADS Reward",
+                    missionComplete: "ALVO ELIMINADO",
+                    missionFailed: "MISSÃO FALHOU",
+                    tooSlow: "Você foi muito lento!",
+                    manyErrors: "MUITOS ERROS! Máximo de 5 no Lendário.",
+                    minAcc80: "Precisão Mínima de 80% exigida no Mestre.",
+                    rankUp: "Trocou de patente!",
+                    hub: "← Hub"
+                },
+                en: {
+                    title: "Elite Aim",
+                    precisionRank: "Precision Rank",
+                    pro: "Pro",
+                    master: "Master",
+                    legendary: "Legendary",
+                    targets: "Targets",
+                    accuracy: "Accuracy",
+                    time: "Time",
+                    startOp: "Start Operation",
+                    restart: "Restart",
+                    nextRank: "Next Rank (Ad)",
+                    exit: "Exit",
+                    support: "These games took effort! Support SLX to keep creating new training.",
+                    donate: "Support via Livepix",
+                    unlocking: "UNLOCKING RANK...",
+                    adSimulation: "REWARD ADS SIMULATION",
+                    missionComplete: "TARGET ELIMINATED",
+                    missionFailed: "MISSION FAILED",
+                    tooSlow: "You were too slow!",
+                    manyErrors: "TOO MANY ERRORS! Max 5 on Legendary.",
+                    minAcc80: "Min Accuracy 80% required for Master.",
+                    rankUp: "Rank Switched!",
+                    hub: "← Hub"
+                }
+            };
+
+            function applyLanguage() {
+                const lang = localStorage.getItem('slx_language') || 'pt'; // KEY CORRIGIDA
+                const t = translations[lang] || translations.pt;
+
+                // Textos estáticos
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (t[key]) el.textContent = t[key];
+                });
+
+                // Botão Hub
+                document.querySelector('.btn-back').textContent = t.hub;
+            }
+
+            // Chamar tradução ao carregar
+            applyLanguage();
+
+            // Modificar funções para usar textos traduzidos dinamicamente
+            function getT(key) {
+                const lang = localStorage.getItem('slx_language') || 'pt';
+                return (translations[lang] || translations.pt)[key];
+            }
+
+            function endGame(success, msg) {
+                isPlaying = false;
+                clearInterval(timerInterval);
+                clearTimeout(targetTimeout);
+                area.innerHTML = '';
+
+                const overlay = document.getElementById('res-overlay');
+                const title = document.getElementById('res-title');
+                const failMsg = document.getElementById('fail-msg');
+
+                document.getElementById('final-time').textContent = timerVal.textContent;
+                document.getElementById('final-targets').textContent = hits + " / " + totalTargets;
+                document.getElementById('final-acc').textContent = accVal.textContent;
+
+                // CHECK: Precisão mínima para Mestre (80%)
+                if (success && diff === 2) {
+                    const finalAcc = Math.round((hits / (hits + misses || 1)) * 100);
+                    if (finalAcc < 80) {
+                        success = false;
+                        msg = getT('minAcc80');
+                    }
+                }
+
+                if (success) {
+                    snds.win();
+                    title.textContent = getT('missionComplete');
+                    title.style.color = "var(--success)";
+                    failMsg.style.display = 'none';
+                    if (diff < 3) document.getElementById('next-lv-btn').style.display = 'block';
+                    else document.getElementById('next-lv-btn').style.display = 'none';
+                } else {
+                    snds.fail();
+                    title.textContent = getT('missionFailed');
+                    title.style.color = "var(--error)";
+                    failMsg.style.display = 'block';
+
+                    // Traduzir mensagens de erro específicas ou usar genérica
+                    if (msg === "MUITOS ERROS! Máximo de 5 no Lendário.") failMsg.textContent = getT('manyErrors');
+                    else failMsg.textContent = msg || getT('tooSlow');
+
+                    document.getElementById('next-lv-btn').style.display = 'none';
+                }
+
+                overlay.style.display = 'flex';
+                document.getElementById('start-btn').style.display = 'block';
+            }
+
+            function setDiff(lv, b) {
+                // Usar função auxiliar para mensagem de troca de nível
+                if (isPlaying) endGame(false, getT('rankUp'));
+                diff = lv;
+                document.querySelectorAll('.diff-btn').forEach(x => x.classList.remove('active'));
+                b.classList.add('active');
+                snds.tap();
+            }
+
+            function handleMiss() {
+                if (!isPlaying || (performance.now() - gameStartTime < 500)) return;
+                misses++;
+                updateStats();
+                snds.fail();
+                if (diff === 3 && misses >= 5) {
+                    endGame(false, getT('manyErrors')); // Usar tradução
+                }
+            }
+        </script>
+</body>
+
+</html>

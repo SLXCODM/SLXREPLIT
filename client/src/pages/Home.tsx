@@ -78,6 +78,17 @@ export default function Home() {
       link: "/training_hub.html",
       testId: "card-category-focus-training"
     },
+    {
+      id: "analysisPro",
+      titlePt: "ANÁLISE PRO",
+      titleEn: "ANALYSIS PRO",
+      icon: Gamepad2, // Reusing Gamepad2 or another suitable icon, maybe Brain if available
+      descriptionPt: "A evolução definitiva. Análise profissional da sua gameplay para atingir o topo.",
+      descriptionEn: "The ultimate evolution. Professional analysis of your gameplay to reach the top.",
+      imageUrl: "/slx_analysis_pro.png",
+      link: "/community",
+      testId: "card-category-analysis-pro"
+    },
   ];
 
   const scrollToCategories = () => {

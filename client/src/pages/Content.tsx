@@ -11,13 +11,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import type { Project } from "@shared/schema";
 import { SiSubstack } from "react-icons/si";
 import { PenTool, ExternalLink } from "lucide-react";
-import photoSilhouettes from "@assets/photo-silhouettes.jpg";
-import photoSelfPortrait from "@assets/photo-selfportrait.jpg";
-import photoIntimacy from "@assets/photo-intimacy.jpg";
-import photoCreativity from "@assets/photo-creativity.jpg";
-import photoNature from "@assets/photo-nature.jpg";
-import photoPoetry from "@assets/photo-poetry.jpg";
-import photoAgricultureWork from "@assets/photo-agriculture-work.jpg";
+const photoSilhouettes = "/attached_assets/photo-silhouettes.jpg";
+const photoSelfPortrait = "/attached_assets/photo-selfportrait.jpg";
+const photoIntimacy = "/attached_assets/photo-intimacy.jpg";
+const photoCreativity = "/attached_assets/photo-creativity.jpg";
+const photoNature = "/attached_assets/photo-nature.jpg";
+const photoPoetry = "/attached_assets/photo-poetry.jpg";
+const photoAgricultureWork = "/attached_assets/photo-agriculture-work.jpg";
 
 export default function Content() {
   const [location] = useLocation();
@@ -168,6 +168,22 @@ export default function Content() {
                               </h3>
                               <p className="text-sm text-muted-foreground">
                                 {language === "pt" ? "Níveis impossíveis e reflexos extremos. O único treino capaz de superar o SLX." : "Impossible levels and extreme reflexes. The only training capable of surpassing SLX."}
+                              </p>
+                            </div>
+                          </Card>
+                        </a>
+                        <a href="/community" data-testid="button-analysis-pro-gaming">
+                          <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full border border-emerald-500/50">
+                            <div className="aspect-video overflow-hidden relative">
+                              <img src="/slx_analysis_pro.png" alt="Análise Pro" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                            </div>
+                            <div className="p-6 space-y-3">
+                              <h3 className="text-xl font-semibold group-hover:text-emerald-400 transition-colors text-emerald-500">
+                                {language === "pt" ? "ANÁLISE PRO" : "ANALYSIS PRO"}
+                              </h3>
+                              <p className="text-sm text-muted-foreground">
+                                {language === "pt" ? "Descubra por que você ainda não é um pro-player. Análise técnica detalhada da sua gameplay." : "Discover why you are not a pro-player yet. Detailed technical analysis of your gameplay."}
                               </p>
                             </div>
                           </Card>

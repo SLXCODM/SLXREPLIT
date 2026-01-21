@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -20,6 +20,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "@/pages/not-found";
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
+import { CommunityProvider } from "./community/CommunityProvider";
 
 import WeaponReview from "@/pages/WeaponReview";
 
@@ -38,6 +39,11 @@ function Router() {
       <Route path="/redes-sociais" component={SocialLinksPage} />
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
+
+      {/* Community Routes */}
+      <Route path="/community" component={CommunityProvider} />
+      <Route path="/community/:rest*" component={CommunityProvider} />
+
       <Route component={NotFound} />
     </Switch>
   );
@@ -50,9 +56,15 @@ function DonationsPage() {
 
 function AppContent() {
   const { isLanguageSelected, completeLanguageSelection } = useLanguage();
+  const [location] = useLocation();
+  const isCommunity = location.startsWith("/community");
 
-  if (!isLanguageSelected) {
+  if (!isLanguageSelected && !isCommunity) {
     return <LanguageSelect onComplete={completeLanguageSelection} />;
+  }
+
+  if (isCommunity) {
+    return <Router />;
   }
 
   return (

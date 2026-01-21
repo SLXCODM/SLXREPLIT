@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import "dotenv/config";
 import path from "node:path";
 import { type Server } from "node:http";
 
@@ -22,8 +23,12 @@ export async function serveStatic(app: Express, _server: Server) {
     app.use("/attached_assets", express.static(attachedAssetsPath));
   }
 
-  // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
+  // For any other request that is not an API route, fall through to index.html
+  // This ensures that client-side routing works for non-API paths.
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next(); // Let API 404s be handled naturally
+    }
     res.sendFile(path.resolve(distPath, "index.html"));
   });
 }

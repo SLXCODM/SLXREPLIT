@@ -1,0 +1,45 @@
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
+
+type Ranking = {
+  id: string;
+  score: number;
+  player_name: string | null;
+};
+
+export default function TopThree({ gameId }: { gameId: string }) {
+  const [data, setData] = useState<Ranking[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      const { data, error } = await supabase
+        .from('game_rankings')
+        .select('*')
+        .eq('game_id', gameId)
+        .order('score', { ascending: true })
+        .limit(3);
+
+      if (!error && data) setData(data);
+      setLoading(false);
+    };
+
+    load();
+  }, [gameId]);
+
+  if (loading) return <p>Carregando ranking...</p>;
+  if (!data.length) return <p>Sem registros ainda.</p>;
+
+  return (
+    <div>
+      <h3>🏆 Top 3</h3>
+      <ol>
+        {data.map((r) => (
+          <li key={r.id}>
+            {r.player_name || 'Anônimo'} — {r.score}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}

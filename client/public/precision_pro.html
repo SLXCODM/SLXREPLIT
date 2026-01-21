@@ -247,11 +247,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             z-index: 200;
             display: none;
-            padding: 30px;
+            padding: 60px 20px;
             text-align: center;
+            overflow-y: auto;
         }
 
         .support-card {
@@ -365,6 +366,7 @@
                 data-i18n="donate">Apoiar via
                 Livepix</a>
         </div>
+        <div id="ranking-container" style="width: 100%; max-width: 400px;"></div>
     </div>
 
     <!-- ANÚNCIO SIMULADO -->
@@ -374,6 +376,7 @@
         <p style="color: #444; font-size: 0.7rem;" data-i18n="adSimulation">SIMULAÇÃO DE ADS Reward</p>
     </div>
 
+    <script src="ranking-system.js"></script>
     <script>
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         let actx;
@@ -425,8 +428,6 @@
             });
         }
 
-        function setDiff(lv, b) { if (isPlaying) endGame(false, "Trocou de patente!"); diff = lv; document.querySelectorAll('.diff-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); snds.tap(); }
-        function setSkin(s, b) { document.body.className = `skin-${s}`; document.querySelectorAll('.skin-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); snds.tap(); }
 
         const area = document.getElementById('game-area');
         const countVal = document.getElementById('count-val');
@@ -498,16 +499,6 @@
             }, timeToClick);
         }
 
-        function handleMiss() {
-            if (!isPlaying || (performance.now() - gameStartTime < 500)) return;
-            misses++;
-            updateStats();
-            snds.fail();
-            // Lendário: máximo 5 erros
-            if (diff === 3 && misses >= 5) {
-                endGame(false, "MUITOS ERROS! Máximo de 5 no Lendário.");
-            }
-        }
 
         function updateStats() {
             countVal.textContent = `${hits} / ${totalTargets}`;
@@ -516,39 +507,6 @@
             accVal.textContent = acc + '%';
         }
 
-        function endGame(success, msg) {
-            isPlaying = false;
-            clearInterval(timerInterval);
-            clearTimeout(targetTimeout);
-            area.innerHTML = '';
-
-            const overlay = document.getElementById('res-overlay');
-            const title = document.getElementById('res-title');
-            const failMsg = document.getElementById('fail-msg');
-
-            document.getElementById('final-time').textContent = timerVal.textContent;
-            document.getElementById('final-targets').textContent = hits + " / " + totalTargets;
-            document.getElementById('final-acc').textContent = accVal.textContent;
-
-            if (success) {
-                snds.win();
-                title.textContent = "ALVO ELIMINADO";
-                title.style.color = "var(--success)";
-                failMsg.style.display = 'none';
-                if (diff < 3) document.getElementById('next-lv-btn').style.display = 'block';
-                else document.getElementById('next-lv-btn').style.display = 'none';
-            } else {
-                snds.fail();
-                title.textContent = "MISSÃO FALHOU";
-                title.style.color = "var(--error)";
-                failMsg.style.display = 'block';
-                failMsg.textContent = msg || "Você foi muito lento!";
-                document.getElementById('next-lv-btn').style.display = 'none';
-            }
-
-            overlay.style.display = 'flex';
-            document.getElementById('start-btn').style.display = 'block';
-        }
         const translations = {
             pt: {
                 title: "Mira de Elite",
@@ -670,7 +628,31 @@
 
             overlay.style.display = 'flex';
             document.getElementById('start-btn').style.display = 'block';
+
+            // ATUALIZAR RANKING E SCORE (VANILLA)
+            const gameIdentifier = 'precision_pro';
+            if (success) {
+                const finalScore = hits * 10 - Math.round(parseFloat(timerVal.textContent) * 2);
+                const user = prompt("EXCELENTE! Digite seu nome para o Ranking:", "Soldado");
+                if (user) {
+                    RankingSystem.submitScore(gameIdentifier, user, finalScore > 0 ? finalScore : 10).then(() => {
+                        RankingSystem.fetchTopRanks(gameIdentifier).then(data => {
+                            RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+                        });
+                    });
+                } else {
+                    RankingSystem.fetchTopRanks(gameIdentifier).then(data => {
+                        RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+                    });
+                }
+            } else {
+                RankingSystem.fetchTopRanks(gameIdentifier).then(data => {
+                    RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+                });
+            }
         }
+
+        function setSkin(s, b) { document.body.className = `skin-${s}`; document.querySelectorAll('.skin-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); snds.tap(); }
 
         function setDiff(lv, b) {
             // Usar função auxiliar para mensagem de troca de nível
@@ -690,6 +672,11 @@
                 endGame(false, getT('manyErrors')); // Usar tradução
             }
         }
+
+        // Mostrar ranking inicial
+        RankingSystem.fetchTopRanks('precision_pro').then(data => {
+            RankingSystem.renderLeaderboard('ranking-container', data, getT('title'));
+        });
     </script>
 </body>
 

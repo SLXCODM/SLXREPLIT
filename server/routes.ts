@@ -3,10 +3,115 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertProjectSchema, insertProductSchema, projectCategories } from "@shared/schema";
 import { bootstrapDatabase } from "./db";
+import { supabase } from "./lib/supabase";
+import { setupAuth } from "./community/auth";
+import { setupStripeRoutes } from "./community/stripe";
+import * as trpcExpress from "@trpc/server/adapters/express";
+import { appRouter } from "./community/appRouter";
+import { createContext } from "./community/trpc";
+
+import { upload } from "./community/multer-config";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Ensure database tables exist
   await bootstrapDatabase();
+
+  // --- COMMUNITY MODULES ---
+
+  // 1. Setup Auth (Google OAuth & Email/Password)
+  setupAuth(app);
+
+  // 2. Setup Stripe (Checkouts & Webhooks)
+  setupStripeRoutes(app);
+
+  // 3. Setup tRPC
+  app.use(
+    "/api/trpc",
+    trpcExpress.createExpressMiddleware({
+      router: appRouter,
+      createContext,
+    })
+  );
+
+  // 4. Manual Payment Confirmation (Analyst Dashboard)
+  app.post("/api/community/admin/confirm-payment", async (req, res) => {
+    const user = (req.session as any).user;
+    if (!user || user.role !== "admin") {
+      return res.status(403).json({ error: "Acesso negado. Apenas o Analista SLX pode confirmar pagamentos." });
+    }
+
+    const { paymentId } = req.body;
+    try {
+      await storage.confirmPayment(paymentId);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao confirmar pagamento." });
+    }
+  });
+
+  // 5. Video Uploads
+  app.post("/api/upload-video", upload.single("video"), async (req, res) => {
+    try {
+      const videoId = parseInt(req.body.videoId);
+      if (!req.file || !videoId) {
+        return res.status(400).json({ error: "Missing file or videoId" });
+      }
+
+      await storage.updateVideoPath(videoId, req.file.path);
+      res.json({ success: true, filePath: req.file.path });
+    } catch (err) {
+      console.error("Upload error:", err);
+      res.status(500).json({ error: "Upload failed" });
+    }
+  });
+
+  // Health Check to verify server update
+  app.get("/api/health", (_req, res) => {
+    res.json({ status: "ok", version: "1.3.0-community-merged", time: new Date().toISOString() });
+  });
+
+  // Rankings Routes (Supabase) - MOVED TO TOP FOR PRIORITY
+  console.log("Registering ranking routes (priority)...");
+  app.get("/api/rankings/:gameId", async (req, res) => {
+    try {
+      const { gameId } = req.params;
+      const { data, error } = await supabase
+        .from('game_rankings')
+        .select('*')
+        .eq('game_id', gameId)
+        .order('score', { ascending: false })
+        .limit(10);
+
+      if (error) throw error;
+      res.json(data);
+    } catch (error: any) {
+      console.error("RANKING GET ERROR:", error);
+      res.status(500).json({ error: "Failed to fetch rankings", message: error.message });
+    }
+  });
+
+  app.post("/api/rankings", async (req, res) => {
+    try {
+      const { game_id, username, score } = req.body;
+
+      if (!game_id || !username || score === undefined) {
+        return res.status(400).json({ error: "Missing required fields: game_id, username, score" });
+      }
+
+      console.log(`Submitting score: ${username} - ${score} for ${game_id}`);
+      const { data, error } = await supabase
+        .from('game_rankings')
+        .insert([{ game_id, username, score }])
+        .select();
+
+      if (error) throw error;
+      res.status(201).json(data ? data[0] : null);
+    } catch (error: any) {
+      console.error("RANKING POST ERROR:", error);
+      res.status(500).json({ error: "Failed to save ranking", message: error.message });
+    }
+  });
+
   // Projects Routes
 
   // GET /api/projects - Get all projects
@@ -257,6 +362,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to delete product" });
     }
   });
+
 
   const httpServer = createServer(app);
 

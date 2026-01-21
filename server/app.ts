@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { type Server } from "node:http";
 import path from "node:path";
 
@@ -8,7 +9,11 @@ import express, {
   NextFunction,
 } from "express";
 
+import session from "express-session";
+import MemoryStoreFactory from "memorystore";
 import { registerRoutes } from "./routes";
+
+const MemoryStore = MemoryStoreFactory(session);
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -35,6 +40,21 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ extended: false }));
 
+// Session configuration
+app.use(session({
+  cookie: { maxAge: 86400000 },
+  store: new MemoryStore({
+    checkPeriod: 86400000 // prune expired entries every 24h
+  }),
+  resave: false,
+  saveUninitialized: false,
+  secret: process.env.SESSION_SECRET || "slx-community-secret-2026",
+}));
+
+// Serve community uploads and attached assets
+app.use('/uploads', express.static(path.resolve(process.cwd(), 'uploads')));
+app.use('/attached_assets', express.static(path.resolve(process.cwd(), 'client', 'public', 'attached_assets')));
+
 // CORS middleware
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -46,11 +66,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve attached assets (weapon images)
-app.use('/attached_assets', express.static(path.resolve(import.meta.dirname, '..', 'client', 'public', 'attached_assets')));
-
-// Serve public assets
-app.use(express.static(path.resolve(import.meta.dirname, '..', 'client', 'public')));
+// Note: Middleware like express.static and attached_assets are now handled 
+// inside the runApp/setup sequence to preserve route priority.
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -85,18 +102,21 @@ app.use((req, res, next) => {
 export default async function runApp(
   setup: (app: Express, server: Server) => Promise<void>,
 ) {
-  const server = await registerRoutes(app);
+  log("Starting application routes registration...");
 
+  // Register API routes first!
+  const server = await registerRoutes(app);
+  log("API routes registered successfully.");
+
+  // Global Error Handler for API
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
+    console.error(`[ERROR] ${status}: ${message}`);
     res.status(status).json({ message });
-    throw err;
   });
 
-  // importantly run the final setup after setting up all the other routes so
-  // the catch-all route doesn't interfere with the other routes
+  // Now handle static files and catch-all via setup
   await setup(app, server);
 
   const PORT = parseInt(process.env.PORT || "3001", 10);
