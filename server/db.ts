@@ -7,14 +7,36 @@ if (!process.env.DATABASE_URL && process.env.NODE_ENV === "production") {
   console.warn("DATABASE_URL environment variable is not set. Database functionality will be disabled.");
 }
 
-export const db = process.env.DATABASE_URL
-  ? drizzle(postgres(process.env.DATABASE_URL), { schema })
-  : null as any;
+const getDb = () => {
+  const url = process.env.DATABASE_URL;
+  if (!url) return null;
+
+  try {
+    // Standard connection for postgres-js
+    return drizzle(postgres(url, {
+      ssl: 'require',
+      connect_timeout: 10,
+      max: 1 // Vercel limited connections
+    }), { schema });
+  } catch (err) {
+    console.error("Critical: Failed to initialize database client", err);
+    return null;
+  }
+};
+
+export const db = getDb() as any;
 
 // Helper to initialize database tables if they don't exist
 export async function bootstrapDatabase() {
   if (!process.env.DATABASE_URL) {
     console.warn("Bootstrap skipped: DATABASE_URL is not set.");
+    return;
+  }
+
+  // In production (Vercel), we skip heavy bootstrap steps to avoid timeouts
+  // since the user already ran the SQL manually.
+  if (process.env.VERCEL === "1") {
+    console.log("Production environment detected. Skipping heavy bootstrap.");
     return;
   }
 
