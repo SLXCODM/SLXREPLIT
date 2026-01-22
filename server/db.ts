@@ -3,6 +3,9 @@ import postgres from "postgres";
 import * as schema from "@shared/schema";
 import { sql } from "drizzle-orm";
 
+// GLOBAL BYPASS FOR SUPABASE SELF-SIGNED CERTIFICATES ON VERCEL
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 if (!process.env.DATABASE_URL && process.env.NODE_ENV === "production") {
   console.warn("DATABASE_URL environment variable is not set. Database functionality will be disabled.");
 }

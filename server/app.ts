@@ -2,6 +2,9 @@ import "dotenv/config";
 import { type Server } from "node:http";
 import path from "node:path";
 
+// GLOBAL BYPASS FOR SUPABASE SELF-SIGNED CERTIFICATES ON VERCEL
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 import express, {
   type Express,
   type Request,
