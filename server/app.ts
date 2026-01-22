@@ -43,9 +43,14 @@ app.use(express.urlencoded({ extended: false }));
 // Session configuration (Persistent via Supabase)
 app.use(session({
   store: new PostgresStore({
-    conString: process.env.DATABASE_URL,
+    conObject: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    },
     tableName: 'session',
-    createTableIfMissing: true // Automatically create session table
+    createTableIfMissing: true
   }),
   cookie: {
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
