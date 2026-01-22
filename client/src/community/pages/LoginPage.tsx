@@ -148,150 +148,43 @@ export default function LoginPage() {
                         <Gamepad2 className="w-8 h-8 text-emerald-500" />
                     </div>
                     <CardTitle className="text-3xl font-black tracking-tighter uppercase">{t.title}</CardTitle>
+                    <CardDescription className="text-zinc-400 font-medium pt-2">
+                        {language === "pt"
+                            ? "Acesse sua conta de forma segura utilizando sua Identidade Google."
+                            : "Access your account securely using your Google Identity."}
+                    </CardDescription>
                 </CardHeader>
 
-                <CardContent className="space-y-6 pb-10">
-                    {isLoggedIn || currentUser ? (
-                        <div className="space-y-6 py-4 animate-in slide-in-from-bottom-4 duration-500">
-                            {/* Logged in views... kept same to save tokens */}
-                        </div>
-                    ) : (
-                        <>
-                            <Tabs defaultValue="login" className="w-full">
-                                <TabsList className="grid w-full grid-cols-2 bg-zinc-950/50 border border-zinc-800 p-1 h-12 rounded-2xl mb-8">
-                                    <TabsTrigger value="login" className="rounded-xl data-[state=active]:bg-zinc-800 data-[state=active]:text-emerald-400 font-bold transition-all">{t.login}</TabsTrigger>
-                                    <TabsTrigger value="register" className="rounded-xl data-[state=active]:bg-zinc-800 data-[state=active]:text-emerald-400 font-bold transition-all">{t.register}</TabsTrigger>
-                                </TabsList>
+                <CardContent className="space-y-8 pb-10 pt-6">
+                    <Button
+                        onClick={handleGoogleLogin}
+                        className="w-full h-16 bg-white text-zinc-950 hover:bg-zinc-200 font-bold rounded-2xl flex items-center justify-center gap-3 transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(255,255,255,0.2)]"
+                    >
+                        <Chrome className="w-6 h-6" />
+                        {t.googleLogin}
+                    </Button>
 
-                                <TabsContent value="login" className="space-y-4 animate-in fade-in slide-in-from-left-4 duration-500">
-                                    <form onSubmit={handleLogin} className="space-y-4">
-                                        <div className="space-y-2 group">
-                                            <Label className="text-zinc-500 group-focus-within:text-emerald-400 transition-colors text-xs font-black uppercase tracking-widest ml-1">{t.emailLabel}</Label>
-                                            <div className="relative">
-                                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-emerald-500 transition-colors" />
-                                                <Input
-                                                    type="email"
-                                                    required
-                                                    className="bg-zinc-950/50 border-zinc-800 h-14 pl-12 rounded-2xl focus:ring-emerald-500/50 transition-all font-medium"
-                                                    placeholder="seu@email.com"
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2 group">
-                                            <Label className="text-zinc-500 group-focus-within:text-emerald-400 transition-colors text-xs font-black uppercase tracking-widest ml-1">{t.passwordLabel}</Label>
-                                            <div className="relative">
-                                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-emerald-500 transition-colors" />
-                                                <Input
-                                                    type={showPassword ? "text" : "password"}
-                                                    required
-                                                    className="bg-zinc-950/50 border-zinc-800 h-14 pl-12 pr-12 rounded-2xl focus:ring-emerald-500/50 transition-all font-medium"
-                                                    placeholder={t.passwordPlaceholder}
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-emerald-500 transition-colors"
-                                                >
-                                                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <Button type="submit" disabled={isLoading} className="w-full h-14 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black text-sm uppercase tracking-widest rounded-2xl shadow-[0_4px_20px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_30px_rgba(16,185,129,0.5)] transform hover:-translate-y-1 transition-all group overflow-hidden relative">
-                                            <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                                            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t.submitLogin}
-                                        </Button>
-                                    </form>
-                                </TabsContent>
+                    <div className="space-y-4">
+                        <p className="text-[10px] text-zinc-600 text-center uppercase tracking-widest font-black px-4 leading-relaxed">
+                            {t.termsText}{" "}
+                            <Link href="/community/legal">
+                                <span className="text-emerald-500 hover:underline cursor-pointer">{t.termsLink}</span>
+                            </Link>{" "}
+                            e{" "}
+                            <Link href="/community/legal#reembolso">
+                                <span className="text-emerald-500 hover:underline cursor-pointer">{t.policyLink}</span>
+                            </Link>.
+                        </p>
 
-                                <TabsContent value="register" className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-500">
-                                    <form onSubmit={handleRegister} className="space-y-4">
-                                        <div className="space-y-2 group">
-                                            <Label className="text-zinc-500 group-focus-within:text-emerald-400 transition-colors text-xs font-black uppercase tracking-widest ml-1">Seu Nome / Tag</Label>
-                                            <div className="relative">
-                                                <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-emerald-500 transition-colors" />
-                                                <Input
-                                                    required
-                                                    className="bg-zinc-950/50 border-zinc-800 h-14 pl-12 rounded-2xl"
-                                                    placeholder="Como quer ser chamado?"
-                                                    value={name}
-                                                    onChange={(e) => setName(e.target.value)}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2 group">
-                                            <Label className="text-zinc-500 group-focus-within:text-emerald-400 transition-colors text-xs font-black uppercase tracking-widest ml-1">{t.registerEmailLabel}</Label>
-                                            <div className="relative">
-                                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                                                <Input
-                                                    type="email"
-                                                    required
-                                                    className="bg-zinc-950/50 border-zinc-800 h-14 pl-12 rounded-2xl"
-                                                    placeholder="seu@estudo.com"
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2 group">
-                                            <Label className="text-zinc-500 group-focus-within:text-emerald-400 transition-colors text-xs font-black uppercase tracking-widest ml-1">Senha Segura</Label>
-                                            <div className="relative">
-                                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                                                <Input
-                                                    type={showPassword ? "text" : "password"}
-                                                    required
-                                                    className="bg-zinc-950/50 border-zinc-800 h-14 pl-12 pr-12 rounded-2xl"
-                                                    placeholder="Mínimo 6 caracteres"
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-emerald-500 transition-colors"
-                                                >
-                                                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <Button type="submit" disabled={isLoading} className="w-full h-14 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black text-sm uppercase tracking-widest rounded-2xl transition-all">
-                                            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Finalizar Cadastro"}
-                                        </Button>
-                                    </form>
-                                </TabsContent>
-                            </Tabs>
-
-                            <div className="relative py-2">
-                                <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-zinc-800" /></div>
-                                <div className="relative flex justify-center text-[10px] uppercase font-black tracking-widest">
-                                    <span className="bg-zinc-900 px-4 text-zinc-600">Ou use uma rede social</span>
-                                </div>
-                            </div>
-
-                            <Button
-                                onClick={handleGoogleLogin}
-                                variant="outline"
-                                className="w-full h-14 border-zinc-800 bg-zinc-950/30 text-emerald-400 font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-emerald-500/10 transition-all"
-                            >
-                                <Chrome className="w-5 h-5" />
-                                Acessar com Google
-                            </Button>
-
-                            <p className="text-[10px] text-zinc-600 text-center uppercase tracking-widest font-bold px-4">
-                                Ao acessar, você concorda com nossos{" "}
-                                <Link href="/community/legal">
-                                    <span className="text-emerald-500 hover:underline cursor-pointer">Termos de Uso</span>
-                                </Link>{" "}
-                                e{" "}
-                                <Link href="/community/legal#reembolso">
-                                    <span className="text-emerald-500 hover:underline cursor-pointer">Política de Reembolso</span>
-                                </Link>.
+                        <div className="p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 flex items-start gap-3">
+                            <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                            <p className="text-[10px] text-zinc-500 font-medium">
+                                {language === "pt"
+                                    ? "Para sua segurança, desativamos o login por senha. Suas informações agora são protegidas pela criptografia do Google."
+                                    : "For your security, password login is disabled. Your information is now protected by Google encryption."}
                             </p>
-                        </>
-                    )}
+                        </div>
+                    </div>
                 </CardContent>
             </Card>
 

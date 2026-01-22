@@ -118,8 +118,9 @@ export function setupStripeRoutes(app: Express) {
         } catch (error: any) {
             console.error("[Stripe] Erro Crítico no Checkout:", error);
             res.status(500).json({
-                error: "Erro ao criar sessão no Stripe. Verifique se suas chaves sk_live e pk_live no arquivo .env estão corretas.",
-                details: error.message
+                error: "Erro na comunicação com o Stripe.",
+                details: error.message,
+                tip: "Verifique se a STRIPE_SECRET_KEY no Vercel está correta e se você fez o Redeploy."
             });
         }
     });

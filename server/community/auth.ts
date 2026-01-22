@@ -17,70 +17,18 @@ function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
-    // 1. Registro por Email/Senha
+    // 1. Registro por Email/Senha (DESATIVADO POR SEGURANÇA)
     app.post("/api/community/auth/register", async (req, res) => {
-        const { email, password, name } = req.body;
-
-        try {
-            const existingUser = await storage.getUserByEmail(email);
-            if (existingUser) {
-                return res.status(400).json({ message: "Este e-mail já está em uso." });
-            }
-
-            const hashedPassword = hashPassword(password);
-            const user = await storage.createUser({
-                email,
-                password: hashedPassword,
-                name: name || "Jogador SLX",
-                loginMethod: "local",
-                role: "user"
-            });
-
-            // Login automático após registro
-            (req.session as any).user = {
-                id: user.id,
-                role: user.role,
-                name: user.name
-            };
-
-            res.json({ success: true, user: (req.session as any).user });
-        } catch (error: any) {
-            console.error("CRITICAL Register error:", error.message);
-            if (error.stack) console.error(error.stack);
-            res.status(500).json({
-                message: "Erro ao criar conta.",
-                debug: error.message,
-                db_url_exists: !!process.env.DATABASE_URL
-            });
-        }
+        return res.status(403).json({
+            message: "Registro direto desativado. Use o login pelo Google para sua segurança."
+        });
     });
 
-    // 2. Login por Email/Senha
+    // 2. Login por Email/Senha (DESATIVADO POR SEGURANÇA)
     app.post("/api/community/auth/login", async (req, res) => {
-        const { email, password } = req.body;
-
-        try {
-            const user = await storage.getUserByEmail(email);
-            if (!user || !user.password) {
-                return res.status(401).json({ message: "E-mail ou senha incorretos." });
-            }
-
-            const isMatch = comparePasswords(password, user.password);
-            if (!isMatch) {
-                return res.status(401).json({ message: "E-mail ou senha incorretos." });
-            }
-
-            (req.session as any).user = {
-                id: user.id,
-                role: user.role,
-                name: user.name
-            };
-
-            res.json({ success: true, user: (req.session as any).user });
-        } catch (error) {
-            console.error("Login error:", error);
-            res.status(500).json({ message: "Erro ao realizar login." });
-        }
+        return res.status(403).json({
+            message: "Login direto desativado. Use o Google Auth."
+        });
     });
 
     // 3. Login Real do Google (OAuth 2.0)
