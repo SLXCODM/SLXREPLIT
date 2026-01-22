@@ -25,7 +25,7 @@ export const db = new Proxy({}, {
         console.log(`Initializing database connection with: ${maskedUrl}`);
 
         const client = postgres(url, {
-          ssl: 'require',
+          ssl: { rejectUnauthorized: false },
           connect_timeout: 30, // Increase timeout for cold starts
           max: 1 // Vercel limited connections
         });
