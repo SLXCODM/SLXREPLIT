@@ -123,7 +123,15 @@ export function setupAuth(app: Express) {
                 name: user.name
             };
 
-            res.redirect("/community/dashboard");
+            // Force session save before redirect
+            req.session.save((err) => {
+                if (err) {
+                    console.error("[Session Save Error]", err);
+                    return res.status(500).send("Erro ao salvar sua sessão. Tente novamente.");
+                }
+                console.log(`[Auth Success] User ${user.name} logged in. Redirecting...`);
+                res.redirect("/community/dashboard");
+            });
         } catch (error: any) {
             console.error("Auth error:", error);
             res.status(500).send(`Erro na autenticação: ${error.message}`);
