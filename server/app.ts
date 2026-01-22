@@ -10,10 +10,10 @@ import express, {
 } from "express";
 
 import session from "express-session";
-import MemoryStoreFactory from "memorystore";
+import pgSession from "connect-pg-simple";
 import { registerRoutes } from "./routes";
 
-const MemoryStore = MemoryStoreFactory(session);
+const PostgresStore = pgSession(session);
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -40,12 +40,18 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ extended: false }));
 
-// Session configuration
+// Session configuration (Persistent via Supabase)
 app.use(session({
-  cookie: { maxAge: 86400000 },
-  store: new MemoryStore({
-    checkPeriod: 86400000 // prune expired entries every 24h
+  store: new PostgresStore({
+    conString: process.env.DATABASE_URL,
+    tableName: 'session',
+    createTableIfMissing: true // Automatically create session table
   }),
+  cookie: {
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    secure: process.env.VERCEL === "1", // Secure if on Vercel (HTTPS)
+    sameSite: 'lax'
+  },
   resave: false,
   saveUninitialized: false,
   secret: process.env.SESSION_SECRET || "slx-community-secret-2026",

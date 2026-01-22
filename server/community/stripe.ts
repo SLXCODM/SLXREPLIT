@@ -118,9 +118,13 @@ export function setupStripeRoutes(app: Express) {
         } catch (error: any) {
             console.error("[Stripe] Erro Crítico no Checkout:", error);
             res.status(500).json({
-                error: "Erro na comunicação com o Stripe.",
+                error: (error.type === 'StripeAuthenticationError')
+                    ? "Erro de Autenticação no Stripe (Chave Inválida)."
+                    : "Erro na comunicação com o Stripe.",
                 details: error.message,
-                tip: "Verifique se a STRIPE_SECRET_KEY no Vercel está correta e se você fez o Redeploy."
+                code: error.code || 'unknown',
+                type: error.type || 'unknown',
+                tip: "Certifique-se de que a STRIPE_SECRET_KEY no Vercel está correta e que você fez o Redeploy."
             });
         }
     });
