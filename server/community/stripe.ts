@@ -160,7 +160,8 @@ export function setupStripeRoutes(app: Express) {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${cleanKey}`,
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Stripe-Version': '2023-10-16'
                     },
                     body: params
                 });
