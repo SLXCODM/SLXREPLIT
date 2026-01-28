@@ -26,10 +26,21 @@ export function setupStripeRoutes(app: Express) {
     app.post("/api/community/create-checkout-session", async (req, res) => {
         // Hoist variables to be accessible in catch block
         let result: any = null;
-        const { price, title, videoUrl, description, allowPublic } = req.body;
+        const { price, title, description, videoUrl, allowPublic, lang } = req.body;
+
+        const isPt = lang === 'pt' || !lang; // Default to PT if missing
+
+        // Dynamic Product Details
+        const productName = isPt
+            ? `Análise Profissional SLX: ${title}`
+            : `SLX Professional Analysis: ${title}`;
+
+        const productDesc = isPt
+            ? "Análise profunda de gameplay CODM com metodologia psicanalítica."
+            : "Deep CODM gameplay analysis using the SLX psychoanalytic methodology.";
 
         try {
-            console.log("[Stripe] Inciando criação de sessão de checkout...");
+            console.log(`[Stripe] Inciando criação de sessão (Lang: ${lang || 'pt'})...`);
             const user = (req.session as any).user;
 
             console.log("[Stripe Debug] Key present:", !!process.env.STRIPE_SECRET_KEY);
@@ -89,13 +100,25 @@ export function setupStripeRoutes(app: Express) {
             let currency = "brl";
             let amountInCents = 3700; // Padrão R$ 37,00
 
-            if (price && typeof price === 'string' && price.includes("$")) {
+            // If language is NOT PT, default to USD if price string isn't specific
+            if (!isPt) {
                 currency = "usd";
-                amountInCents = 699;
-            } else if (price && typeof price === 'string') {
-                const numericPrice = parseFloat(price.replace(/[^\d.,]/g, "").replace(",", "."));
-                if (!isNaN(numericPrice)) {
-                    amountInCents = Math.round(numericPrice * 100);
+                amountInCents = 700; // $7.00 USD
+            }
+
+            // Helper to parse price string overrides (if user passed specific string)
+            if (price && typeof price === 'string') {
+                if (price.includes("$") || price.toLowerCase().includes("usd")) {
+                    currency = "usd";
+                    amountInCents = 700;
+                    // Try to parse number if presented
+                    const numeric = parseFloat(price.replace(/[^\d.,]/g, ""));
+                    if (!isNaN(numeric) && numeric > 0) amountInCents = Math.round(numeric * 100);
+                } else if (price.includes("R$")) {
+                    currency = "brl";
+                    amountInCents = 3700;
+                    const numeric = parseFloat(price.replace(/[^\d.,]/g, "").replace(",", "."));
+                    if (!isNaN(numeric) && numeric > 0) amountInCents = Math.round(numeric * 100);
                 }
             }
 
@@ -106,8 +129,8 @@ export function setupStripeRoutes(app: Express) {
                         price_data: {
                             currency: currency,
                             product_data: {
-                                name: `Análise Profissional SLX: ${title}`,
-                                description: "Análise profunda de gameplay CODM com metodologia psicanalítica.",
+                                name: productName,
+                                description: productDesc,
                             },
                             unit_amount: amountInCents,
                         },
@@ -141,20 +164,36 @@ export function setupStripeRoutes(app: Express) {
                 const rawKey = process.env.STRIPE_SECRET_KEY || "";
                 const cleanKey = rawKey.replace(/['"]/g, '').trim();
 
+                // Re-calculate price for fallback scope
+                let fbCurrency = "brl";
+                let fbAmount = "3700";
+
+                if (!isPt) {
+                    fbCurrency = "usd";
+                    fbAmount = "700";
+                }
+
+                if (price && typeof price === 'string') {
+                    if (price.includes("$") || price.toLowerCase().includes("usd")) {
+                        fbCurrency = "usd";
+                        fbAmount = "700";
+                    } else if (price.includes("R$")) {
+                        fbCurrency = "brl";
+                        fbAmount = "3700";
+                    }
+                }
+
                 const params = new URLSearchParams();
                 params.append('mode', 'payment');
                 params.append('success_url', `${req.protocol}://${req.get("host")}/community/payment-success?session_id={CHECKOUT_SESSION_ID}`);
                 params.append('cancel_url', `${req.protocol}://${req.get("host")}/community/payment-cancel`);
                 params.append('client_reference_id', result.paymentId.toString());
-                params.append('line_items[0][price_data][currency]', 'brl');
-                params.append('line_items[0][price_data][product_data][name]', `Análise Profissional SLX: ${title}`);
-                params.append('line_items[0][price_data][unit_amount]', '3700');
+                params.append('line_items[0][price_data][currency]', fbCurrency);
+                params.append('line_items[0][price_data][product_data][name]', productName);
+                params.append('line_items[0][price_data][unit_amount]', fbAmount);
                 params.append('line_items[0][quantity]', '1');
                 params.append('metadata[videoId]', result.videoId.toString());
                 params.append('metadata[paymentId]', result.paymentId.toString());
-
-                // Enable all automatic payment methods
-                // params.append('automatic_payment_methods[enabled]', 'true');
 
                 // LEGACY MODE: Use explicit types to avoid API Version errors
                 params.append('payment_method_types[0]', 'card');

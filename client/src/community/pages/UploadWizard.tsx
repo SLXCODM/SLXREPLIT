@@ -9,10 +9,51 @@ import { Label } from "@/components/ui/label";
 import { Loader2, UploadCloud, CheckCircle2, Youtube, CreditCard, ArrowRight } from "lucide-react";
 import { api } from "../lib/trpc";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function UploadWizard() {
     const [, setLocation] = useLocation();
     const { toast } = useToast();
+    const { language } = useLanguage();
+
+    const t = {
+        title: language === "pt" ? "Enviar Gameplay" : "Submit Gameplay",
+        subtitle: language === "pt"
+            ? "Preencha os dados e realize o pagamento para receber sua análise profissional."
+            : "Fill in the details and complete payment to receive your professional analysis.",
+        adminSubtitle: language === "pt"
+            ? "Como admin, você pode testar TUDO sem pagar!"
+            : "As admin, you can test EVERYTHING without paying!",
+        videoTitle: language === "pt" ? "Título do Vídeo" : "Video Title",
+        videoTitlePlaceholder: language === "pt" ? "Ex: Rankeada Lendário - Hardpoint" : "Ex: Legendary Ranked - Hardpoint",
+        description: language === "pt" ? "Descrição / Foco da Análise" : "Description / Analysis Focus",
+        descriptionPlaceholder: language === "pt"
+            ? "Ex: Quero melhorar meu posicionamento e entender o que estou fazendo de errado."
+            : "Ex: I want to improve my positioning and understand what I'm doing wrong.",
+        howToHeader: language === "pt" ? "Como enviar seu vídeo?" : "How to submit your video?",
+        step1: language === "pt"
+            ? <>Faça upload do seu vídeo no <strong>YouTube</strong> ou <strong>TikTok</strong>.</>
+            : <>Upload your video to <strong>YouTube</strong> or <strong>TikTok</strong>.</>,
+        step2: language === "pt"
+            ? <>Se for no YouTube, pode deixar como <strong>"Não Listado"</strong> para manter sua privacidade.</>
+            : <>If on YouTube, you can set it to <strong>"Unlisted"</strong> to keep it private.</>,
+        step3: language === "pt" ? "Copie o link gerado e cole no campo abaixo." : "Copy the generated link and paste it below.",
+        videoLink: language === "pt" ? "Link do Vídeo" : "Video Link",
+        videoLinkPlaceholder: language === "pt" ? "Cole aqui o link (Ex: https://youtu.be/...)" : "Paste link here (Ex: https://youtu.be/...)",
+        allowPublic: language === "pt" ? "Autorizar Uso em Redes Sociais" : "Authorize Social Media Use",
+        allowPublicDesc: language === "pt"
+            ? "Ao marcar, você autoriza o SLX a postar trechos desta análise na Galeria Pública e em Redes Sociais para fins educativos."
+            : "By checking, you authorize SLX to post clips of this analysis in the Public Gallery and Social Media for educational purposes.",
+        investment: language === "pt" ? "Investimento Requerido" : "Investment Required",
+        slxMethod: language === "pt" ? "Triade SLX: Pro Analysis" : "SLX Triad: Pro Analysis",
+        price: language === "pt" ? "R$ 37,00" : "USD $7.00",
+        payButton: language === "pt" ? "Finalizar Pedido e Pagar" : "Complete Order & Pay",
+        processing: language === "pt" ? "Processando..." : "Processing...",
+        invalidLink: language === "pt" ? "Link Inválido" : "Invalid Link",
+        invalidLinkDesc: language === "pt" ? "Por favor, insira um link válido do YouTube ou TikTok." : "Please enter a valid YouTube or TikTok link.",
+        errorTitle: language === "pt" ? "Falha ao processar" : "Processing Failed",
+        unexpectedError: language === "pt" ? "Ocorreu um erro inesperado." : "An unexpected error occurred."
+    };
 
     // Verificar se é admin via session
     const [isAdmin, setIsAdmin] = React.useState(false);
@@ -35,11 +76,6 @@ export default function UploadWizard() {
     const [allowPublic, setAllowPublic] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Mutation (Deprecated - Using direct fetch for Stripe redirect)
-    // const createSession = api.upload.createUploadSession.useMutation({...});
-
-
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -47,8 +83,8 @@ export default function UploadWizard() {
         const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|tiktok\.com)\/.+$/;
         if (!youtubeRegex.test(videoUrl)) {
             toast({
-                title: "Link Inválido",
-                description: "Por favor, insira um link válido do YouTube ou TikTok.",
+                title: t.invalidLink,
+                description: t.invalidLinkDesc,
                 variant: "destructive"
             });
             return;
@@ -57,7 +93,7 @@ export default function UploadWizard() {
         setIsSubmitting(true);
         try {
             console.log("[Checkout] Iniciando processo de pagamento...");
-            // 1. Chamar o Checkout do Stripe (O backend agora cria o registro no DB e a sessão do Stripe juntos)
+            // 1. Chamar o Checkout do Stripe
             const checkoutRes = await fetch("/api/community/create-checkout-session", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -65,8 +101,9 @@ export default function UploadWizard() {
                     title: title,
                     description: description,
                     videoUrl: videoUrl,
-                    price: "R$ 37,00",
-                    allowPublic: allowPublic
+                    price: t.price, // Sends R$ 37,00 or USD $7.00 based on lang
+                    allowPublic: allowPublic,
+                    lang: language // Send language to backend
                 })
             });
 
@@ -81,8 +118,8 @@ export default function UploadWizard() {
 
         } catch (error: any) {
             toast({
-                title: "Falha ao processar",
-                description: error.message || "Ocorreu um erro inesperado.",
+                title: t.errorTitle,
+                description: error.message || t.unexpectedError,
                 variant: "destructive"
             });
         } finally {
@@ -113,7 +150,7 @@ export default function UploadWizard() {
             <Card className="w-full max-w-2xl bg-zinc-900/80 border-zinc-800 text-zinc-100 backdrop-blur-md relative z-10 animate-in fade-in zoom-in-95 duration-500 shadow-2xl">
                 <CardHeader className="space-y-1 text-center border-b border-zinc-800/50 pb-8">
                     <CardTitle className="text-4xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 neon-text-glow">
-                        Enviar Gameplay
+                        {t.title}
                     </CardTitle>
                     {isAdmin && (
                         <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/50 rounded-full text-emerald-400 text-sm font-bold">
@@ -121,19 +158,16 @@ export default function UploadWizard() {
                         </div>
                     )}
                     <CardDescription className="text-zinc-400 text-lg">
-                        {isAdmin
-                            ? "Como admin, você pode testar TUDO sem pagar!"
-                            : "Preencha os dados e realize o pagamento para receber sua análise profissional."
-                        }
+                        {isAdmin ? t.adminSubtitle : t.subtitle}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-8">
                     <form onSubmit={handleSubmit} className="space-y-8">
                         <div className="space-y-2 group">
-                            <Label htmlFor="title" className="text-zinc-300 group-focus-within:text-emerald-400 transition-colors">Título do Vídeo</Label>
+                            <Label htmlFor="title" className="text-zinc-300 group-focus-within:text-emerald-400 transition-colors">{t.videoTitle}</Label>
                             <Input
                                 id="title"
-                                placeholder="Ex: Rankeada Lendário - Hardpoint"
+                                placeholder={t.videoTitlePlaceholder}
                                 className="bg-zinc-950/50 border-zinc-800 text-white placeholder:text-zinc-600 focus:ring-emerald-500/50 focus:border-emerald-500/50 h-12 transition-all duration-300 focus:shadow-[0_0_20px_rgba(16,185,129,0.1)]"
                                 required
                                 value={title}
@@ -142,10 +176,10 @@ export default function UploadWizard() {
                         </div>
 
                         <div className="space-y-2 group">
-                            <Label htmlFor="description" className="text-zinc-300 group-focus-within:text-emerald-400 transition-colors">Descrição / Foco da Análise</Label>
+                            <Label htmlFor="description" className="text-zinc-300 group-focus-within:text-emerald-400 transition-colors">{t.description}</Label>
                             <Textarea
                                 id="description"
-                                placeholder="Ex: Quero melhorar meu posicionamento e entender o que estou fazendo de errado."
+                                placeholder={t.descriptionPlaceholder}
                                 className="min-h-[120px] bg-zinc-950/50 border-zinc-800 text-white placeholder:text-zinc-600 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-300 focus:shadow-[0_0_20px_rgba(16,185,129,0.1)]"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
@@ -159,11 +193,11 @@ export default function UploadWizard() {
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
                                     </div>
                                     <div className="space-y-1">
-                                        <h4 className="text-emerald-400 font-medium text-sm">Como enviar seu vídeo?</h4>
+                                        <h4 className="text-emerald-400 font-medium text-sm">{t.howToHeader}</h4>
                                         <ol className="text-xs text-zinc-400 space-y-1 list-decimal list-inside">
-                                            <li>Faça upload do seu vídeo no <strong>YouTube</strong> ou <strong>TikTok</strong>.</li>
-                                            <li>Se for no YouTube, pode deixar como <strong>"Não Listado"</strong> para manter sua privacidade.</li>
-                                            <li>Copie o link gerado e cole no campo abaixo.</li>
+                                            <li>{t.step1}</li>
+                                            <li>{t.step2}</li>
+                                            <li>{t.step3}</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -171,7 +205,7 @@ export default function UploadWizard() {
 
                             <div className="space-y-2">
                                 <Label htmlFor="videoUrl" className="text-zinc-300 group-focus-within:text-emerald-400 transition-colors flex items-center gap-2">
-                                    Link do Vídeo
+                                    {t.videoLink}
                                 </Label>
                                 <div className="relative">
                                     <div className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">
@@ -179,7 +213,7 @@ export default function UploadWizard() {
                                     </div>
                                     <Input
                                         id="videoUrl"
-                                        placeholder="Cole aqui o link (Ex: https://youtu.be/...)"
+                                        placeholder={t.videoLinkPlaceholder}
                                         className="pl-10 bg-zinc-950/50 border-zinc-800 text-white placeholder:text-zinc-600 focus:ring-emerald-500/50 focus:border-emerald-500/50 h-12 transition-all duration-300 focus:shadow-[0_0_20px_rgba(16,185,129,0.1)]"
                                         required
                                         value={videoUrl}
@@ -198,10 +232,10 @@ export default function UploadWizard() {
                             />
                             <div className="space-y-1 cursor-pointer" onClick={() => setAllowPublic(!allowPublic)}>
                                 <Label htmlFor="allowPublic" className="text-zinc-200 font-bold cursor-pointer group-hover:text-emerald-400 transition-colors">
-                                    Autorizar Uso em Redes Sociais
+                                    {t.allowPublic}
                                 </Label>
                                 <p className="text-[10px] text-zinc-500 leading-tight">
-                                    Ao marcar, você autoriza o SLX a postar trechos desta análise na Galeria Pública e em Redes Sociais (TikTok, Instagram, YouTube) para fins educativos e de marketing.
+                                    {t.allowPublicDesc}
                                 </p>
                             </div>
                         </div>
@@ -213,11 +247,11 @@ export default function UploadWizard() {
                                         <CheckCircle2 className="w-6 h-6 text-emerald-500" />
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="font-bold text-emerald-100 uppercase tracking-tighter">Investimento Requerido</span>
-                                        <span className="text-[10px] text-emerald-500/70 uppercase tracking-widest font-black">Triade SLX: Pro Analysis</span>
+                                        <span className="font-bold text-emerald-100 uppercase tracking-tighter">{t.investment}</span>
+                                        <span className="text-[10px] text-emerald-500/70 uppercase tracking-widest font-black">{t.slxMethod}</span>
                                     </div>
                                 </div>
-                                <span className="text-3xl font-black text-white tracking-tight">R$ 37,00</span>
+                                <span className="text-3xl font-black text-white tracking-tight">{t.price}</span>
                             </div>
 
                             <Button
@@ -229,10 +263,10 @@ export default function UploadWizard() {
                                 {isSubmitting ? (
                                     <>
                                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                                        Processando...
+                                        {t.processing}
                                     </>
                                 ) : (
-                                    "Finalizar Pedido e Pagar"
+                                    t.payButton
                                 )}
                                 <CreditCard className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Button>
