@@ -149,7 +149,7 @@ export default function AnalystDashboard() {
                                                 <Button
                                                     onClick={() => {
                                                         if (confirm("Você confirmou o recebimento deste valor no seu Stripe?")) {
-                                                            approvePayment.mutate({ paymentId: item.id });
+                                                            approvePayment.mutate({ paymentId: payment.id });
                                                         }
                                                     }}
                                                     disabled={approvePayment.isPending}
