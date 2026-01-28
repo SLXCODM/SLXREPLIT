@@ -32,7 +32,9 @@ export default function CommunityHome() {
     );
 
     const user = auth?.user;
-    const isAdmin = user?.role === "admin";
+    const isAdmin = !!(auth?.loggedIn && user?.role === "admin");
+
+    console.log("[CommunityHome] Auth Status:", { loggedIn: auth?.loggedIn, role: user?.role });
 
     return (
         <Switch>

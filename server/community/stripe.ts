@@ -7,8 +7,14 @@ let stripe: Stripe | null = null;
 
 function getStripe() {
     if (!stripe && process.env.STRIPE_SECRET_KEY) {
-        stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" as any });
-        console.log(`[Stripe] Cliente inicializado. Tipo: ${process.env.STRIPE_SECRET_KEY.startsWith('sk_live') ? 'PRODUÇÃO (LIVE)' : 'TESTE'}`);
+        const key = process.env.STRIPE_SECRET_KEY.trim();
+        stripe = new Stripe(key, {
+            apiVersion: "2023-10-16" as any,
+            maxNetworkRetries: 3,
+            timeout: 15000
+        });
+        // Force Deploy Check: v2.0
+        console.log(`[Stripe] Cliente inicializado (Retry Ativo). Key: ${key.substring(0, 7)}... Size: ${key.length}`);
     }
     return stripe;
 }

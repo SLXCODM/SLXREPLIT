@@ -1,4 +1,5 @@
 // 🚀 Optimized Serverless Handler for Vercel
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 let server;
 
 export default async (req, res) => {
