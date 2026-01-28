@@ -53,21 +53,35 @@ export default function Gallery() {
                         [1, 2, 3].map(i => (
                             <div key={i} className="h-[400px] bg-zinc-900/50 rounded-3xl border border-zinc-800 animate-pulse" />
                         ))
-                    ) : galleryItems.data?.length === 0 ? (
-                        <div className="col-span-full py-20 text-center space-y-4">
-                            <div className="p-4 bg-zinc-900 rounded-full w-16 h-16 mx-auto flex items-center justify-center">
-                                <Trophy className="w-6 h-6 text-zinc-700" />
-                            </div>
-                            <h3 className="text-xl font-bold text-zinc-400">Nenhuma análise publicada ainda.</h3>
-                            <p className="text-zinc-600">Seja o primeiro a aparecer aqui!</p>
-                            <Link href="/community/upload">
-                                <Button size="lg" className="bg-emerald-600 mt-4 rounded-full">Enviar Gameplay</Button>
-                            </Link>
-                        </div>
                     ) : (
-                        galleryItems.data?.map(item => (
-                            <GalleryCard key={item.id} item={item} />
-                        ))
+                        // Proteção contra erro "n.map is not a function"
+                        // Se não for array, exibe vazio ou mensagem de erro
+                        (!galleryItems.data || !Array.isArray(galleryItems.data) || galleryItems.data.length === 0) ? (
+                            <div className="col-span-full py-20 text-center space-y-4">
+                                <div className="p-4 bg-zinc-900 rounded-full w-16 h-16 mx-auto flex items-center justify-center">
+                                    <Trophy className="w-6 h-6 text-zinc-700" />
+                                </div>
+                                <h3 className="text-xl font-bold text-zinc-400">
+                                    {galleryItems.error ? "Erro ao carregar galeria." : "Nenhuma análise publicada ainda."}
+                                </h3>
+                                <p className="text-zinc-600">
+                                    {galleryItems.error ? "Tente recarregar a página." : "Seja o primeiro a aparecer aqui!"}
+                                </p>
+                                <Link href="/community/upload">
+                                    <Button size="lg" className="bg-emerald-600 mt-4 rounded-full">Enviar Gameplay</Button>
+                                </Link>
+                                {/* Debug: Show what we received if it's weird */}
+                                {!Array.isArray(galleryItems.data) && galleryItems.data && (
+                                    <pre className="text-xs text-red-500 mt-4 hidden">
+                                        Received type: {typeof galleryItems.data}
+                                    </pre>
+                                )}
+                            </div>
+                        ) : (
+                            galleryItems.data.map(item => (
+                                <GalleryCard key={item.id} item={item} />
+                            ))
+                        )
                     )}
                 </div>
 
