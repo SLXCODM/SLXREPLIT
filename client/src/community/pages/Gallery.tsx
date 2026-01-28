@@ -110,7 +110,7 @@ function getVideoThumbnail(url: string): string | null {
 function GalleryCard({ item }: { item: any }) {
     const { toast } = useToast();
     const queryClient = api.useUtils();
-    const thumbnail = getVideoThumbnail(item.video.s3Url);
+    const thumbnail = item.video ? getVideoThumbnail(item.video.s3Url) : null;
 
     const { data: auth } = useQuery<any>({
         queryKey: ["/api/community/auth/me"],
