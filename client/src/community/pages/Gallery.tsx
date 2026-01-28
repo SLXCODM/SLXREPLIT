@@ -138,76 +138,85 @@ function GalleryCard({ item }: { item: any }) {
             {/* Glossy Overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
 
-            <div className="relative aspect-video overflow-hidden">
-                {/* Video Thumbnail or Placeholder */}
-                {thumbnail && thumbnail !== "TIKTOK_PLACEHOLDER" ? (
-                    <img
-                        src={thumbnail}
-                        alt={item.video.title}
-                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60 group-hover:opacity-40 grayscale-[0.5] group-hover:grayscale-0"
-                    />
-                ) : (
-                    <div className="absolute inset-0 bg-zinc-900 flex flex-col items-center justify-center gap-4">
-                        {item.video.s3Url.includes("tiktok.com") ? (
-                            <>
-                                <SiTiktok className="w-16 h-16 text-zinc-700 group-hover:text-emerald-500/40 transition-all duration-500 group-hover:scale-110" />
-                                <span className="text-[10px] font-black tracking-widest text-zinc-800 group-hover:text-emerald-900 transition-colors uppercase">Conteúdo TikTok</span>
-                            </>
+            {/* Defensive check: Ensure video object exists before rendering */}
+            {item.video ? (
+                <>
+                    <div className="relative aspect-video overflow-hidden">
+                        {/* Video Thumbnail or Placeholder */}
+                        {thumbnail && thumbnail !== "TIKTOK_PLACEHOLDER" ? (
+                            <img
+                                src={thumbnail}
+                                alt={item.video.title || "Análise SLX"}
+                                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60 group-hover:opacity-40 grayscale-[0.5] group-hover:grayscale-0"
+                            />
                         ) : (
-                            <Youtube className="w-16 h-16 text-zinc-700 group-hover:text-emerald-500/40 transition-colors duration-500" />
+                            <div className="absolute inset-0 bg-zinc-900 flex flex-col items-center justify-center gap-4">
+                                {item.video.s3Url && item.video.s3Url.includes("tiktok.com") ? (
+                                    <>
+                                        <SiTiktok className="w-16 h-16 text-zinc-700 group-hover:text-emerald-500/40 transition-all duration-500 group-hover:scale-110" />
+                                        <span className="text-[10px] font-black tracking-widest text-zinc-800 group-hover:text-emerald-900 transition-colors uppercase">Conteúdo TikTok</span>
+                                    </>
+                                ) : (
+                                    <Youtube className="w-16 h-16 text-zinc-700 group-hover:text-emerald-500/40 transition-colors duration-500" />
+                                )}
+                            </div>
                         )}
+
+                        {/* Admin Delete Button */}
+                        {isAdmin && (
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault(); e.stopPropagation();
+                                    if (confirm("Deseja realmente excluir este item da vitrine?")) {
+                                        deleteItem.mutate({ id: item.id });
+                                    }
+                                }}
+                                className="absolute top-4 right-4 z-50 p-2 bg-red-500/80 hover:bg-red-600 text-white rounded-xl backdrop-blur-md shadow-lg transition-all active:scale-95"
+                            >
+                                {deleteItem.isPending ? <LoaderIcon className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                            </button>
+                        )}
+
+                        {/* Cyberpunk Mesh and Overlay */}
+                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
+
+                        {/* Lock Overlay */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 bg-zinc-950/80 backdrop-blur-md translate-y-4 group-hover:translate-y-0">
+                            <div className="p-4 bg-emerald-500/20 rounded-full mb-4 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)] border border-emerald-500/30">
+                                <Lock className="w-8 h-8" />
+                            </div>
+                            <span className="text-sm font-black uppercase tracking-[0.2em] text-emerald-400">Conteúdo Restrito</span>
+                            <p className="text-[10px] text-zinc-500 mt-2 font-mono">ENCRYPTED_FEEDBACK_DATA</p>
+                        </div>
+
+                        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center z-10 transition-transform duration-500 group-hover:translate-y-[-10px]">
+                            <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 backdrop-blur-md font-bold px-3 py-1">
+                                <Star className="w-3 h-3 mr-1 fill-current" /> {item.overallRating}/5
+                            </Badge>
+                            <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest bg-black/40 px-2 py-1 rounded-full backdrop-blur-sm">
+                                <Eye className="w-3 h-3 text-emerald-500" />
+                                <span>{Math.floor(Math.random() * 500) + 1240} acessos</span>
+                            </div>
+                        </div>
                     </div>
-                )}
 
-                {/* Admin Delete Button */}
-                {isAdmin && (
-                    <button
-                        onClick={(e) => {
-                            e.preventDefault(); e.stopPropagation();
-                            if (confirm("Deseja realmente excluir este item da vitrine?")) {
-                                deleteItem.mutate({ id: item.id });
-                            }
-                        }}
-                        className="absolute top-4 right-4 z-50 p-2 bg-red-500/80 hover:bg-red-600 text-white rounded-xl backdrop-blur-md shadow-lg transition-all active:scale-95"
-                    >
-                        {deleteItem.isPending ? <LoaderIcon className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
-                    </button>
-                )}
-
-                {/* Cyberpunk Mesh Overlay */}
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
-
-                {/* Mystery Lock Overlay (Premium) */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 bg-zinc-950/80 backdrop-blur-md translate-y-4 group-hover:translate-y-0">
-                    <div className="p-4 bg-emerald-500/20 rounded-full mb-4 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)] border border-emerald-500/30">
-                        <Lock className="w-8 h-8" />
-                    </div>
-                    <span className="text-sm font-black uppercase tracking-[0.2em] text-emerald-400">Conteúdo Restrito</span>
-                    <p className="text-[10px] text-zinc-500 mt-2 font-mono">ENCRYPTED_FEEDBACK_DATA</p>
+                    <CardHeader className="space-y-3 pb-4 relative">
+                        <CardTitle className="text-2xl font-black tracking-tight line-clamp-1 group-hover:text-emerald-400 transition-colors duration-500">
+                            {item.video.title}
+                        </CardTitle>
+                        <div className="h-20">
+                            <p className="text-zinc-400 text-sm leading-relaxed line-clamp-3 font-light italic border-l-2 border-emerald-500/30 pl-4 py-1">
+                                "{item.teaserText}"
+                            </p>
+                        </div>
+                    </CardHeader>
+                </>
+            ) : (
+                <div className="p-8 text-center text-red-500">
+                    Dados do vídeo indisponíveis.
                 </div>
-
-                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center z-10 transition-transform duration-500 group-hover:translate-y-[-10px]">
-                    <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 backdrop-blur-md font-bold px-3 py-1">
-                        <Star className="w-3 h-3 mr-1 fill-current" /> {item.overallRating}/5
-                    </Badge>
-                    <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest bg-black/40 px-2 py-1 rounded-full backdrop-blur-sm">
-                        <Eye className="w-3 h-3 text-emerald-500" />
-                        <span>{Math.floor(Math.random() * 500) + 1240} acessos</span>
-                    </div>
-                </div>
-            </div>
-
-            <CardHeader className="space-y-3 pb-4 relative">
-                <CardTitle className="text-2xl font-black tracking-tight line-clamp-1 group-hover:text-emerald-400 transition-colors duration-500">
-                    {item.video.title}
-                </CardTitle>
-                <div className="h-20">
-                    <p className="text-zinc-400 text-sm leading-relaxed line-clamp-3 font-light italic border-l-2 border-emerald-500/30 pl-4 py-1">
-                        "{item.teaserText}"
-                    </p>
-                </div>
-            </CardHeader>
+            )}
 
             <CardContent className="pt-0 flex gap-2">
                 <div className="px-3 py-1 bg-emerald-500/5 border border-emerald-500/10 rounded-lg text-[9px] text-emerald-500/60 font-black uppercase tracking-widest">Mentalidade</div>

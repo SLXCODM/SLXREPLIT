@@ -155,14 +155,18 @@ function AnalysisDetail({ videoId }: { videoId: number }) {
                         <StatusBadge status={video.data?.status || "pending"} />
                         {isCompleted && (
                             <div className="flex gap-1">
-                                {[...Array(data?.overallRating)].map((_, i) => (
+                                {[...Array(data?.overallRating || 0)].map((_, i) => (
                                     <Star key={i} className="w-4 h-4 text-emerald-400 fill-current" />
                                 ))}
                             </div>
                         )}
                     </div>
-                    <CardTitle className=" text-3xl md:text-5xl font-black tracking-tighter uppercase">{video.data?.title}</CardTitle>
-                    <CardDescription className="text-zinc-500 max-w-xl font-medium">{video.data?.description}</CardDescription>
+                    <CardTitle className=" text-3xl md:text-5xl font-black tracking-tighter uppercase">
+                        {video.data?.title || "Carregando..."}
+                    </CardTitle>
+                    <CardDescription className="text-zinc-500 max-w-xl font-medium">
+                        {video.data?.description || "Sem descrição disponível."}
+                    </CardDescription>
                 </div>
             </CardHeader>
             <CardContent className="p-8 space-y-10">

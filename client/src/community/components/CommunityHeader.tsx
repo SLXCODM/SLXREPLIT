@@ -61,8 +61,9 @@ export function CommunityHeader() {
 
                 <div className="flex items-center gap-4">
                     {auth?.loggedIn ? (
-                        <div className="flex items-center gap-4">
-                            <div className="hidden sm:flex items-center gap-2 text-xs font-bold text-zinc-400 bg-zinc-900 px-3 py-1.5 rounded-full border border-zinc-800">
+                        <div className="flex items-center gap-2 md:gap-4">
+                            {/* Desktop User Info */}
+                            <div className="hidden md:flex items-center gap-2 text-xs font-bold text-zinc-400 bg-zinc-900 px-3 py-1.5 rounded-full border border-zinc-800">
                                 <UserIcon className="w-3 h-3 text-emerald-500" />
                                 <span className="max-w-[100px] truncate">{auth.user.name}</span>
                                 {auth.user.role === "admin" && (
@@ -70,39 +71,57 @@ export function CommunityHeader() {
                                 )}
                             </div>
 
+                            {/* Mobile User Info (Compact) */}
+                            <div className="flex md:hidden items-center gap-2 bg-zinc-900/50 p-1 rounded-full border border-zinc-800 pr-3">
+                                <div className="p-1 bg-zinc-900 rounded-full text-emerald-500">
+                                    <UserIcon className="w-3 h-3" />
+                                </div>
+                                <span className="text-[10px] font-bold text-zinc-300 max-w-[60px] truncate">{auth.user.name.split(' ')[0]}</span>
+                            </div>
+
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => logout.mutate()}
-                                className="text-zinc-500 hover:text-red-400 hover:bg-red-500/10 p-2 sm:px-3"
+                                className="hidden md:flex text-zinc-500 hover:text-red-400 hover:bg-red-500/10 p-2 sm:px-3"
                             >
                                 <LogOut className="w-4 h-4 md:mr-2" />
                                 <span className="hidden md:inline text-xs">{t.logout}</span>
                             </Button>
 
+                            {/* Mobile Logout Button */}
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => logout.mutate()}
+                                className="flex md:hidden h-8 w-8 text-zinc-500 hover:text-red-400 hover:bg-red-500/10"
+                            >
+                                <LogOut className="w-4 h-4" />
+                            </Button>
+
                             {auth.user.role === "admin" && (
                                 <Link href="/community/admin">
-                                    <Button size="sm" variant="outline" className="border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 rounded-full px-6 font-semibold">
+                                    <Button size="sm" variant="outline" className="hidden md:flex border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 rounded-full px-6 font-semibold">
                                         {t.analystPanel}
                                     </Button>
                                 </Link>
                             )}
 
                             <Link href="/community/dashboard">
-                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-6 font-semibold shadow-emerald-900/20 shadow-lg">
+                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-4 md:px-6 font-semibold shadow-emerald-900/20 shadow-lg text-xs md:text-sm">
                                     {t.studentArea}
                                 </Button>
                             </Link>
                         </div>
                     ) : (
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 md:gap-4">
                             <Link href="/community/login">
-                                <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white hover:bg-zinc-900">
+                                <Button variant="ghost" size="sm" className="hidden md:flex text-zinc-400 hover:text-white hover:bg-zinc-900">
                                     {t.login}
                                 </Button>
                             </Link>
                             <Link href="/community/dashboard">
-                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-6 font-semibold shadow-emerald-900/20 shadow-lg">
+                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-4 md:px-6 font-semibold shadow-emerald-900/20 shadow-lg text-xs md:text-sm">
                                     {t.studentArea}
                                 </Button>
                             </Link>
@@ -111,5 +130,22 @@ export function CommunityHeader() {
                 </div>
             </div>
         </header>
+    );
+}
+
+// Helper para Mobile Menu se necessário no futuro
+function MobileUserMenu({ user, logout }: { user: any, logout: () => void }) {
+    return (
+        <div className="flex sm:hidden items-center gap-2">
+            <span className="text-[10px] font-bold text-zinc-400 max-w-[80px] truncate">{user.name}</span>
+            <Button size="icon" variant="ghost" onClick={logout} className="h-8 w-8 text-red-400">
+                <LogOut className="w-4 h-4" />
+            </Button>
+        </div>
+    );
+}
+                </div >
+            </div >
+        </header >
     );
 }
