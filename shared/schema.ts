@@ -73,7 +73,7 @@ export const users = pgTable("users", {
 
 export const videos = pgTable("videos", {
   id: serial("id").primaryKey(),
-  paymentId: integer("payment_id").notNull(),
+  paymentId: integer("payment_id"),
   clientId: integer("client_id").notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),

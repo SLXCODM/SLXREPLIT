@@ -378,7 +378,7 @@ export class DatabaseStorage implements IStorage {
   }): Promise<Analysis> {
     const [video] = await db.insert(videos).values({
       clientId: data.analystId,
-      paymentId: 0,
+      paymentId: null,
       title: data.title,
       description: data.description,
       s3Key: "manual_post",

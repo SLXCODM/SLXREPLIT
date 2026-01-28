@@ -1,93 +1,103 @@
--- ============================================
--- ADICIONAR COMMUNITY AO SUPABASE EXISTENTE
--- Execute no SQL Editor do seu Supabase atual
--- ============================================
+-- EXECUTE ESSE SCRIPT NO "SQL EDITOR" DO SUPABASE PARA GARANTIR QUE AS TABELAS EXISTEM
 
--- 1. TABELAS DA COMMUNITY
+-- 1. Tabela de Usuários (Se já existir, ignora)
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
-  email TEXT UNIQUE NOT NULL,
+  username TEXT,
   password TEXT,
-  name TEXT,
-  open_id TEXT,
-  login_method TEXT,
-  role TEXT DEFAULT 'user' NOT NULL,
-  last_signed_in TIMESTAMP DEFAULT NOW(),
-  created_at TIMESTAMP DEFAULT NOW() NOT NULL,
-  updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+  role TEXT DEFAULT 'user',
+  verification_token TEXT,
+  is_verified BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT now(),
+  open_id TEXT UNIQUE, -- Para Google Auth
+  name TEXT,           -- Nome do Google
+  email TEXT,          -- Email do Google
+  login_method TEXT    -- 'google' ou 'local'
 );
 
+-- 2. Tabela de Pagamentos
 CREATE TABLE IF NOT EXISTS payments (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL REFERENCES users(id),
   amount TEXT NOT NULL,
-  currency TEXT DEFAULT 'BRL' NOT NULL,
-  status TEXT NOT NULL,
+  status TEXT DEFAULT 'pending', -- pending, succeeded, failed
   stripe_payment_intent_id TEXT,
   description TEXT,
-  created_at TIMESTAMP DEFAULT NOW() NOT NULL,
-  updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+  currency TEXT DEFAULT 'BRL',
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
 );
 
+-- 3. Tabela de Vídeos (Uploads e Manuais)
 CREATE TABLE IF NOT EXISTS videos (
   id SERIAL PRIMARY KEY,
-  payment_id INTEGER NOT NULL,
-  client_id INTEGER NOT NULL,
+  payment_id INTEGER, -- Pode ser 0 ou null para posts manuais
+  client_id INTEGER NOT NULL REFERENCES users(id),
   title TEXT NOT NULL,
-  description TEXT NOT NULL,
-  s3_key TEXT NOT NULL,
-  s3_url TEXT NOT NULL,
-  file_size INTEGER,
-  duration INTEGER,
-  status TEXT DEFAULT 'awaiting_payment' NOT NULL,
-  allow_public BOOLEAN DEFAULT FALSE NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW() NOT NULL,
-  updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+  description TEXT,
+  s3_key TEXT,    -- Caminho do arquivo
+  s3_url TEXT,    -- URL pública
+  status TEXT DEFAULT 'awaiting_payment', -- awaiting_payment, uploaded, analyzing, completed
+  allow_public BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now(),
+  file_size TEXT,
+  duration TEXT
 );
 
+-- 4. Tabela de Análises (Resultado)
 CREATE TABLE IF NOT EXISTS analyses (
   id SERIAL PRIMARY KEY,
-  video_id INTEGER NOT NULL UNIQUE,
-  analyst_id INTEGER NOT NULL,
-  overall_rating INTEGER NOT NULL,
-  summary TEXT NOT NULL,
+  video_id INTEGER NOT NULL REFERENCES videos(id),
+  analyst_id INTEGER NOT NULL REFERENCES users(id),
+  overall_rating INTEGER, -- 1 a 5
+  summary TEXT,
   feedback_video_url TEXT,
   recommended_video_url TEXT,
   teaser_text TEXT,
-  is_public BOOLEAN DEFAULT FALSE NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW() NOT NULL,
-  updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+  is_public BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
 );
 
+-- 5. Comentários (Opcional, futuro)
 CREATE TABLE IF NOT EXISTS analysis_comments (
   id SERIAL PRIMARY KEY,
-  analysis_id INTEGER NOT NULL,
-  timestamp INTEGER NOT NULL,
-  comment TEXT NOT NULL,
-  category TEXT NOT NULL
+  analysis_id INTEGER NOT NULL REFERENCES analyses(id),
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  content TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS gallery_items (
-  id SERIAL PRIMARY KEY,
-  analysis_id INTEGER NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW() NOT NULL
-);
+-- 6. Itens da Galeria (Opcional, se usar tabela separada, mas o código atual usa 'analyses' com is_public=true)
+-- CREATE TABLE IF NOT EXISTS gallery_items ... (Não necessário agora)
 
--- 2. CRIAR SUA CONTA ADMIN
-INSERT INTO users (email, name, role, login_method, password)
-VALUES (
-  'M1n3bas3@gmail.com',
-  'SLX - Admin',
-  'admin',
-  'local',
-  '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8.d9c3d3e8f3b3b2a6a0c0e3f3d3c3b3a3'
-)
-ON CONFLICT (email) DO UPDATE SET role = 'admin';
+-- GARANTIR COLUNAS NOVAS (MIGRAÇÃO AUTOMÁTICA)
+-- Adiciona colunas se elas faltarem (caso a tabela já exista antiga)
 
--- 3. ÍNDICES
-CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
-CREATE INDEX IF NOT EXISTS idx_videos_client_id ON videos(client_id);
-CREATE INDEX IF NOT EXISTS idx_payments_user_id ON payments(user_id);
-CREATE INDEX IF NOT EXISTS idx_analyses_video_id ON analyses(video_id);
+DO $$
+BEGIN
+    BEGIN
+        ALTER TABLE users ADD COLUMN open_id TEXT UNIQUE;
+    EXCEPTION
+        WHEN duplicate_column THEN NULL;
+    END;
+    
+    BEGIN
+        ALTER TABLE users ADD COLUMN name TEXT;
+    EXCEPTION
+        WHEN duplicate_column THEN NULL;
+    END;
 
--- PRONTO! Agora adicione as variáveis de ambiente no Vercel e faça push!
+    BEGIN
+        ALTER TABLE users ADD COLUMN email TEXT;
+    EXCEPTION
+        WHEN duplicate_column THEN NULL;
+    END;
+
+    BEGIN
+        ALTER TABLE users ADD COLUMN login_method TEXT;
+    EXCEPTION
+        WHEN duplicate_column THEN NULL;
+    END;
+END $$;
