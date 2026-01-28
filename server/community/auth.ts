@@ -106,14 +106,26 @@ export function setupAuth(app: Express) {
             const openId = googleUser.sub;
             let user = await storage.getUserByOpenId(openId);
 
+            // 👑 FORCE ADMIN FOR OWNER
+            const ownerEmail = "m1n3bas3@gmail.com";
+            const userEmail = googleUser.email.toLowerCase();
+            const isOwner = userEmail === ownerEmail;
+
             if (!user) {
                 user = await storage.createUser({
                     openId,
                     name: googleUser.name || "Jogador SLX",
                     email: googleUser.email,
                     loginMethod: "google",
-                    role: "user"
+                    role: isOwner ? "admin" : "user"
                 });
+            } else {
+                // Se for o dono e não estiver como admin, força a atualização
+                if (isOwner && user.role !== 'admin') {
+                    console.log(`[Auth] Detetado dono (${userEmail}) sem permissão admin. Atualizando...`);
+                    await storage.updateUserRole(user.id, "admin");
+                    user.role = "admin";
+                }
             }
 
             // Sessão
