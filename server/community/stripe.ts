@@ -154,7 +154,10 @@ export function setupStripeRoutes(app: Express) {
                 params.append('metadata[paymentId]', result.paymentId.toString());
 
                 // Enable all automatic payment methods
-                params.append('automatic_payment_methods[enabled]', 'true');
+                // params.append('automatic_payment_methods[enabled]', 'true');
+
+                // LEGACY MODE: Use explicit types to avoid API Version errors
+                params.append('payment_method_types[0]', 'card');
 
                 const fallbackRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
                     method: 'POST',
