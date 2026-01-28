@@ -49,11 +49,10 @@ export const db = new Proxy({}, {
 
 // Helper to initialize database tables if they don't exist
 export async function bootstrapDatabase() {
-  // In production (Vercel), we skip everything to avoid "ReadOnly" filesystem errors
-  if (process.env.VERCEL === "1") {
-    console.log("[Vercel] Skip bootstrap to avoid ReadOnly filesystem errors.");
-    return;
-  }
+  // In production (Vercel), we USED to skip, but now we MUST check if tables exist.
+  // The persistent storage "ReadOnly" error happens on file writes, but this is a Postgres connection.
+  // So we allow bootstrapping to ensure tables exist in the customized Supabase DB.
+  console.log("[Bootstrap] Verifying database tables...");
 
   if (!process.env.DATABASE_URL) {
     console.warn("Bootstrap skipped: DATABASE_URL is not set.");
