@@ -14,6 +14,22 @@ export default async (req, res) => {
             });
         }
 
+        // 🔍 Network Diagnostic Endpoint
+        if (req.url === "/api/debug-stripe") {
+            const results = {};
+            try {
+                const start = Date.now();
+                await fetch('https://api.stripe.com/health'); // Simple health check
+                results.stripeHealth = `OK (${Date.now() - start}ms)`;
+                results.internetAccess = "Authorized";
+            } catch (err) {
+                results.stripeHealth = `FAILED: ${err.message}`;
+                results.internetAccess = "Blocked/Error";
+            }
+            results.envCheck = process.env.STRIPE_SECRET_KEY ? "Key Present" : "Key Missing";
+            return res.status(200).json(results);
+        }
+
         // 🟠 Delayed Server Loading
         if (!server) {
             console.log("[Vercel] Loading server bundle from ./_server.js...");

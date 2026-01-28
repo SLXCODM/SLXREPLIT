@@ -122,16 +122,51 @@ export function setupStripeRoutes(app: Express) {
             console.log("[Stripe] Sessão de checkout criada com sucesso.");
             res.json({ url: session.url });
         } catch (error: any) {
-            console.error("[Stripe] Erro Crítico no Checkout:", error);
-            res.status(500).json({
-                error: (error.type === 'StripeAuthenticationError')
-                    ? "Erro de Autenticação no Stripe (Chave Inválida)."
-                    : "Erro na comunicação com o Stripe.",
-                details: error.message,
-                code: error.code || 'unknown',
-                type: error.type || 'unknown',
-                tip: "Certifique-se de que a STRIPE_SECRET_KEY no Vercel está correta e que você fez o Redeploy."
-            });
+            console.error("[Stripe] SDK falhou. Tentando Fallback Manual (Fetch)...", error.message);
+
+            // FALLBACK: Tentar via REST API direta (bypassing SDK)
+            try {
+                const params = new URLSearchParams();
+                params.append('mode', 'payment');
+                params.append('success_url', `${req.protocol}://${req.get("host")}/community/payment-success?session_id={CHECKOUT_SESSION_ID}`);
+                params.append('cancel_url', `${req.protocol}://${req.get("host")}/community/payment-cancel`);
+                params.append('client_reference_id', result.paymentId.toString());
+                params.append('line_items[0][price_data][currency]', 'brl');
+                params.append('line_items[0][price_data][product_data][name]', `Análise Profissional SLX: ${title}`);
+                params.append('line_items[0][price_data][unit_amount]', '3700');
+                params.append('line_items[0][quantity]', '1');
+                params.append('metadata[videoId]', result.videoId.toString());
+                params.append('metadata[paymentId]', result.paymentId.toString());
+
+                // Enable all automatic payment methods (including Pix if configured)
+                params.append('automatic_payment_methods[enabled]', 'true');
+
+                const fallbackRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${process.env.STRIPE_SECRET_KEY?.trim()}`,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params
+                });
+
+                const fallbackData = await fallbackRes.json();
+
+                if (!fallbackRes.ok) {
+                    throw new Error(`Fallback Stripe Error: ${JSON.stringify(fallbackData)}`);
+                }
+
+                console.log("[Stripe] Sucesso via Fallback Manual!");
+                return res.json({ url: fallbackData.url });
+
+            } catch (fallbackErr: any) {
+                console.error("[Stripe] Fallback Final falhou:", fallbackErr);
+                res.status(500).json({
+                    error: "Erro Fatal na Comunicação com Stripe (SDK e Fallback falharam).",
+                    details: fallbackErr.message,
+                    originalError: error.message
+                });
+            }
         }
     });
 
