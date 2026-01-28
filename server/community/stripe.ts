@@ -7,14 +7,17 @@ let stripe: Stripe | null = null;
 
 function getStripe() {
     if (!stripe && process.env.STRIPE_SECRET_KEY) {
-        const key = process.env.STRIPE_SECRET_KEY.trim();
+        const rawKey = process.env.STRIPE_SECRET_KEY;
+        // Fix: Removes quotes that might have been pasted into Vercel env vars
+        const key = rawKey.replace(/['"]/g, '').trim();
+
         stripe = new Stripe(key, {
             apiVersion: "2023-10-16" as any,
             maxNetworkRetries: 3,
             timeout: 15000
         });
-        // Force Deploy Check: v2.0
-        console.log(`[Stripe] Cliente inicializado (Retry Ativo). Key: ${key.substring(0, 7)}... Size: ${key.length}`);
+        // Force Deploy Check: v2.1
+        console.log(`[Stripe] Cliente inicializado (Sanitized). Key: ${key.substring(0, 7)}... Size: ${key.length}`);
     }
     return stripe;
 }
@@ -126,6 +129,10 @@ export function setupStripeRoutes(app: Express) {
 
             // FALLBACK: Tentar via REST API direta (bypassing SDK)
             try {
+                // SANITIZE KEY AGAIN FOR FALLBACK
+                const rawKey = process.env.STRIPE_SECRET_KEY || "";
+                const cleanKey = rawKey.replace(/['"]/g, '').trim();
+
                 const params = new URLSearchParams();
                 params.append('mode', 'payment');
                 params.append('success_url', `${req.protocol}://${req.get("host")}/community/payment-success?session_id={CHECKOUT_SESSION_ID}`);
@@ -138,13 +145,13 @@ export function setupStripeRoutes(app: Express) {
                 params.append('metadata[videoId]', result.videoId.toString());
                 params.append('metadata[paymentId]', result.paymentId.toString());
 
-                // Enable all automatic payment methods (including Pix if configured)
+                // Enable all automatic payment methods
                 params.append('automatic_payment_methods[enabled]', 'true');
 
                 const fallbackRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${process.env.STRIPE_SECRET_KEY?.trim()}`,
+                        'Authorization': `Bearer ${cleanKey}`,
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: params
@@ -153,7 +160,8 @@ export function setupStripeRoutes(app: Express) {
                 const fallbackData = await fallbackRes.json();
 
                 if (!fallbackRes.ok) {
-                    throw new Error(`Fallback Stripe Error: ${JSON.stringify(fallbackData)}`);
+                    // Return the REAL error from Stripe
+                    throw new Error(fallbackData.error?.message || JSON.stringify(fallbackData));
                 }
 
                 console.log("[Stripe] Sucesso via Fallback Manual!");
@@ -162,7 +170,8 @@ export function setupStripeRoutes(app: Express) {
             } catch (fallbackErr: any) {
                 console.error("[Stripe] Fallback Final falhou:", fallbackErr);
                 res.status(500).json({
-                    error: "Erro Fatal na Comunicação com Stripe (SDK e Fallback falharam).",
+                    // Mostrar a mensagem REAL do erro para o usuário (ex: Authentication Failed)
+                    error: `Erro Stripe: ${fallbackErr.message}`,
                     details: fallbackErr.message,
                     originalError: error.message
                 });
@@ -175,6 +184,7 @@ export function setupStripeRoutes(app: Express) {
         const sig = req.headers["stripe-signature"];
         let event;
 
+        // SANITIZE KEY FOR WEBHOOK TOO
         const stripeClient = getStripe();
         if (!stripeClient) return res.sendStatus(400);
 
