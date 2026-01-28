@@ -34,6 +34,15 @@ export const createContext = async ({
 const t = initTRPC.context<Context>().create({
     transformer: superjson,
     errorFormatter({ shape, error }) {
+        if (error.code === 'BAD_REQUEST') {
+            console.error("tRPC BAD_REQUEST Error:", error.message);
+            if (error.cause instanceof ZodError) {
+                console.error("Zod Validation Details:", JSON.stringify(error.cause.flatten(), null, 2));
+            }
+        } else {
+            console.error("tRPC Error:", error.code, error.message);
+        }
+
         return {
             ...shape,
             data: {

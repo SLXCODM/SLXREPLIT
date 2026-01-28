@@ -90,6 +90,7 @@ export const uploadRouter = router({
             teaserText: z.string(),
         }))
         .mutation(async ({ input, ctx }) => {
+            console.log("[tRPC] createManualGalleryPost input:", JSON.stringify(input, null, 2));
             const analystId = ctx.user.id;
             return await storage.createManualAnalysis({
                 ...input,
