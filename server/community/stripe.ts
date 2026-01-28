@@ -24,9 +24,12 @@ function getStripe() {
 
 export function setupStripeRoutes(app: Express) {
     app.post("/api/community/create-checkout-session", async (req, res) => {
+        // Hoist variables to be accessible in catch block
+        let result: any = null;
+        const { price, title, videoUrl, description, allowPublic } = req.body;
+
         try {
             console.log("[Stripe] Inciando criação de sessão de checkout...");
-            const { price, title, videoUrl, description, allowPublic } = req.body;
             const user = (req.session as any).user;
 
             console.log("[Stripe Debug] Key present:", !!process.env.STRIPE_SECRET_KEY);
@@ -40,7 +43,7 @@ export function setupStripeRoutes(app: Express) {
 
             // 🎯 ADMIN BYPASS: Admin não paga!
             if (user.role === 'admin') {
-                const result = await storage.createUploadSession(
+                const adminResult = await storage.createUploadSession(
                     user.id,
                     title,
                     description || "Admin Upload - Sem Pagamento",
@@ -50,12 +53,12 @@ export function setupStripeRoutes(app: Express) {
                 );
 
                 // Confirmar pagamento automaticamente para admin
-                await storage.confirmPayment(result.paymentId);
+                await storage.confirmPayment(adminResult.paymentId);
 
-                console.log(`[Admin Bypass] Vídeo ${result.videoId} aprovado automaticamente para admin ${user.email}`);
+                console.log(`[Admin Bypass] Vídeo ${adminResult.videoId} aprovado automaticamente para admin ${user.email}`);
 
                 return res.json({
-                    url: `${req.protocol}://${req.get("host")}/community/payment-success?admin=true&paymentId=${result.paymentId}`,
+                    url: `${req.protocol}://${req.get("host")}/community/payment-success?admin=true&paymentId=${adminResult.paymentId}`,
                     adminBypass: true
                 });
             }
@@ -63,7 +66,7 @@ export function setupStripeRoutes(app: Express) {
             const stripeClient = getStripe();
 
             // 1. Criar a sessão no banco de dados primeiro para ter o ID
-            const result = await storage.createUploadSession(
+            result = await storage.createUploadSession(
                 user.id,
                 title,
                 description || "Aguardando pagamento",
@@ -126,6 +129,11 @@ export function setupStripeRoutes(app: Express) {
             res.json({ url: session.url });
         } catch (error: any) {
             console.error("[Stripe] SDK falhou. Tentando Fallback Manual (Fetch)...", error.message);
+
+            if (!result) {
+                console.error("[Stripe] Erro ocorreu antes de criar sessão no DB. Abortando fallback.");
+                return res.status(500).json({ error: "Erro interno ao preparar pedido (Banco de Dados)." });
+            }
 
             // FALLBACK: Tentar via REST API direta (bypassing SDK)
             try {
