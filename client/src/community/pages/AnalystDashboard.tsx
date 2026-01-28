@@ -406,7 +406,18 @@ function ManualGalleryPostForm() {
             setTitle(""); setDescription(""); setVideoUrl(""); setSummary(""); setFeedbackVideoUrl(""); setTeaserText("");
         },
         onError: (err) => {
-            toast({ title: "Erro ao postar", description: err.message, variant: "destructive" });
+            console.error("Erro ao postar exemplo:", err);
+            // Tenta extrair erro de validação (Zod) se existir
+            const zodErrors = (err as any).data?.zodError?.fieldErrors;
+            const detail = zodErrors ?
+                Object.entries(zodErrors).map(([field, msgs]) => `${field}: ${(msgs as string[]).join(", ")}`).join(" | ") :
+                err.message;
+
+            toast({
+                title: "Erro ao postar",
+                description: detail || "Erro desconhecido no servidor",
+                variant: "destructive"
+            });
         }
     });
 
