@@ -78,12 +78,18 @@ function AppContent() {
   );
 }
 
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+
+// ... existing imports ...
+
 function App() {
   return (
     <LanguageProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <AppContent />
+          <ErrorBoundary>
+            <AppContent />
+          </ErrorBoundary>
           <Toaster />
         </TooltipProvider>
       </QueryClientProvider>
