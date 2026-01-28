@@ -144,8 +144,4 @@ function MobileUserMenu({ user, logout }: { user: any, logout: () => void }) {
         </div>
     );
 }
-                </div >
-            </div >
-        </header >
-    );
-}
+
