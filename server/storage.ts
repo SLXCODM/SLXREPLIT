@@ -27,7 +27,7 @@ import {
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, ne } from "drizzle-orm";
 import path from "path";
 import {
   sendOrderNotificationToAdmin,
@@ -269,7 +269,7 @@ export class DatabaseStorage implements IStorage {
     })
       .from(payments)
       .innerJoin(videos, eq(videos.paymentId, payments.id))
-      .where(eq(payments.status, "pending"));
+      .where(ne(payments.status, "succeeded"));
 
     return results.map((r: any) => ({ ...r.payment, video: r.video }));
   }

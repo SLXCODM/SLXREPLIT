@@ -94,8 +94,8 @@ export default function LoginPage() {
             const data = await res.json();
             if (res.ok) {
                 toast({ title: t.welcomeBack, description: t.loginSuccess });
-                // Use window.location.href to force a full reload and state update
-                window.location.href = "/community/dashboard";
+                // Use replace to prevent back-button loops
+                window.location.replace("/community/dashboard");
             } else {
                 toast({ title: t.loginError, description: data.message, variant: "destructive" });
             }
@@ -118,8 +118,8 @@ export default function LoginPage() {
             const data = await res.json();
             if (res.ok) {
                 toast({ title: t.accountCreated, description: t.journeyStarted });
-                // Use window.location.href to force a full reload and state update
-                window.location.href = "/community/dashboard";
+                // Use replace to prevent back-button loops
+                window.location.replace("/community/dashboard");
             } else {
                 toast({ title: t.regError, description: data.message, variant: "destructive" });
             }

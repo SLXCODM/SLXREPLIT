@@ -1,12 +1,13 @@
--- EXECUTE ESSE SCRIPT (VERSÃO V2 - A PROVA DE ERROS)
+-- SCRIPT V2 (RODE ESSE!)
+-- Este script corrige o erro "relation already exists" e libera o upload manual.
 
--- 1. Remove a obrigação de ter Pagamento para criar Vídeo (Isso permite posts manuais)
+-- 1. Libera pagamento nulo (Safe)
 ALTER TABLE videos ALTER COLUMN payment_id DROP NOT NULL;
 
--- 2. Garante que allow_public é verdadeiro por padrão
+-- 2. Define padrão público (Safe)
 ALTER TABLE videos ALTER COLUMN allow_public SET DEFAULT true;
 
--- 3. Adiciona a restrição de unicidade APENAS SE ELA NÃO EXISTIR (Para evitar o erro que você viu)
+-- 3. Adiciona a proteção de unicidade SOMENTE se ela não existir (Isso corrige o erro 42P07)
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'analyses_video_id_key') THEN
@@ -14,5 +15,5 @@ BEGIN
     END IF;
 END $$;
 
--- 4. Mensagem de Sucesso
-SELECT 'SUCESSO! Agora o banco aceita posts manuais.' as status;
+-- 4. Confirmação
+SELECT 'SUCESSO! Tabela consertada e pronta para Upload Manual.' as status;
