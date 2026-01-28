@@ -263,15 +263,20 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getPendingPayments(): Promise<(Payment & { video: Video })[]> {
-    const results = await db.select({
-      payment: payments,
-      video: videos
-    })
-      .from(payments)
-      .innerJoin(videos, eq(videos.paymentId, payments.id))
-      .where(ne(payments.status, "succeeded"));
+    try {
+      const results = await db.select({
+        payment: payments,
+        video: videos
+      })
+        .from(payments)
+        .innerJoin(videos, eq(videos.paymentId, payments.id))
+        .where(ne(payments.status, "succeeded"));
 
-    return results.map((r: any) => ({ ...r.payment, video: r.video }));
+      return results.map((r: any) => ({ ...r.payment, video: r.video }));
+    } catch (error: any) {
+      console.error("Error fetching pending payments:", error.message);
+      throw new Error(`Database Error: ${error.message}. Ensure 'payments' and 'videos' tables exist.`);
+    }
   }
 
   async confirmPayment(paymentId: number): Promise<void> {
@@ -376,28 +381,33 @@ export class DatabaseStorage implements IStorage {
     feedbackVideoUrl: string | null;
     teaserText: string;
   }): Promise<Analysis> {
-    const [video] = await db.insert(videos).values({
-      clientId: data.analystId,
-      paymentId: null,
-      title: data.title,
-      description: data.description,
-      s3Key: "manual_post",
-      s3Url: data.videoUrl,
-      status: "completed",
-      allowPublic: true,
-    }).returning();
+    try {
+      const [video] = await db.insert(videos).values({
+        clientId: data.analystId,
+        paymentId: null,
+        title: data.title,
+        description: data.description,
+        s3Key: "manual_post",
+        s3Url: data.videoUrl,
+        status: "completed",
+        allowPublic: true,
+      }).returning();
 
-    const [analysis] = await db.insert(analyses).values({
-      videoId: video.id,
-      analystId: data.analystId,
-      overallRating: data.rating,
-      summary: data.summary,
-      feedbackVideoUrl: data.feedbackVideoUrl,
-      teaserText: data.teaserText,
-      isPublic: true,
-    }).returning();
+      const [analysis] = await db.insert(analyses).values({
+        videoId: video.id,
+        analystId: data.analystId,
+        overallRating: data.rating,
+        summary: data.summary,
+        feedbackVideoUrl: data.feedbackVideoUrl,
+        teaserText: data.teaserText,
+        isPublic: true,
+      }).returning();
 
-    return analysis;
+      return analysis;
+    } catch (error: any) {
+      console.error("Error creating manual analysis:", error.message);
+      throw new Error(`Failed to save post: ${error.message}. Check if 'users', 'videos' and 'analyses' tables are ready.`);
+    }
   }
 
   async deleteGalleryItem(id: number): Promise<boolean> {
