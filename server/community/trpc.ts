@@ -21,6 +21,10 @@ export const createContext = async ({
     req: Request;
     res: Response;
 }): Promise<Context> => {
+    console.log("[tRPC Context] Method:", req.method, "URL:", req.url);
+    console.log("[tRPC Context] Body:", JSON.stringify(req.body));
+    console.log("[tRPC Context] Content-Type:", req.headers['content-type']);
+
     // @ts-ignore - session might not be typed on Request
     const user = req.session?.user;
 
