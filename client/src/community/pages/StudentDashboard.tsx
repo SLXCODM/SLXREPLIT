@@ -161,7 +161,7 @@ function AnalysisDetail({ videoId }: { videoId: number }) {
                             </div>
                         )}
                     </div>
-                    <CardTitle className=" text-3xl md:text-5xl font-black tracking-tighter uppercase">
+                    <CardTitle className="text-3xl md:text-5xl font-black tracking-tighter uppercase break-all">
                         {video.data?.title || "Carregando..."}
                     </CardTitle>
                     <CardDescription className="text-zinc-500 max-w-xl font-medium">
@@ -189,7 +189,7 @@ function AnalysisDetail({ videoId }: { videoId: number }) {
                             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-emerald-500 flex items-center gap-2">
                                 <MessageSquare className="w-4 h-4" /> Resumo do Analista
                             </h3>
-                            <div className="p-6 bg-zinc-950/50 rounded-2xl border border-zinc-800/50 leading-relaxed text-zinc-300 font-medium italic">
+                            <div className="p-6 bg-zinc-950/50 rounded-2xl border border-zinc-800/50 leading-relaxed text-zinc-300 font-medium italic break-all">
                                 "{data?.summary}"
                             </div>
                         </div>
