@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpLink } from "@trpc/client";
 import { trpc } from "./lib/trpc";
-import superjson from "superjson";
 import CommunityHome from "./CommunityHome";
 
 export function CommunityProvider() {
@@ -12,7 +11,6 @@ export function CommunityProvider() {
             links: [
                 httpLink({
                     url: "/api/trpc",
-                    transformer: superjson,
                 }),
             ],
         })

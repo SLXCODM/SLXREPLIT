@@ -1,6 +1,5 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import { ZodError } from "zod";
-import superjson from "superjson";
 import { type Request, type Response } from "express";
 
 // Community Context
@@ -36,7 +35,6 @@ export const createContext = async ({
 };
 
 const t = initTRPC.context<Context>().create({
-    transformer: superjson,
     errorFormatter({ shape, error }) {
         if (error.code === 'BAD_REQUEST') {
             console.error("tRPC BAD_REQUEST Error:", error.message);
