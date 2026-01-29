@@ -339,6 +339,11 @@ export class DatabaseStorage implements IStorage {
 
     await db.update(videos).set({ status: "completed" }).where(eq(videos.id, analysis.videoId));
 
+    // Atualizar status do pagamento para "succeeded" (remove da lista de pendentes)
+    await db.update(payments)
+      .set({ status: "succeeded" })
+      .where(eq(payments.id, db.select({ paymentId: videos.paymentId }).from(videos).where(eq(videos.id, analysis.videoId))));
+
     try {
       const [video] = await db.select().from(videos).where(eq(videos.id, analysis.videoId));
       if (video) {
