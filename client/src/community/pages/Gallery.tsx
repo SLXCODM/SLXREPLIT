@@ -219,8 +219,8 @@ function GalleryCard({ item }: { item: any }) {
                         <CardTitle className="text-2xl font-black tracking-tight line-clamp-1 group-hover:text-emerald-400 transition-colors duration-500">
                             {item.video.title}
                         </CardTitle>
-                        <div className="h-20">
-                            <p className="text-zinc-400 text-sm leading-relaxed line-clamp-3 font-light italic border-l-2 border-emerald-500/30 pl-4 py-1 break-words overflow-wrap-anywhere">
+                        <div className="min-h-20">
+                            <p className="text-zinc-400 text-sm leading-relaxed font-light italic border-l-2 border-emerald-500/30 pl-4 py-1 break-words overflow-wrap-anywhere">
                                 "{item.teaserText}"
                             </p>
                         </div>
