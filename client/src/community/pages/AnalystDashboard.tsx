@@ -271,7 +271,7 @@ function AnalysisForm({ video, isSubmitting, onSubmit, isLoading }: { video: any
                     <div>
                         <Badge variant="outline" className="text-emerald-400 border-emerald-500/30 mb-2">Sessão # {video?.id}</Badge>
                         <CardTitle className="text-2xl font-bold">{video?.title}</CardTitle>
-                        <CardDescription className="text-zinc-400 mt-1">{video?.description || "Sem descrição do cliente."}</CardDescription>
+                        <CardDescription className="text-zinc-400 mt-1 break-all">{video?.description || "Sem descrição do cliente."}</CardDescription>
                     </div>
                     <a href={video?.s3Url} target="_blank" rel="noopener noreferrer">
                         <Button variant="outline" size="sm" className="bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20">
