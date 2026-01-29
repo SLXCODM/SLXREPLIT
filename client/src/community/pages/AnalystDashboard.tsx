@@ -116,7 +116,7 @@ export default function AnalystDashboard() {
                                                 <span className="text-xl font-black text-white">R$ {payment.amount}</span>
                                             </div>
                                             <CardTitle className="text-lg font-bold truncate">{payment.video.title}</CardTitle>
-                                            <CardDescription className="text-zinc-500 text-xs break-words">{payment.description}</CardDescription>
+                                            <CardDescription className="text-zinc-500 text-xs break-all">{payment.description}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="space-y-4">
                                             <div className="p-3 bg-zinc-950/50 rounded-2xl border border-zinc-800 text-xs text-zinc-400">
