@@ -425,9 +425,13 @@ function ManualGalleryPostForm() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        submit.mutate({
+        const payload = {
             title, description, videoUrl, rating, summary, feedbackVideoUrl, teaserText
-        });
+        };
+        console.log("[FRONTEND] Sending payload:", payload);
+        console.log("[FRONTEND] Payload type:", typeof payload);
+        console.log("[FRONTEND] Payload JSON:", JSON.stringify(payload));
+        submit.mutate(payload);
     };
 
     return (
