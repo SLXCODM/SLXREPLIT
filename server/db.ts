@@ -49,9 +49,16 @@ export const db = new Proxy({}, {
 
 // Helper to initialize database tables if they don't exist
 export async function bootstrapDatabase() {
-  // In production (Vercel), we USED to skip, but now we MUST check if tables exist.
-  // The persistent storage "ReadOnly" error happens on file writes, but this is a Postgres connection.
-  // So we allow bootstrapping to ensure tables exist in the customized Supabase DB.
+  const isVercel = process.env.VERCEL === '1';
+  const forceBootstrap = process.env.DB_BOOTSTRAP === 'true';
+
+  // In production (Vercel), skip bootstrapping unless explicitly forced.
+  // This drastically reduces cold start times from ~1 minute to a few seconds.
+  if (isVercel && !forceBootstrap) {
+    console.log("[Bootstrap] Skipping database check in production to optimize cold start.");
+    return;
+  }
+
   console.log("[Bootstrap] Verifying database tables...");
 
   if (!process.env.DATABASE_URL) {
