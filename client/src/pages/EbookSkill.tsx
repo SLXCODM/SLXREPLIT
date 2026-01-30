@@ -106,7 +106,7 @@ export default function EbookSkill() {
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <Button
                                     size="lg"
-                                    className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 w-full sm:w-auto focus-visible:ring-primary"
+                                    className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-xl shadow-[0_10px_30px_-10px_rgba(155,107,206,0.5)] hover:shadow-[0_15px_35px_-10px_rgba(155,107,206,0.6)] transition-all duration-300 w-full sm:w-auto focus-visible:ring-[#9B6BCE]"
                                     onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                                 >
                                     Comprar Agora
@@ -115,7 +115,7 @@ export default function EbookSkill() {
                                 <Button
                                     variant="outline"
                                     size="lg"
-                                    className="px-8 py-6 text-lg rounded-xl border-2 border-primary/20 hover:bg-primary/5 text-foreground w-full sm:w-auto focus-visible:ring-primary"
+                                    className="px-8 py-6 text-lg rounded-xl border-2 border-[#9B6BCE]/30 hover:bg-[#9B6BCE]/10 text-foreground w-full sm:w-auto focus-visible:ring-[#9B6BCE]"
                                     onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
                                 >
                                     Saber Mais
@@ -257,7 +257,7 @@ export default function EbookSkill() {
                                 <div className="mt-10">
                                     <Button
                                         size="lg"
-                                        className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto focus-visible:ring-primary"
+                                        className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto shadow-[0_10px_20px_-5px_rgba(155,107,206,0.3)] focus-visible:ring-[#9B6BCE]"
                                         onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                                     >
                                         Quero Acessar o Conteúdo Completo
@@ -273,7 +273,7 @@ export default function EbookSkill() {
                     <div className="container mx-auto px-4">
                         <motion.div
                             {...fadeIn}
-                            className="max-w-4xl mx-auto bg-card rounded-3xl p-8 md:p-12 shadow-xl shadow-primary/5 border border-primary/10 flex flex-col md:flex-row items-center gap-8 md:gap-12"
+                            className="max-w-4xl mx-auto bg-card rounded-3xl p-8 md:p-12 shadow-xl shadow-[#9B6BCE]/10 border border-[#9B6BCE]/20 flex flex-col md:flex-row items-center gap-8 md:gap-12"
                         >
                             <div className="w-32 h-32 md:w-48 md:h-48 shrink-0 rounded-full bg-secondary overflow-hidden border-4 border-background shadow-lg">
                                 <img src={slxImage} alt="SLX" className="w-full h-full object-cover" />
@@ -359,7 +359,7 @@ export default function EbookSkill() {
                             <div className="flex flex-col gap-4 max-w-sm mx-auto">
                                 <Button
                                     size="lg"
-                                    className="w-full bg-primary hover:bg-primary/90 text-white h-14 text-lg shadow-xl shadow-primary/25 rounded-xl focus-visible:ring-primary"
+                                    className="w-full bg-primary hover:bg-primary/90 text-white h-14 text-lg shadow-[0_15px_35px_-10px_rgba(155,107,206,0.5)] rounded-xl focus-visible:ring-[#9B6BCE]"
                                     onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                                 >
                                     Comprar Agora - Acesso Imediato

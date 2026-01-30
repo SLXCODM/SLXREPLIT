@@ -48,8 +48,8 @@ export function EbookHeader() {
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 border-b ${isScrolled
-                    ? "bg-background/90 backdrop-blur-md border-border shadow-sm py-3"
-                    : "bg-transparent border-transparent py-5"
+                ? "bg-background/90 backdrop-blur-md border-border shadow-sm py-3"
+                : "bg-transparent border-transparent py-5"
                 }`}
         >
             <div className="container mx-auto px-4 flex items-center justify-between">
@@ -61,7 +61,7 @@ export function EbookHeader() {
                 <nav className="hidden md:flex items-center gap-8">
                     <NavItems />
                     <Button
-                        className="bg-primary hover:bg-primary/90 text-white font-serif-body px-6"
+                        className="bg-primary hover:bg-primary/90 text-white font-serif-body px-6 focus-visible:ring-[#9B6BCE]"
                         onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                     >
                         Comprar Agora
@@ -80,7 +80,7 @@ export function EbookHeader() {
                             <div className="flex flex-col gap-6 mt-10">
                                 <NavItems />
                                 <Button
-                                    className="bg-primary hover:bg-primary/90 text-white w-full"
+                                    className="bg-primary hover:bg-primary/90 text-white w-full focus-visible:ring-[#9B6BCE]"
                                     onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                                 >
                                     Comprar Agora
