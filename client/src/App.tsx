@@ -61,12 +61,13 @@ function AppContent() {
   const { isLanguageSelected, completeLanguageSelection } = useLanguage();
   const [location] = useLocation();
   const isCommunity = location.startsWith("/community");
+  const isEbook = location === "/ebook";
 
-  if (!isLanguageSelected && !isCommunity) {
+  if (!isLanguageSelected && !isCommunity && !isEbook) {
     return <LanguageSelect onComplete={completeLanguageSelection} />;
   }
 
-  const PageLayout = isCommunity ? (
+  const PageLayout = (isCommunity || isEbook) ? (
     <Router />
   ) : (
     <div className="flex flex-col min-h-screen">

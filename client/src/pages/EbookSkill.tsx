@@ -6,8 +6,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { Card, CardContent } from "@/components/ui/card";
 import { Brain, Target, Zap, TrendingUp, CheckCircle2, ChevronRight, Lock, Globe } from "lucide-react";
 
-// Use the copied image from public assets
-const slxImage = "/attached_assets/ebook_cover.jpg";
+const slxImage = "/attached_assets/ebook_v1_cover.jpg";
 
 // Animation variants
 const fadeIn = {
@@ -37,261 +36,345 @@ const staggerContainer = {
 
 export default function EbookSkill() {
     return (
-        <div className="min-h-screen bg-zinc-950 text-white selection:bg-emerald-500/30">
-            <EbookHeader />
+        <div
+            className="ebook-theme-wrapper"
+            style={{
+                // @ts-ignore
+                "--background": "36 33% 97%",
+                "--foreground": "25 20% 15%",
+                "--card": "36 33% 95%",
+                "--card-foreground": "25 20% 15%",
+                "--popover": "36 33% 97%",
+                "--popover-foreground": "25 20% 15%",
+                "--primary": "270 50% 60%",
+                "--primary-foreground": "36 33% 97%",
+                "--secondary": "36 25% 90%",
+                "--secondary-foreground": "25 20% 15%",
+                "--muted": "36 20% 88%",
+                "--muted-foreground": "25 10% 45%",
+                "--accent": "270 40% 75%",
+                "--accent-foreground": "25 20% 15%",
+                "--destructive": "0 84% 60%",
+                "--destructive-foreground": "210 40% 98%",
+                "--border": "270 20% 85%",
+                "--input": "270 20% 85%",
+                "--ring": "270 50% 60%",
+                "--radius": "0.5rem",
+                "--font-serif-display": "'Playfair Display', serif",
+                "--font-serif-body": "'Lora', serif",
+            } as any}
+        >
+            <div className="min-h-screen bg-background text-foreground font-serif-body selection:bg-primary/20 antialiased">
+                <style>{`
+            .ebook-theme-wrapper {
+              font-family: var(--font-serif-body);
+            }
+            .ebook-theme-wrapper h1, 
+            .ebook-theme-wrapper h2, 
+            .ebook-theme-wrapper h3, 
+            .ebook-theme-wrapper .font-serif-display {
+              font-family: var(--font-serif-display) !important;
+            }
+            .ebook-theme-wrapper .font-serif-body {
+              font-family: var(--font-serif-body) !important;
+            }
+          `}</style>
 
-            {/* HERO SECTION */}
-            <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-                {/* Background gradient/texture */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/10 via-zinc-950 to-zinc-950 z-0" />
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
+                <EbookHeader />
 
-                <div className="container mx-auto px-4 relative z-10 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="max-w-4xl mx-auto"
-                    >
-                        <div className="inline-block mb-6 px-4 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-500 text-xs font-black tracking-[0.2em] uppercase">
-                            Manual de Alta Performance
-                        </div>
-                        <h1 className="text-5xl md:text-8xl font-black mb-6 leading-[1] text-white tracking-tighter uppercase" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                            O Princípio da <span className="text-emerald-500 italic">Habilidade</span>
-                        </h1>
-                        <p className="text-xl md:text-2xl text-zinc-400 mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
-                            Domine a performance no Call of Duty Mobile através da ciência, técnica e controle mental técnico.
-                        </p>
+                {/* HERO SECTION */}
+                <section className="relative min-h-[90vh] flex items-center justify-center pt-20 overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background z-0" />
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                            <Button
-                                size="lg"
-                                className="bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-8 text-lg font-black rounded-2xl shadow-2xl shadow-emerald-600/20 transition-all duration-300 w-full sm:w-auto uppercase"
-                                onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
-                            >
-                                Comprar Agora
-                                <ChevronRight className="ml-2 h-6 w-6" />
-                            </Button>
-                            <Button
-                                variant="outline"
-                                size="lg"
-                                className="px-10 py-8 text-lg font-bold rounded-2xl border-2 border-emerald-500/20 hover:bg-emerald-500/5 text-white w-full sm:w-auto"
-                                onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-                            >
-                                Saber Mais
-                            </Button>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* ABOUT SECTION */}
-            <section id="about" className="py-32 relative border-t border-white/5">
-                <div className="container mx-auto px-4">
-                    <motion.div
-                        {...fadeIn}
-                        className="max-w-3xl mx-auto text-center mb-20"
-                    >
-                        <h2 className="text-3xl md:text-5xl font-black leading-tight mb-8 tracking-tighter uppercase">
-                            A maioria das dicas de CODM não falha por serem ruins. <br />
-                            <span className="text-emerald-500 italic block mt-4">Elas falham por estarem atrasadas.</span>
-                        </h2>
-                        <div className="space-y-6 text-lg md:text-xl text-zinc-400 leading-relaxed font-medium">
-                            <p>
-                                Enquanto você ajusta sensi, copia classe e muda HUD, você já ficou pra trás!
-                            </p>
-                            <p className="font-black text-white uppercase text-sm tracking-widest border-b border-emerald-500/30 inline-block pb-2">
-                                O Princípio da Habilidade é um manual direto
-                            </p>
-                            <div className="flex flex-wrap justify-center gap-4 py-6">
-                                {["velocidade cognitiva", "controle real", "tomada de decisão"].map((skill) => (
-                                    <span key={skill} className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-500 text-[10px] font-black uppercase tracking-widest">
-                                        • {skill}
-                                    </span>
-                                ))}
-                            </div>
-                            <p>
-                                Não é um curso longo. É o princípio central, a psicologia do jogo, o que ninguém treina.
-                                Se copiar já não funciona pra você, esse manual é o próximo passo.
-                            </p>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        variants={staggerContainer}
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: true }}
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-                    >
-                        {[
-                            {
-                                icon: Target,
-                                title: "Autenticidade",
-                                desc: "Descubra seu estilo de jogo único e pare de copiar configurações que não funcionam para você."
-                            },
-                            {
-                                icon: Brain,
-                                title: "Neurociência",
-                                desc: "Entenda a fisiologia por trás da precisão mecânica e desenvolva uma memória muscular infalível."
-                            },
-                            {
-                                icon: Zap,
-                                title: "Velocidade",
-                                desc: "Técnicas para acelerar sua leitura de jogo e tomada de decisão em frações de segundo."
-                            },
-                            {
-                                icon: TrendingUp,
-                                title: "Metodologia",
-                                desc: "Treino Eficiente: evolua consistentemente sem desperdiçar horas jogando errado."
-                            }
-                        ].map((item, i) => (
-                            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }} key={i}>
-                                <Card className="h-full border-white/5 bg-zinc-900/50 backdrop-blur-sm hover:border-emerald-500/30 transition-all duration-300">
-                                    <CardContent className="p-8 text-center">
-                                        <div className="w-14 h-14 bg-emerald-500/10 text-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 ring-1 ring-emerald-500/20">
-                                            <item.icon className="h-7 w-7" />
-                                        </div>
-                                        <h3 className="text-xl font-black mb-3 text-white uppercase tracking-tight">{item.title}</h3>
-                                        <p className="text-zinc-400 leading-relaxed text-sm font-medium">
-                                            {item.desc}
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* CONTENT BREAKDOWN */}
-            <section id="content" className="py-32 bg-zinc-900/30">
-                <div className="container mx-auto px-4">
-                    <div className="flex flex-col lg:flex-row items-center gap-20">
+                    <div className="container mx-auto px-4 relative z-10 text-center">
                         <motion.div
-                            {...scaleIn}
-                            className="lg:w-1/2"
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
+                            className="max-w-4xl mx-auto"
                         >
-                            <div className="relative aspect-[3/4] w-full max-w-sm mx-auto group">
-                                {/* 3D-like book mockup */}
-                                <div className="absolute inset-0 bg-emerald-500/20 blur-[60px] rounded-full group-hover:bg-emerald-500/30 transition-colors" />
-                                <div className="w-full h-full bg-gradient-to-br from-emerald-500 to-emerald-900 rounded-lg shadow-2xl relative z-10 p-8 border-l-[10px] border-emerald-950 flex flex-col justify-between overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-full h-full bg-white/5 pointer-events-none" />
-                                    <div className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">SLX Original Manual</div>
-                                    <div>
-                                        <h3 className="text-4xl md:text-5xl font-black leading-none uppercase tracking-tighter italic">O PRINCÍPIO</h3>
-                                        <h3 className="text-4xl md:text-5xl font-black leading-none uppercase tracking-tighter opacity-60">DA HABILIDADE</h3>
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-[10px] font-black">SLX</div>
-                                        <div className="h-[2px] flex-1 bg-white/10" />
-                                    </div>
-                                </div>
+                            <div className="inline-block mb-4 px-4 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-semibold tracking-wide uppercase">
+                                Manual de Alta Performance
                             </div>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="lg:w-1/2"
-                        >
-                            <h2 className="text-3xl md:text-5xl font-black mb-8 uppercase tracking-tighter">
-                                O que está <br /> <span className="text-emerald-500 italic">dentro do manual?</span>
-                            </h2>
-                            <p className="text-lg text-zinc-400 mb-10 font-medium">
-                                Não é apenas um guia, é um sistema completo de reestruturação do seu sistema cognitivo com técnicas avançadas.
+                            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-[1.1] text-foreground">
+                                O Princípio da <span className="text-primary italic">Habilidade</span>
+                            </h1>
+                            <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+                                Domine a performance no Call of Duty Mobile através da ciência, técnica e controle mental.
                             </p>
 
-                            <div className="space-y-4">
-                                {[
-                                    "Fundamentos da mecânica avançada",
-                                    "Psicologia do jogador profissional",
-                                    "Otimização de HUD e sensibilidade técnica",
-                                    "Rotina de aquecimento baseada em neurociência",
-                                    "Tomada de decisão sob pressão extrema"
-                                ].map((item, i) => (
-                                    <div key={i} className="flex items-start gap-4 p-5 bg-white/5 rounded-2xl border border-white/5">
-                                        <CheckCircle2 className="h-6 w-6 text-emerald-500 shrink-0" />
-                                        <span className="font-bold text-white uppercase text-xs tracking-widest">{item}</span>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="mt-12">
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <Button
                                     size="lg"
-                                    className="bg-emerald-600 hover:bg-emerald-500 text-white w-full sm:w-auto px-10 py-8 font-black rounded-2xl uppercase tracking-widest"
+                                    className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 w-full sm:w-auto"
                                     onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                                 >
-                                    Garantir Meu Acesso Completo
+                                    Comprar Agora
+                                    <ChevronRight className="ml-2 h-5 w-5" />
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="lg"
+                                    className="px-8 py-6 text-lg rounded-xl border-2 border-primary/20 hover:bg-primary/5 text-foreground w-full sm:w-auto"
+                                    onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+                                >
+                                    Saber Mais
                                 </Button>
                             </div>
                         </motion.div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* AUTHOR SECTION */}
-            <section id="author" className="py-32">
-                <div className="container mx-auto px-4">
-                    <motion.div
-                        {...fadeIn}
-                        className="max-w-5xl mx-auto bg-zinc-900 border border-white/5 rounded-[40px] p-8 md:p-16 flex flex-col md:flex-row items-center gap-12 md:gap-20"
-                    >
-                        <div className="relative shrink-0">
-                            <div className="absolute inset-0 bg-emerald-500/20 blur-[40px] rounded-full" />
-                            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-8 border-zinc-800 relative z-10 shadow-2xl grayscale hover:grayscale-0 transition-all duration-700">
-                                <img src={slxImage} alt="SLX" className="w-full h-full object-cover scale-110" />
+                {/* LEARNING SECTION */}
+                <section id="about" className="py-24 bg-white/50">
+                    <div className="container mx-auto px-4">
+                        <motion.div
+                            {...fadeIn}
+                            className="max-w-3xl mx-auto text-center pt-12 md:pt-20 mb-8"
+                        >
+                            <h2 className="text-3xl md:text-5xl font-bold leading-tight mb-8">
+                                A maioria das dicas de CODM não falha por serem ruins. <br />
+                                <span className="text-primary italic block mt-4 md:mt-6">Elas falham por estarem atrasadas.</span>
+                            </h2>
+                            <div className="space-y-6 text-lg md:text-xl text-muted-foreground leading-relaxed">
+                                <p>
+                                    Enquanto você ajusta sensi, copia classe e muda HUD, você já ficou pra trás!
+                                </p>
+                                <p className="font-semibold text-foreground">
+                                    O Princípio da Habilidade é um manual direto sobre o que realmente separa quem joga de verdade de quem só replica:
+                                </p>
+                                <div className="flex flex-wrap justify-center gap-4 py-4">
+                                    {["velocidade cognitiva", "controle real", "tomada de decisão"].map((skill) => (
+                                        <span key={skill} className="px-4 py-2 bg-primary/5 border border-primary/10 rounded-full text-primary text-sm font-bold uppercase tracking-wider">
+                                            • {skill}
+                                        </span>
+                                    ))}
+                                </div>
+                                <p>
+                                    Não é um curso longo. É o princípio central, a psicologia do jogo, o que ninguém treina.
+                                    Se copiar já não funciona pra você, esse manual é o próximo passo.
+                                </p>
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <div className="text-center md:text-left space-y-6">
-                            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter">Quem é o <span className="text-emerald-500 italic">SLX?</span></h2>
-                            <p className="text-zinc-400 font-bold uppercase tracking-[0.2em] text-sm">Neurociência Aplicada aos Games</p>
-                            <p className="text-zinc-500 text-lg leading-relaxed font-medium">
-                                Como analista e estudioso da performance humana em ambientes digitais, minha trajetória é pautada pela intersecção entre técnica e ciência cognitiva. O "Princípio da Habilidade" é um framework metodológico validado para quem busca a maestria real, investindo em um sistema de treinamento profissional que transforma sua percepção e execução de jogo.
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="hidden"
+                            whileInView="show"
+                            viewport={{ once: true }}
+                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+                        >
+                            {[
+                                {
+                                    icon: Target,
+                                    title: "Autenticidade",
+                                    desc: "Descubra seu estilo de jogo único e pare de copiar configurações que não funcionam para você."
+                                },
+                                {
+                                    icon: Brain,
+                                    title: "Sistema Muscular",
+                                    desc: "Entenda a fisiologia por trás da precisão mecânica e desenvolva uma memória muscular infalível."
+                                },
+                                {
+                                    icon: Zap,
+                                    title: "Velocidade Cognitiva",
+                                    desc: "Técnicas para acelerar sua leitura de jogo e tomada de decisão em frações de segundo."
+                                },
+                                {
+                                    icon: TrendingUp,
+                                    title: "Treino Eficiente",
+                                    desc: "Uma metodologia comprovada para evoluir consistentemente sem desperdiçar horas jogando errado."
+                                }
+                            ].map((item, i) => (
+                                <motion.div variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }} key={i}>
+                                    <Card className="h-full border-none shadow-lg shadow-black/5 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-background">
+                                        <CardContent className="p-8 text-center">
+                                            <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                                <item.icon className="h-7 w-7" />
+                                            </div>
+                                            <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                                            <p className="text-muted-foreground leading-relaxed text-sm">
+                                                {item.desc}
+                                            </p>
+                                        </CardContent>
+                                    </Card>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </div>
+                </section>
+
+                {/* CONTENT BREAKDOWN */}
+                <section id="content" className="py-24 bg-secondary/30">
+                    <div className="container mx-auto px-4">
+                        <div className="flex flex-col lg:flex-row items-center gap-16">
+                            <motion.div
+                                {...scaleIn}
+                                className="lg:w-1/2"
+                            >
+                                <div className="relative aspect-[4/5] w-full max-w-md mx-auto bg-gradient-to-br from-primary to-primary/80 rounded shadow-2xl rotate-3 border-4 border-white/20 flex items-center justify-center p-8">
+                                    <div className="absolute inset-0 bg-black/10" />
+                                    <div className="relative text-center text-primary-foreground border-2 border-white/30 p-8 h-full w-full flex flex-col justify-between">
+                                        <div className="text-xs tracking-[0.2em] uppercase opacity-70">Manual Oficial</div>
+                                        <div>
+                                            <h3 className="text-4xl font-bold mb-2">O Princípio</h3>
+                                            <h3 className="text-4xl italic font-bold">da Habilidade</h3>
+                                        </div>
+                                        <div className="w-12 h-12 bg-white/20 rounded-full mx-auto" />
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                                className="lg:w-1/2"
+                            >
+                                <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                                    O que está dentro do manual?
+                                </h2>
+                                <p className="text-lg text-muted-foreground mb-8">
+                                    não é apenas um guia, é um sistema completo de reestruturação do seu sistema cognitivo com técnicas estudadas
+                                </p>
+
+                                <div className="space-y-4">
+                                    {[
+                                        "Fundamentos da mecânica avançada",
+                                        "Psicologia do jogador de alta performance",
+                                        "Otimização de HUD e sensibilidade personalizada",
+                                        "Rotina de aquecimento e prevenção de lesões",
+                                        "Comunicação e liderança in-game"
+                                    ].map((item, i) => (
+                                        <div key={i} className="flex items-start gap-3 p-4 bg-background rounded-lg border border-border/50 shadow-sm">
+                                            <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                                            <span className="font-medium">{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-10">
+                                    <Button
+                                        size="lg"
+                                        className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
+                                        onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
+                                    >
+                                        Quero Acessar o Conteúdo Completo
+                                    </Button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* AUTHOR SECTION */}
+                <section id="author" className="py-24">
+                    <div className="container mx-auto px-4">
+                        <motion.div
+                            {...fadeIn}
+                            className="max-w-4xl mx-auto bg-card rounded-3xl p-8 md:p-12 shadow-xl shadow-primary/5 border border-primary/10 flex flex-col md:flex-row items-center gap-8 md:gap-12"
+                        >
+                            <div className="w-32 h-32 md:w-48 md:h-48 shrink-0 rounded-full bg-secondary overflow-hidden border-4 border-background shadow-lg">
+                                <img src={slxImage} alt="SLX" className="w-full h-full object-cover" />
+                            </div>
+
+                            <div className="text-center md:text-left">
+                                <h2 className="text-2xl md:text-3xl font-bold mb-2">Quem é o SLX?</h2>
+                                <p className="text-primary font-medium mb-4">Estrategista e Especialista em Neurociência Aplicada aos Games</p>
+                                <p className="text-muted-foreground leading-relaxed mb-6">
+                                    Como analista e estudioso da performance humana em ambientes digitais, minha trajetória é pautada pela intersecção entre técnica e ciência cognitiva. O "Princípio da Habilidade" não é apenas um compilado de dicas, mas um framework metodológico validado para quem busca a maestria no Call of Duty Mobile. Ao adquirir este manual, você não está apenas comprando um guia, mas investindo em um sistema de treinamento profissional que transforma sua percepção e execução de jogo.
+                                </p>
+                                <div className="flex gap-4 justify-center md:justify-start">
+                                    <a href="https://slx-codm.vercel.app/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-primary hover:text-white transition-colors cursor-pointer" title="Site Oficial">
+                                        <Globe className="w-5 h-5" />
+                                    </a>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
+
+                {/* FAQ SECTION */}
+                <section id="faq" className="py-24 bg-secondary/30">
+                    <div className="container mx-auto px-4 max-w-3xl">
+                        <motion.div
+                            {...fadeIn}
+                            className="text-center mb-16"
+                        >
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Perguntas Frequentes</h2>
+                            <p className="text-muted-foreground">Tire suas dúvidas antes de começar sua jornada.</p>
+                        </motion.div>
+
+                        <Accordion type="single" collapsible className="w-full space-y-4">
+                            {[
+                                { q: "Por quanto tempo tenho acesso?", a: "Você tem acesso por 60 dias após a compra. Após esse período, o acesso expira e você precisará comprar novamente se desejar. Isso garante que você realmente leia e pratique o conteúdo com foco total." },
+                                { q: "Posso compartilhar o acesso?", a: "Não. O acesso é pessoal e intransferível. O sistema identifica acessos simultâneos e pode bloquear a conta." },
+                                { q: "Qual o formato do conteúdo?", a: "O arquivo é um ebook digital com design minimalista, fundo âmbar estilo livro e tipografia otimizada para leitura confortável. Funciona em qualquer dispositivo." },
+                                { q: "Serve para iniciantes?", a: "Sim! O método serve tanto para iniciantes como players já avançados, pois todas as dicas se estruturam numa base científica que serve tanto para dentro do jogo como para a vida." },
+                                { q: "Isso funciona para outros jogos?", a: "Os princípios de autenticidade, controle muscular e velocidade cognitiva são universais. Você pode aplicar em qualquer jogo competitivo, mas o conteúdo é focado em Call of Duty Mobile." },
+                                { q: "Tem garantia?", a: "Isso depende da política da Kiwify. Recomendo verificar os termos de compra na plataforma." }
+                            ].map((item, i) => (
+                                <AccordionItem key={i} value={`item-${i}`} className="bg-background border border-border rounded-lg px-4">
+                                    <AccordionTrigger className="font-medium text-left hover:text-primary transition-colors py-4">
+                                        {item.q}
+                                    </AccordionTrigger>
+                                    <AccordionContent className="text-muted-foreground pb-4">
+                                        {item.a}
+                                    </AccordionContent>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
+                    </div>
+                </section>
+
+                {/* CTA SECTION */}
+                <section className="py-24 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-foreground z-0" />
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
+                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 blur-[100px] rounded-full -translate-x-1/2 translate-y-1/2" />
+
+                    <div className="container mx-auto px-4 relative z-10 text-center">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="max-w-2xl mx-auto"
+                        >
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+                                Sua evolução começa agora
+                            </h2>
+                            <p className="text-xl text-white/70 mb-10 leading-relaxed">
+                                Não perca mais tempo tentando adivinhar o que fazer. Tenha o mapa completo para a alta performance.
                             </p>
-                            <div className="flex gap-4 justify-center md:justify-start pt-6">
-                                <a href="https://www.instagram.com/slx.wav" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-emerald-500 hover:text-white transition-all">
-                                    <Globe className="w-6 h-6" />
-                                </a>
+
+                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 mb-10 inline-block">
+                                <span className="text-white/60 text-sm uppercase tracking-wider block mb-2">Investimento Único</span>
+                                <div className="flex items-end justify-center gap-2 text-white">
+                                    <span className="text-xl mb-1.5 opacity-50 line-through">R$ 97,00</span>
+                                    <span className="text-5xl font-bold">R$ 47,00</span>
+                                </div>
                             </div>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
 
-            {/* FAQ SECTION */}
-            <section id="faq" className="py-32 bg-zinc-950 border-t border-white/5">
-                <div className="container mx-auto px-4 max-w-3xl">
-                    <motion.div {...fadeIn} className="text-center mb-20">
-                        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic">FAQ</h2>
-                        <p className="text-zinc-500 mt-4 font-bold uppercase tracking-widest text-xs">Dúvidas Frequentes</p>
-                    </motion.div>
+                            <div className="flex flex-col gap-4 max-w-sm mx-auto">
+                                <Button
+                                    size="lg"
+                                    className="w-full bg-primary hover:bg-primary/90 text-white h-14 text-lg shadow-xl shadow-primary/25 rounded-xl"
+                                    onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
+                                >
+                                    Comprar Agora - Acesso Imediato
+                                </Button>
+                                <div className="flex items-center justify-center gap-2 text-white/40 text-sm">
+                                    <Lock className="w-3 h-3" />
+                                    <span>Pagamento 100% Seguro via Kiwify</span>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
 
-                    <Accordion type="single" collapsible className="w-full space-y-4">
-                        {[
-                            { q: "Por quanto tempo tenho acesso?", a: "Você tem acesso por 60 dias após a compra. Isso garante que você realmente foque em ler e praticar o conteúdo imediato." },
-                            { q: "Qual o formato do conteúdo?", a: "E-book digital com design minimalista, fundo âmbar estilo papel e tipografia otimizada para leitura confortável." },
-                            { q: "Serve para iniciantes?", a: "Sim, os fundamentos de neurociência servem para qualquer nível de habilidade." },
-                            { q: "Tem garantia?", a: "A política de reembolso é gerida diretamente pela Kiwify em até 7 dias conforme a lei." }
-                        ].map((item, i) => (
-                            <AccordionItem key={i} value={`item-${i}`} className="bg-zinc-900/50 border border-white/5 rounded-2xl px-6">
-                                <AccordionTrigger className="font-black uppercase text-xs tracking-widest text-left hover:text-emerald-500 py-6">
-                                    {item.q}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-zinc-400 font-medium pb-6 leading-relaxed">
-                                    {item.a}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-            </section>
-
-            <EbookFooter />
+                <EbookFooter />
+            </div>
         </div>
     );
 }

@@ -26,19 +26,19 @@ export function EbookHeader() {
         <>
             <button
                 onClick={() => scrollToSection("about")}
-                className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                className="text-foreground/80 hover:text-primary transition-colors font-medium font-serif-body"
             >
                 Sobre
             </button>
             <button
                 onClick={() => scrollToSection("content")}
-                className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                className="text-foreground/80 hover:text-primary transition-colors font-medium font-serif-body"
             >
                 Conteúdo
             </button>
             <button
                 onClick={() => scrollToSection("faq")}
-                className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                className="text-foreground/80 hover:text-primary transition-colors font-medium font-serif-body"
             >
                 FAQ
             </button>
@@ -47,21 +47,21 @@ export function EbookHeader() {
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
+            className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-300 border-b ${isScrolled
                     ? "bg-background/90 backdrop-blur-md border-border shadow-sm py-3"
                     : "bg-transparent border-transparent py-5"
                 }`}
         >
             <div className="container mx-auto px-4 flex items-center justify-between">
-                <Link href="/ebook" className="text-2xl font-bold text-primary tracking-tight" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                    SLX <span className="italic">Skill</span>
+                <Link href="/" className="text-2xl font-bold font-serif-display text-primary tracking-tight">
+                    O Princípio da Habilidade
                 </Link>
 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center gap-8">
                     <NavItems />
                     <Button
-                        className="bg-primary hover:bg-primary/90 text-white px-6"
+                        className="bg-primary hover:bg-primary/90 text-white font-serif-body px-6"
                         onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                     >
                         Comprar Agora
