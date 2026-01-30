@@ -218,27 +218,16 @@ export default function AnalyticsDashboard() {
                                     </div>
                                     <CardContent className="p-8">
                                         <h3 className="text-2xl font-black mb-4 flex items-center gap-2">
-                                            DICA PRO <TrendingUp className="text-primary" />
+                                            ESTRATÉGIA <TrendingUp className="text-primary" />
                                         </h3>
                                         <p className="text-muted-foreground leading-relaxed italic mb-6">
-                                            "Percebeu que uma página está com muitas visitas mas poucas vendas? Tente colocar o banner do Ebook no topo dessa página específica."
+                                            "Percebeu que uma página específica está com muitas visitas? Tente focar seu conteúdo principal nela para aumentar o engajamento."
                                         </p>
                                         <div className="flex gap-4">
-                                            <Button className="font-bold underline" variant="outline">Ver Estratégias</Button>
+                                            <Button className="font-bold underline" variant="outline" onClick={() => window.open('/conteudo', '_blank')}>Ver Meu Conteúdo</Button>
                                         </div>
                                     </CardContent>
                                 </Card>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="bg-neutral-900 p-4 rounded-xl border border-white/5">
-                                        <p className="text-[10px] text-muted-foreground font-bold uppercase mb-1">CONVERSÃO ESTIMADA</p>
-                                        <p className="text-xl font-black text-green-500">2.4%</p>
-                                    </div>
-                                    <div className="bg-neutral-900 p-4 rounded-xl border border-white/5">
-                                        <p className="text-[10px] text-muted-foreground font-bold uppercase mb-1">PROJEÇÃO DE VENDAS</p>
-                                        <p className="text-xl font-black text-primary">R$ 1.250</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </>

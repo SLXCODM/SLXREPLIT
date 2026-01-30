@@ -19,7 +19,7 @@ export default function AnalyticsTracker() {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        path: location,
+                        path: location + window.location.search,
                         language: language,
                     }),
                 });

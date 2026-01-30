@@ -30,7 +30,8 @@ export const db = new Proxy({}, {
         const client = postgres(url, {
           ssl: { rejectUnauthorized: false },
           connect_timeout: 30, // Increase timeout for cold starts
-          max: 1 // Vercel limited connections
+          max: 10, // Increased from 1 to avoid queueing during cold starts
+          idle_timeout: 20 // Close idle connections faster
         });
         _db = drizzle(client, { schema });
         console.log("Database client initialized successfully.");
