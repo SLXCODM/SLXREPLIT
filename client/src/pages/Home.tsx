@@ -22,6 +22,15 @@ export default function Home() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    // Database Wakeup Trigger
+    // This pings the health endpoint silently to "wake up" the Supabase instance
+    // while the user is still on the landing page.
+    fetch("/api/health").catch(() => {
+      /* ignore errors, it's a background task */
+    });
+  }, []);
   const categories = [
     {
       id: "gaming",

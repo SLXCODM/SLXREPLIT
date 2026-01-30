@@ -68,14 +68,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Health Check to verify server and database
+  // Target this for UptimeRobot to keep the database awake
   app.get("/api/health", async (_req, res) => {
+    // Ensure no caching for this endpoint to guarantee the hit reaches the server
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+
     try {
-      // Test DB connection
+      // Test DB connection with a simple query
       const dbStatus = await db.execute(sql`SELECT 1 as connected`);
       res.json({
         status: "ok",
         db: dbStatus[0]?.connected === 1 ? "connected" : "error",
-        version: "1.3.1-auth-debug",
+        version: "1.3.2-keepalive",
         time: new Date().toISOString()
       });
     } catch (err: any) {
@@ -83,7 +89,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(200).json({
         status: "alive_no_db",
         error: err.message,
-        version: "1.3.1-auth-debug"
+        version: "1.3.2-keepalive"
       });
     }
   });
