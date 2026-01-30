@@ -61,7 +61,7 @@ export function EbookHeader() {
                 <nav className="hidden md:flex items-center gap-8">
                     <NavItems />
                     <Button
-                        className="bg-primary hover:bg-primary/90 text-white font-serif-body px-6 focus-visible:ring-[#9B6BCE]"
+                        className="bg-primary hover:bg-primary/90 text-white font-serif-body px-6 border-primary shadow-none focus-visible:ring-[#9B6BCE]"
                         onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                     >
                         Comprar Agora
