@@ -136,7 +136,7 @@ export default function Content() {
                               O Princípio da <span className="text-emerald-500 italic">Habilidade</span>
                             </h2>
                             <p className="text-zinc-400 text-lg md:text-xl max-w-2xl font-medium leading-relaxed">
-                              Domine a performance no Call of Duty Mobile através da ciência cognitiva, técnica refinada e controle mental absoluto.
+                              O melhor conteúdo que já produzi. Técnicas que realmente fazem diferença no jogo.
                             </p>
                           </div>
 

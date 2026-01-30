@@ -82,7 +82,7 @@ function AppContent() {
   return (
     <>
       {PageLayout}
-      <EbookNanoCard />
+      {!isEbook && <EbookNanoCard />}
     </>
   );
 }

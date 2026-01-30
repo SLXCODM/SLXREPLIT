@@ -106,7 +106,7 @@ export default function EbookSkill() {
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <Button
                                     size="lg"
-                                    className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 w-full sm:w-auto"
+                                    className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 w-full sm:w-auto focus-visible:ring-primary"
                                     onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                                 >
                                     Comprar Agora
@@ -115,7 +115,7 @@ export default function EbookSkill() {
                                 <Button
                                     variant="outline"
                                     size="lg"
-                                    className="px-8 py-6 text-lg rounded-xl border-2 border-primary/20 hover:bg-primary/5 text-foreground w-full sm:w-auto"
+                                    className="px-8 py-6 text-lg rounded-xl border-2 border-primary/20 hover:bg-primary/5 text-foreground w-full sm:w-auto focus-visible:ring-primary"
                                     onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
                                 >
                                     Saber Mais
@@ -257,7 +257,7 @@ export default function EbookSkill() {
                                 <div className="mt-10">
                                     <Button
                                         size="lg"
-                                        className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto"
+                                        className="bg-primary hover:bg-primary/90 text-white w-full sm:w-auto focus-visible:ring-primary"
                                         onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                                     >
                                         Quero Acessar o Conteúdo Completo
@@ -359,7 +359,7 @@ export default function EbookSkill() {
                             <div className="flex flex-col gap-4 max-w-sm mx-auto">
                                 <Button
                                     size="lg"
-                                    className="w-full bg-primary hover:bg-primary/90 text-white h-14 text-lg shadow-xl shadow-primary/25 rounded-xl"
+                                    className="w-full bg-primary hover:bg-primary/90 text-white h-14 text-lg shadow-xl shadow-primary/25 rounded-xl focus-visible:ring-primary"
                                     onClick={() => window.open("https://pay.kiwify.com.br/25YEnTk", "_blank")}
                                 >
                                     Comprar Agora - Acesso Imediato
