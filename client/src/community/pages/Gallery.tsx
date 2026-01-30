@@ -14,14 +14,42 @@ import {
     Youtube
 } from "lucide-react";
 import { SiTiktok } from "react-icons/si";
+import { Trash2, Loader2 as LoaderIcon } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { api } from "../lib/trpc";
 import { CommunityHeader } from "../components/CommunityHeader";
 import { useQuery } from "@tanstack/react-query";
-import { Trash2, Loader2 as LoaderIcon } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 
 export default function Gallery() {
+    const { language } = useLanguage();
     const galleryItems = api.upload.getGalleryItems.useQuery();
+
+    const t = {
+        badge: language === "pt" ? "Vitrine de Evolução" : "Evolution Showcase",
+        title1: language === "pt" ? "Resultados do" : "Results of the",
+        title2: language === "pt" ? "Método SLX" : "SLX Method",
+        subtitle: language === "pt"
+            ? "Veja trechos de análises profissionais e descubra o que separa os amadores dos verdadeiros lendários."
+            : "See clips from professional analyses and discover what separates amateurs from true legends.",
+        emptyTitle: language === "pt" ? "Nenhuma análise publicada ainda." : "No analyses published yet.",
+        errorTitle: language === "pt" ? "Erro ao carregar galeria." : "Error loading gallery.",
+        emptyDesc: language === "pt" ? "Seja o primeiro a aparecer aqui!" : "Be the first to appear here!",
+        errorDesc: language === "pt" ? "Tente recarregar a página." : "Please try reloading the page.",
+        sendButton: language === "pt" ? "Enviar Gameplay" : "Submit Gameplay",
+        ctaTitle: language === "pt" ? "Quer ver sua própria gameplay aqui?" : "Want to see your own gameplay here?",
+        ctaDesc: language === "pt"
+            ? "Sua evolução começa com um feedback profissional. Descubra seus vícios, ajuste sua mente e domine o servidor."
+            : "Your evolution starts with professional feedback. Discover your habits, adjust your mind, and dominate the server.",
+        ctaButton: language === "pt" ? "Quero Ser Analisado" : "Get My Analysis",
+        restricted: language === "pt" ? "Conteúdo Restrito" : "Restricted Content",
+        views: language === "pt" ? "acessos" : "views",
+        accessMethod: language === "pt" ? "Acessar Metodologia" : "Access Methodology",
+        itemUnavailable: language === "pt" ? "Dados do vídeo indisponíveis." : "Video data unavailable.",
+        deleteSuccess: language === "pt" ? "Item removido com sucesso!" : "Item removed successfully!",
+        deleteError: language === "pt" ? "Erro ao remover" : "Error removing",
+        confirmDelete: language === "pt" ? "Deseja realmente excluir este item da vitrine?" : "Are you sure you want to delete this item from the showcase?"
+    };
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white selection:bg-emerald-500/30 font-sans relative overflow-hidden">
@@ -37,13 +65,13 @@ export default function Gallery() {
                 <div className="max-w-3xl mx-auto text-center space-y-6 mb-20 animate-in fade-in zoom-in-95 duration-1000">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest">
                         <Sparkles className="w-3 h-3" />
-                        Vitrine de Evolução
+                        {t.badge}
                     </div>
                     <h1 className="text-4xl md:text-6xl font-black tracking-tighter">
-                        Resultados do <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Método SLX</span>
+                        {t.title1} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">{t.title2}</span>
                     </h1>
                     <p className="text-zinc-400 text-lg md:text-xl font-light leading-relaxed">
-                        Veja trechos de análises profissionais e descubra o que separa os amadores dos verdadeiros lendários.
+                        {t.subtitle}
                     </p>
                 </div>
 
@@ -62,13 +90,13 @@ export default function Gallery() {
                                     <Trophy className="w-6 h-6 text-zinc-700" />
                                 </div>
                                 <h3 className="text-xl font-bold text-zinc-400">
-                                    {galleryItems.error ? "Erro ao carregar galeria." : "Nenhuma análise publicada ainda."}
+                                    {galleryItems.error ? t.errorTitle : t.emptyTitle}
                                 </h3>
                                 <p className="text-zinc-600">
-                                    {galleryItems.error ? "Tente recarregar a página." : "Seja o primeiro a aparecer aqui!"}
+                                    {galleryItems.error ? t.errorDesc : t.emptyDesc}
                                 </p>
                                 <Link href="/community/upload">
-                                    <Button size="lg" className="bg-emerald-600 mt-4 rounded-full">Enviar Gameplay</Button>
+                                    <Button size="lg" className="bg-emerald-600 mt-4 rounded-full">{t.sendButton}</Button>
                                 </Link>
                                 {/* Debug: Show what we received if it's weird */}
                                 {!Array.isArray(galleryItems.data) && galleryItems.data && (
@@ -87,13 +115,13 @@ export default function Gallery() {
 
                 {/* Final CTA */}
                 <div className="mt-32 p-12 rounded-[40px] bg-gradient-to-br from-emerald-900/20 to-zinc-900/40 border border-emerald-500/20 text-center space-y-8 shadow-2xl backdrop-blur-md">
-                    <h2 className="text-3xl md:text-5xl font-black tracking-tighter">Quer ver sua própria gameplay aqui?</h2>
+                    <h2 className="text-3xl md:text-5xl font-black tracking-tighter">{t.ctaTitle}</h2>
                     <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-                        Sua evolução começa com um feedback profissional. Descubra seus vícios, ajuste sua mente e domine o servidor.
+                        {t.ctaDesc}
                     </p>
                     <Link href="/community/upload">
                         <Button size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white h-16 px-12 text-xl font-bold rounded-full shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all duration-300 transform hover:scale-105">
-                            Quero Ser Analisado
+                            {t.ctaButton}
                             <ArrowRight className="ml-2 w-6 h-6" />
                         </Button>
                     </Link>
@@ -108,7 +136,7 @@ function getVideoThumbnail(url: string): string | null {
     if (!url) return null;
 
     // YouTube
-    const ytMatch = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?([^&]+)/);
+    const ytMatch = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|shorts\/)?([^?&/]+)/);
     if (ytMatch && ytMatch[1]) {
         return `https://img.youtube.com/vi/${ytMatch[1]}/maxresdefault.jpg`;
     }
@@ -122,9 +150,20 @@ function getVideoThumbnail(url: string): string | null {
 }
 
 function GalleryCard({ item }: { item: any }) {
+    const { language } = useLanguage();
     const { toast } = useToast();
     const queryClient = api.useUtils();
     const thumbnail = item.video ? getVideoThumbnail(item.video.s3Url) : null;
+
+    const t = {
+        restricted: language === "pt" ? "Conteúdo Restrito" : "Restricted Content",
+        views: language === "pt" ? "acessos" : "views",
+        accessMethod: language === "pt" ? "Acessar Metodologia" : "Access Methodology",
+        itemUnavailable: language === "pt" ? "Dados do vídeo indisponíveis." : "Video data unavailable.",
+        deleteSuccess: language === "pt" ? "Item removido com sucesso!" : "Item removed successfully!",
+        deleteError: language === "pt" ? "Erro ao remover" : "Error removing",
+        confirmDelete: language === "pt" ? "Deseja realmente excluir este item da vitrine?" : "Are you sure you want to delete this item from the showcase?"
+    };
 
     const { data: auth } = useQuery<any>({
         queryKey: ["/api/community/auth/me"],
@@ -137,11 +176,11 @@ function GalleryCard({ item }: { item: any }) {
 
     const deleteItem = api.upload.deleteGalleryItem.useMutation({
         onSuccess: () => {
-            toast({ title: "Item removido com sucesso!" });
+            toast({ title: t.deleteSuccess });
             queryClient.upload.getGalleryItems.invalidate();
         },
         onError: (err) => {
-            toast({ title: "Erro ao remover", description: err.message, variant: "destructive" });
+            toast({ title: t.deleteError, description: err.message, variant: "destructive" });
         }
     });
 
@@ -181,7 +220,7 @@ function GalleryCard({ item }: { item: any }) {
                             <button
                                 onClick={(e) => {
                                     e.preventDefault(); e.stopPropagation();
-                                    if (confirm("Deseja realmente excluir este item da vitrine?")) {
+                                    if (confirm(t.confirmDelete)) {
                                         deleteItem.mutate({ id: item.id });
                                     }
                                 }}
@@ -210,7 +249,7 @@ function GalleryCard({ item }: { item: any }) {
                             </Badge>
                             <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest bg-black/40 px-2 py-1 rounded-full backdrop-blur-sm">
                                 <Eye className="w-3 h-3 text-emerald-500" />
-                                <span>{Math.floor(Math.random() * 500) + 1240} acessos</span>
+                                <span>{Math.floor(Math.random() * 500) + 1240} {t.views}</span>
                             </div>
                         </div>
                     </div>
@@ -228,7 +267,7 @@ function GalleryCard({ item }: { item: any }) {
                 </>
             ) : (
                 <div className="p-8 text-center text-red-500">
-                    Dados do vídeo indisponíveis.
+                    {t.itemUnavailable}
                 </div>
             )}
 
@@ -240,7 +279,7 @@ function GalleryCard({ item }: { item: any }) {
             <CardFooter className="pt-4 pb-8 px-6">
                 <Link href="/community/upload" className="w-full">
                     <Button variant="outline" className="w-full border-zinc-800 bg-zinc-900/50 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 rounded-2xl h-14 transition-all duration-500 group/btn relative overflow-hidden">
-                        <span className="relative z-10 font-black tracking-widest uppercase text-xs">Acessar Metodologia</span>
+                        <span className="relative z-10 font-black tracking-widest uppercase text-xs">{t.accessMethod}</span>
                         <Zap className="relative z-10 ml-2 w-4 h-4" />
                         <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-cyan-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
                     </Button>

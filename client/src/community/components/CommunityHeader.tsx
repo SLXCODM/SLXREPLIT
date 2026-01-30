@@ -76,7 +76,7 @@ export function CommunityHeader() {
                                 <div className="p-1 bg-zinc-900 rounded-full text-emerald-500">
                                     <UserIcon className="w-3 h-3" />
                                 </div>
-                                <span className="text-[10px] font-bold text-zinc-300 max-w-[60px] truncate">{auth.user.name.split(' ')[0]}</span>
+                                <span className="text-[10px] font-bold text-zinc-300 max-w-[60px] truncate">{(auth.user.name || "User").split(' ')[0]}</span>
                             </div>
 
                             <Button

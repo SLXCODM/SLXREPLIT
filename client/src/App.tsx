@@ -16,11 +16,13 @@ import Classes from "./pages/Classes";
 import SocialLinksPage from "./pages/SocialLinksPage";
 import LanguageSelect from "./pages/LanguageSelect";
 import RafflePopup from "./components/RafflePopup";
+import EbookSkill from "@/pages/EbookSkill";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "@/pages/not-found";
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 import { CommunityProvider } from "./community/CommunityProvider";
+import { EbookNanoCard } from "./components/EbookNanoCard";
 
 import WeaponReview from "@/pages/WeaponReview";
 
@@ -39,6 +41,7 @@ function Router() {
       <Route path="/redes-sociais" component={SocialLinksPage} />
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
+      <Route path="/ebook" component={EbookSkill} />
 
       {/* Community Routes */}
       <Route path="/community" component={CommunityProvider} />
@@ -63,11 +66,9 @@ function AppContent() {
     return <LanguageSelect onComplete={completeLanguageSelection} />;
   }
 
-  if (isCommunity) {
-    return <Router />;
-  }
-
-  return (
+  const PageLayout = isCommunity ? (
+    <Router />
+  ) : (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1 pt-16 md:pt-20">
@@ -76,11 +77,16 @@ function AppContent() {
       <Footer />
     </div>
   );
+
+  return (
+    <>
+      {PageLayout}
+      <EbookNanoCard />
+    </>
+  );
 }
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-
-// ... existing imports ...
 
 function App() {
   return (

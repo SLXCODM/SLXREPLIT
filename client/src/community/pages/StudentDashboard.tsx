@@ -16,13 +16,41 @@ import {
     ExternalLink,
     Search
 } from "lucide-react";
-import { api } from "../lib/trpc";
 import { CommunityHeader } from "../components/CommunityHeader";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { api } from "../lib/trpc";
 
 export default function StudentDashboard() {
+    const { language } = useLanguage();
     const userVideos = api.upload.getUserVideos.useQuery();
     const [selectedVideoId, setSelectedVideoId] = useState<number | null>(null);
+
+    const t = {
+        title: language === "pt" ? "Área do Aluno" : "Student Area",
+        subtitle: language === "pt" ? "Acompanhe sua evolução e receba seus feedbacks profissionais." : "Track your evolution and receive your professional feedback.",
+        newRequest: language === "pt" ? "Nova Solicitação" : "New Request",
+        myOrders: language === "pt" ? "Meus Pedidos" : "My Requests",
+        emptyOrders: language === "pt" ? "Você ainda não enviou nenhuma gameplay para análise." : "You haven't submitted any gameplay for analysis yet.",
+        feedbackAvailable: language === "pt" ? "Feedback Disponível" : "Feedback Available",
+        selectToView: language === "pt" ? "Selecione uma análise ao lado para ver os detalhes" : "Select an analysis on the left to view details",
+        loading: language === "pt" ? "Carregando Análise..." : "Loading Analysis...",
+        noDescription: language === "pt" ? "Sem descrição disponível." : "No description available.",
+        processingTitle: language === "pt" ? "Análise em Processamento" : "Analysis Processing",
+        processingDesc: language === "pt" ? "O SLX está estudando sua gameplay. Em breve você receberá um feedback detalhado aqui." : "SLX is studying your gameplay. You will receive detailed feedback here soon.",
+        analystSummary: language === "pt" ? "Resumo do Analista" : "Analyst Summary",
+        accessFeedback: language === "pt" ? "Acessar Feedback" : "Access Feedback",
+        watchVideo: language === "pt" ? "Assistir Vídeo" : "Watch Video",
+        textOnly: language === "pt" ? "Esta análise foi feita apenas em texto." : "This analysis was text-only.",
+        recommendedTraining: language === "pt" ? "Treino Recomendado" : "Recommended Training",
+        studyMaterial: language === "pt" ? "Ver Material de Estudo" : "View Study Material",
+        orderId: language === "pt" ? "ID DO PEDIDO" : "ORDER ID",
+        needAnother: language === "pt" ? "Precisa de outra análise?" : "Need another analysis?",
+        statusAwaiting: language === "pt" ? "Aguardando Pagamento" : "Awaiting Payment",
+        statusUploaded: language === "pt" ? "Na Fila" : "In Queue",
+        statusAnalyzing: language === "pt" ? "Em Análise" : "Analyzing",
+        statusCompleted: language === "pt" ? "Concluída" : "Completed"
+    };
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white selection:bg-emerald-500/30 font-sans relative overflow-hidden">
@@ -37,12 +65,12 @@ export default function StudentDashboard() {
                     {/* Header */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-l-4 border-emerald-500 pl-6 py-2">
                         <div className="space-y-2">
-                            <h1 className="text-4xl font-black tracking-tighter uppercase">Área do Aluno</h1>
-                            <p className="text-zinc-500 font-medium">Acompanhe sua evolução e receba seus feedbacks profissionais.</p>
+                            <h1 className="text-4xl font-black tracking-tighter uppercase">{t.title}</h1>
+                            <p className="text-zinc-500 font-medium">{t.subtitle}</p>
                         </div>
                         <Link href="/community/upload">
                             <Button className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl h-12 px-8 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-                                Nova Solicitação
+                                {t.newRequest}
                                 <PlayCircle className="ml-2 w-4 h-4" />
                             </Button>
                         </Link>
@@ -52,7 +80,7 @@ export default function StudentDashboard() {
                         {/* List of Orders */}
                         <div className="lg:col-span-4 space-y-4">
                             <h2 className="text-xs font-black uppercase tracking-widest text-zinc-600 mb-6 flex items-center gap-2">
-                                <Search className="w-3 h-3" /> Meus Pedidos
+                                <Search className="w-3 h-3" /> {t.myOrders}
                             </h2>
 
                             {userVideos.isLoading ? (
@@ -62,7 +90,7 @@ export default function StudentDashboard() {
                             ) : userVideos.data?.length === 0 ? (
                                 <div className="p-10 text-center bg-zinc-900/20 rounded-3xl border border-dashed border-zinc-800 text-zinc-600">
                                     <AlertCircle className="w-8 h-8 mx-auto mb-4 opacity-20" />
-                                    <p>Você ainda não enviou nenhuma gameplay para análise.</p>
+                                    <p>{t.emptyOrders}</p>
                                 </div>
                             ) : (
                                 (Array.isArray(userVideos.data) ? userVideos.data : []).map(video => (
@@ -85,7 +113,7 @@ export default function StudentDashboard() {
                                             </span>
                                             {video.status === "completed" && (
                                                 <span className="text-emerald-500 flex items-center gap-1">
-                                                    <Star className="w-3 h-3 fill-current" /> Feedback Disponível
+                                                    <Star className="w-3 h-3 fill-current" /> {t.feedbackAvailable}
                                                 </span>
                                             )}
                                         </div>
@@ -103,7 +131,7 @@ export default function StudentDashboard() {
                                     <div className="p-6 bg-zinc-950 rounded-full">
                                         <ArrowLeft className="w-10 h-10 opacity-20" />
                                     </div>
-                                    <p className="font-bold uppercase tracking-widest">Selecione uma análise ao lado para ver os detalhes</p>
+                                    <p className="font-bold uppercase tracking-widest">{t.selectToView}</p>
                                 </div>
                             )}
                         </div>
@@ -116,28 +144,37 @@ export default function StudentDashboard() {
 }
 
 function StatusBadge({ status }: { status: string }) {
+    const { language } = useLanguage();
+    const t = {
+        awaiting: language === "pt" ? "Aguardando Pagamento" : "Awaiting Payment",
+        uploaded: language === "pt" ? "Na Fila" : "In Queue",
+        analyzing: language === "pt" ? "Em Análise" : "Analyzing",
+        completed: language === "pt" ? "Concluída" : "Completed"
+    };
+
     switch (status) {
         case "awaiting_payment":
-            return <Badge variant="outline" className="text-yellow-500 border-yellow-500/20 bg-yellow-500/5 uppercase text-[9px] font-black">Aguardando Pagamento</Badge>;
+            return <Badge variant="outline" className="text-yellow-500 border-yellow-500/20 bg-yellow-500/5 uppercase text-[9px] font-black">{t.awaiting}</Badge>;
         case "uploaded":
-            return <Badge variant="outline" className="text-blue-400 border-blue-400/20 bg-blue-400/5 uppercase text-[9px] font-black">Na Fila</Badge>;
+            return <Badge variant="outline" className="text-blue-400 border-blue-400/20 bg-blue-400/5 uppercase text-[9px] font-black">{t.uploaded}</Badge>;
         case "analyzing":
-            return <Badge variant="outline" className="text-purple-400 border-purple-400/20 bg-purple-400/5 uppercase text-[9px] font-black">Em Análise</Badge>;
+            return <Badge variant="outline" className="text-purple-400 border-purple-400/20 bg-purple-400/5 uppercase text-[9px] font-black">{t.analyzing}</Badge>;
         case "completed":
-            return <Badge variant="outline" className="text-emerald-400 border-emerald-400/20 bg-emerald-400/5 uppercase text-[9px] font-black">Concluída</Badge>;
+            return <Badge variant="outline" className="text-emerald-400 border-emerald-400/20 bg-emerald-400/5 uppercase text-[9px] font-black">{t.completed}</Badge>;
         default:
             return <Badge variant="secondary" className="uppercase text-[9px] font-black">{status}</Badge>;
     }
 }
 
 function AnalysisDetail({ videoId }: { videoId: number }) {
+    const { language } = useLanguage();
     const analysis = api.upload.getAnalysis.useQuery({ videoId });
     const video = api.upload.getVideo.useQuery({ videoId });
 
     if (analysis.isLoading || video.isLoading) return (
         <div className="p-20 text-center animate-pulse">
             <PlayCircle className="w-12 h-12 mx-auto text-emerald-500 mb-4 animate-spin" />
-            <p className="font-bold text-zinc-500 uppercase tracking-widest">Carregando Análise...</p>
+            <p className="font-bold text-zinc-500 uppercase tracking-widest">{language === "pt" ? "Carregando Análise..." : "Loading Analysis..."}</p>
         </div>
     );
 
@@ -162,10 +199,10 @@ function AnalysisDetail({ videoId }: { videoId: number }) {
                         )}
                     </div>
                     <CardTitle className="text-3xl md:text-5xl font-black tracking-tighter uppercase break-all">
-                        {video.data?.title || "Carregando..."}
+                        {video.data?.title || (language === "pt" ? "Carregando..." : "Loading...")}
                     </CardTitle>
                     <CardDescription className="text-zinc-500 max-w-xl font-medium">
-                        {video.data?.description || "Sem descrição disponível."}
+                        {video.data?.description || (language === "pt" ? "Sem descrição disponível." : "No description available.")}
                     </CardDescription>
                 </div>
             </CardHeader>
@@ -177,9 +214,11 @@ function AnalysisDetail({ videoId }: { videoId: number }) {
                             <Clock className="w-8 h-8 text-emerald-500 animate-pulse" />
                         </div>
                         <div className="space-y-2">
-                            <h3 className="text-xl font-black uppercase tracking-tight">Análise em Processamento</h3>
+                            <h3 className="text-xl font-black uppercase tracking-tight">{language === "pt" ? "Análise em Processamento" : "Analysis Processing"}</h3>
                             <p className="text-zinc-500 text-sm max-w-sm mx-auto font-medium">
-                                O SLX está estudando sua gameplay. Em breve você receberá um feedback detalhado aqui.
+                                {language === "pt"
+                                    ? "O SLX está estudando sua gameplay. Em breve você receberá um feedback detalhado aqui."
+                                    : "SLX is studying your gameplay. You will receive detailed feedback here soon."}
                             </p>
                         </div>
                     </div>
@@ -187,7 +226,7 @@ function AnalysisDetail({ videoId }: { videoId: number }) {
                     <>
                         <div className="space-y-4">
                             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-emerald-500 flex items-center gap-2">
-                                <MessageSquare className="w-4 h-4" /> Resumo do Analista
+                                <MessageSquare className="w-4 h-4" /> {language === "pt" ? "Resumo do Analista" : "Analyst Summary"}
                             </h3>
                             <div className="p-6 bg-zinc-950/50 rounded-2xl border border-zinc-800/50 leading-relaxed text-zinc-300 font-medium italic break-all">
                                 "{data?.summary}"
@@ -197,11 +236,11 @@ function AnalysisDetail({ videoId }: { videoId: number }) {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Feedback Video Link (Main Asset) */}
                             <div className="space-y-4">
-                                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-500">Acessar Feedback</h3>
+                                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-500">{language === "pt" ? "Acessar Feedback" : "Access Feedback"}</h3>
                                 {data?.feedbackVideoUrl ? (
                                     <a href={data.feedbackVideoUrl} target="_blank" rel="noreferrer">
                                         <Button className="w-full bg-emerald-600 hover:bg-emerald-500 h-16 rounded-2xl text-lg font-black uppercase tracking-widest shadow-lg shadow-emerald-900/20">
-                                            Assistir Vídeo
+                                            {language === "pt" ? "Assistir Vídeo" : "Watch Video"}
                                             <PlayCircle className="ml-2 w-6 h-6" />
                                         </Button>
                                     </a>
@@ -216,10 +255,10 @@ function AnalysisDetail({ videoId }: { videoId: number }) {
                             {/* Recommended Training */}
                             {data?.recommendedVideoUrl && (
                                 <div className="space-y-4">
-                                    <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-500">Treino Recomendado</h3>
+                                    <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-500">{language === "pt" ? "Treino Recomendado" : "Recommended Training"}</h3>
                                     <a href={data.recommendedVideoUrl} target="_blank" rel="noreferrer">
                                         <Button variant="outline" className="w-full border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 h-16 rounded-2xl text-sm font-black uppercase tracking-widest text-emerald-400">
-                                            Ver Material de Estudo
+                                            {language === "pt" ? "Ver Material de Estudo" : "View Study Material"}
                                             <ExternalLink className="ml-2 w-4 h-4" />
                                         </Button>
                                     </a>
@@ -230,9 +269,9 @@ function AnalysisDetail({ videoId }: { videoId: number }) {
                 )}
             </CardContent>
             <CardFooter className="p-8 bg-zinc-950/30 border-t border-zinc-800/30 flex justify-between items-center">
-                <span className="text-[10px] font-black uppercase text-zinc-700 tracking-[0.3em]">ID DO PEDIDO: #{videoId}</span>
+                <span className="text-[10px] font-black uppercase text-zinc-700 tracking-[0.3em]">{language === "pt" ? "ID DO PEDIDO" : "ORDER ID"}: #{videoId}</span>
                 <Link href="/community/upload">
-                    <span className="text-[10px] font-black uppercase text-emerald-500 hover:underline cursor-pointer tracking-widest">Precisa de outra análise?</span>
+                    <span className="text-[10px] font-black uppercase text-emerald-500 hover:underline cursor-pointer tracking-widest">{language === "pt" ? "Precisa de outra análise?" : "Need another analysis?"}</span>
                 </Link>
             </CardFooter>
         </Card>

@@ -64,6 +64,8 @@ export default function LoginPage() {
         termsText: language === "pt" ? "Ao acessar, você concorda com nossos" : "By accessing, you agree to our",
         termsLink: language === "pt" ? "Termos de Uso" : "Terms of Use",
         policyLink: language === "pt" ? "Política de Reembolso" : "Refund Policy",
+        doubts: language === "pt" ? "Dúvidas sobre o projeto?" : "Questions about the project?",
+        ourMethod: language === "pt" ? "Nossa Metodologia" : "Our Methodology",
     };
 
     // Check for existing session
@@ -170,7 +172,7 @@ export default function LoginPage() {
                             <Link href="/community/legal">
                                 <span className="text-emerald-500 hover:underline cursor-pointer">{t.termsLink}</span>
                             </Link>{" "}
-                            e{" "}
+                            {language === "pt" ? "e" : "&"}{" "}
                             <Link href="/community/legal#reembolso">
                                 <span className="text-emerald-500 hover:underline cursor-pointer">{t.policyLink}</span>
                             </Link>.
@@ -189,9 +191,9 @@ export default function LoginPage() {
             </Card>
 
             <div className="mt-8 text-zinc-600 text-sm flex items-center gap-2 group cursor-pointer hover:text-zinc-400 transition-colors">
-                <span>Dúvidas sobre o projeto?</span>
+                <span>{t.doubts}</span>
                 <a href="/community#metodologia" className="text-emerald-500 font-bold hover:underline flex items-center gap-1 font-mono uppercase tracking-tighter text-xs">
-                    Nossa Metodologia <ArrowRight className="w-4 h-4" />
+                    {t.ourMethod} <ArrowRight className="w-4 h-4" />
                 </a>
             </div>
         </div>
