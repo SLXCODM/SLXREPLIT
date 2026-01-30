@@ -17,7 +17,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
     // Load language from localStorage on initial load
     const saved = localStorage.getItem("slx_language");
-    return (saved as Language) || "pt";
+    // Força português como padrão - apenas aceita 'en' se explicitamente salvo
+    if (saved === "en") return "en";
+    // Para qualquer outro valor (incluindo null), força 'pt'
+    return "pt";
   });
   const [isLanguageSelected, setIsLanguageSelected] = useState(false);
   const [showRaffle, setShowRaffle] = useState(false);
