@@ -23,6 +23,7 @@ import NotFound from "@/pages/not-found";
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 import { CommunityProvider } from "./community/CommunityProvider";
 import { EbookNanoCard } from "./components/EbookNanoCard";
+import ScrollToTop from "./components/ScrollToTop";
 
 import WeaponReview from "@/pages/WeaponReview";
 
@@ -95,6 +96,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <ErrorBoundary>
+            <ScrollToTop />
             <AppContent />
           </ErrorBoundary>
           <Toaster />

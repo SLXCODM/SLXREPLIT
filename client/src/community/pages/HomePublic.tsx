@@ -109,7 +109,7 @@ export default function HomePublic() {
                         <span>{t.badge}</span>
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter max-w-5xl mx-auto leading-tight">
+                    <h1 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter max-w-5xl mx-auto leading-tight">
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-500 animate-gradient-x">
                             {t.headline}
                         </span>
@@ -249,7 +249,7 @@ export default function HomePublic() {
                 <div id="pricing" className="py-24 border-t border-zinc-800/50">
                     <div className="max-w-4xl mx-auto bg-zinc-900/40 border border-zinc-800/60 rounded-[40px] overflow-hidden backdrop-blur-md shadow-2xl">
                         <div className="grid grid-cols-1 md:grid-cols-2">
-                            <div className="p-10 md:p-14 space-y-8">
+                            <div className="p-6 md:p-14 space-y-6 md:space-y-8">
                                 <div className="space-y-4">
                                     <h3 className="text-3xl font-black tracking-tighter uppercase">{t.pricingTitle}</h3>
                                     <p className="text-zinc-400 text-sm font-medium">{t.pricingSub}</p>
@@ -268,7 +268,7 @@ export default function HomePublic() {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="bg-emerald-500/5 p-10 md:p-14 flex flex-col justify-center items-center text-center border-l border-zinc-800/50 space-y-6">
+                            <div className="bg-emerald-500/5 p-6 md:p-14 flex flex-col justify-center items-center text-center border-l-0 md:border-l border-zinc-800/50 space-y-6">
                                 <div className="space-y-1">
                                     <span className="text-zinc-500 text-xs font-black uppercase tracking-[0.3em]">{t.pricingInvestLabel}</span>
                                     <div className="flex items-baseline justify-center gap-2">
@@ -277,9 +277,9 @@ export default function HomePublic() {
                                     </div>
                                 </div>
                                 <Link href="/community/upload">
-                                    <Button size="lg" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white h-14 px-10 text-lg font-black rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95 group">
+                                    <Button size="lg" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white h-12 md:h-14 px-4 md:px-10 text-sm md:text-lg font-black rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95 group">
                                         {t.pricingCta}
-                                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                        <ArrowRight className="ml-1 md:ml-2 w-4 md:w-5 h-4 md:h-5 group-hover:translate-x-1 transition-transform" />
                                     </Button>
                                 </Link>
                                 <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">

@@ -45,12 +45,12 @@ export function CommunityHeader() {
         <header className="fixed top-0 left-0 right-0 z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 <Link href="/community">
-                    <div className="text-xl font-bold tracking-tighter text-emerald-500 cursor-pointer hover:text-emerald-400 transition-colors">
+                    <div className="text-lg md:text-xl font-bold tracking-tighter text-emerald-500 cursor-pointer hover:text-emerald-400 transition-colors">
                         SLX <span className="text-white">Community</span>
                     </div>
                 </Link>
 
-                <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-zinc-400">
                     <Link href="/community/gallery">
                         <span className="hover:text-emerald-400 transition-colors cursor-pointer">{t.results}</span>
                     </Link>
@@ -59,24 +59,24 @@ export function CommunityHeader() {
                     <a href="/community#faq" className="hover:text-emerald-400 transition-colors">{t.faq}</a>
                 </nav>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 md:gap-4">
                     {auth?.loggedIn ? (
                         <div className="flex items-center gap-2 md:gap-4">
                             {/* Desktop User Info */}
-                            <div className="hidden md:flex items-center gap-2 text-xs font-bold text-zinc-400 bg-zinc-900 px-3 py-1.5 rounded-full border border-zinc-800">
+                            <div className="hidden lg:flex items-center gap-2 text-xs font-bold text-zinc-400 bg-zinc-900 px-3 py-1.5 rounded-full border border-zinc-800">
                                 <UserIcon className="w-3 h-3 text-emerald-500" />
-                                <span className="max-w-[100px] truncate">{auth.user.name}</span>
+                                <span className="max-w-[80px] truncate">{auth.user.name}</span>
                                 {auth.user.role === "admin" && (
                                     <span className="ml-1 text-[8px] bg-emerald-500/20 text-emerald-400 px-1 rounded-sm uppercase tracking-tighter">Admin</span>
                                 )}
                             </div>
 
                             {/* Mobile User Info (Compact) */}
-                            <div className="flex md:hidden items-center gap-2 bg-zinc-900/50 p-1 rounded-full border border-zinc-800 pr-3">
+                            <div className="flex md:hidden items-center gap-2 bg-zinc-900/50 p-1 rounded-full border border-zinc-800 pr-2">
                                 <div className="p-1 bg-zinc-900 rounded-full text-emerald-500">
-                                    <UserIcon className="w-3 h-3" />
+                                    <UserIcon className="w-2.5 h-2.5" />
                                 </div>
-                                <span className="text-[10px] font-bold text-zinc-300 max-w-[60px] truncate">{(auth.user.name || "User").split(' ')[0]}</span>
+                                <span className="text-[9px] font-bold text-zinc-300 max-w-[40px] truncate">{(auth.user.name || "User").split(' ')[0]}</span>
                             </div>
 
                             <Button
@@ -94,22 +94,23 @@ export function CommunityHeader() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => logout.mutate()}
-                                className="flex md:hidden h-8 w-8 text-zinc-500 hover:text-red-400 hover:bg-red-500/10"
+                                className="flex md:hidden h-8 w-8 text-zinc-400 hover:text-red-400 hover:bg-red-500/10"
                             >
                                 <LogOut className="w-4 h-4" />
                             </Button>
 
-                            {auth.user.role === "admin" && (
+                            {auth?.user?.role === "admin" && (
                                 <Link href="/community/admin">
-                                    <Button size="sm" variant="outline" className="hidden md:flex border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 rounded-full px-6 font-semibold">
+                                    <Button size="sm" variant="outline" className="hidden lg:flex border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 rounded-full px-6 font-semibold mr-2">
                                         {t.analystPanel}
                                     </Button>
                                 </Link>
                             )}
 
                             <Link href="/community/dashboard">
-                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-4 md:px-6 font-semibold shadow-emerald-900/20 shadow-lg text-xs md:text-sm">
-                                    {t.studentArea}
+                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-3 md:px-6 font-semibold shadow-emerald-900/20 shadow-lg text-[10px] md:text-sm h-8 md:h-10">
+                                    <span className="hidden xs:inline">{t.studentArea}</span>
+                                    <span className="xs:hidden">Entrar</span>
                                 </Button>
                             </Link>
                         </div>
@@ -121,8 +122,9 @@ export function CommunityHeader() {
                                 </Button>
                             </Link>
                             <Link href="/community/dashboard">
-                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-4 md:px-6 font-semibold shadow-emerald-900/20 shadow-lg text-xs md:text-sm">
-                                    {t.studentArea}
+                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-4 md:px-6 font-semibold shadow-emerald-900/20 shadow-lg text-[10px] md:text-sm h-9 md:h-10">
+                                    <span className="hidden xs:inline">{t.studentArea}</span>
+                                    <span className="xs:hidden">Acessar</span>
                                 </Button>
                             </Link>
                         </div>

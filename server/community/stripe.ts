@@ -40,13 +40,8 @@ export function setupStripeRoutes(app: Express) {
             : "Deep CODM gameplay analysis using the SLX psychoanalytic methodology.";
 
         try {
-            console.log(`[Stripe] Inciando criação de sessão (Lang: ${lang || 'pt'})...`);
+            console.log(`[Stripe] Inciando criação de sessão. Lang recebido: "${lang}" (body)`);
             const user = (req.session as any).user;
-
-            console.log("[Stripe Debug] Key present:", !!process.env.STRIPE_SECRET_KEY);
-            if (process.env.STRIPE_SECRET_KEY) {
-                console.log("[Stripe Debug] Key prefix:", process.env.STRIPE_SECRET_KEY.substring(0, 7));
-            }
 
             if (!user) {
                 return res.status(401).json({ error: "Você precisa estar logado para realizar o pagamento." });
@@ -122,7 +117,9 @@ export function setupStripeRoutes(app: Express) {
                 }
             }
 
-            const session = await (stripeClient.checkout.sessions.create as any)({
+            console.log(`[Stripe] Criando checkout. Moeda: ${currency.toUpperCase()}, Valor: ${amountInCents}, Locale: ${isPt ? 'pt-BR' : 'en'}`);
+
+            const sessionOptions: any = {
                 automatic_payment_methods: { enabled: true },
                 line_items: [
                     {
@@ -138,6 +135,7 @@ export function setupStripeRoutes(app: Express) {
                     },
                 ],
                 mode: "payment",
+                locale: isPt ? 'pt-BR' : 'en', // Força o idioma da página do Stripe
                 success_url: `${req.protocol}://${req.get("host")}/community/payment-success?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${req.protocol}://${req.get("host")}/community/payment-cancel`,
                 client_reference_id: result.paymentId.toString(),
@@ -145,8 +143,10 @@ export function setupStripeRoutes(app: Express) {
                     videoId: result.videoId.toString(),
                     userId: user.id.toString(),
                     paymentId: result.paymentId.toString()
-                },
-            });
+                }
+            };
+
+            const session = await (stripeClient.checkout.sessions.create as any)(sessionOptions);
 
             console.log("[Stripe] Sessão de checkout criada com sucesso.");
             res.json({ url: session.url });
