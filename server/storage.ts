@@ -418,8 +418,12 @@ export class DatabaseStorage implements IStorage {
   async deleteGalleryItem(id: number): Promise<boolean> {
     const [analysis] = await db.select().from(analyses).where(eq(analyses.id, id));
     if (!analysis) return false;
-    await db.delete(analyses).where(eq(analyses.id, id));
-    await db.delete(videos).where(eq(videos.id, analysis.videoId));
+
+    // Apenas remove da galeria pública, mantém a análise para o cliente
+    await db.update(analyses)
+      .set({ isPublic: false })
+      .where(eq(analyses.id, id));
+
     return true;
   }
 }
