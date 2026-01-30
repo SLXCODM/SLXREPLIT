@@ -127,6 +127,20 @@ export async function bootstrapDatabase() {
       )
     `);
 
+    // Create analytics_visits table
+    console.log("Checking analytics_visits table...");
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS analytics_visits (
+        id SERIAL PRIMARY KEY,
+        path TEXT NOT NULL,
+        language TEXT NOT NULL,
+        user_agent TEXT,
+        referer TEXT,
+        ip_hash TEXT,
+        created_at TIMESTAMP DEFAULT now() NOT NULL
+      )
+    `);
+
     console.log("All tables checked/created.");
 
     // Get count first so it can be used below

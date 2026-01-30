@@ -19,11 +19,13 @@ import RafflePopup from "./components/RafflePopup";
 import EbookSkill from "@/pages/EbookSkill";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import NotFound from "@/pages/not-found";
 import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 import { CommunityProvider } from "./community/CommunityProvider";
 import { EbookNanoCard } from "./components/EbookNanoCard";
 import ScrollToTop from "./components/ScrollToTop";
+import AnalyticsTracker from "./components/AnalyticsTracker";
 
 import WeaponReview from "@/pages/WeaponReview";
 
@@ -43,6 +45,7 @@ function Router() {
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/ebook" component={EbookSkill} />
+      <Route path="/analytics" component={AnalyticsDashboard} />
 
       {/* Community Routes */}
       <Route path="/community" component={CommunityProvider} />
@@ -97,6 +100,7 @@ function App() {
         <TooltipProvider>
           <ErrorBoundary>
             <ScrollToTop />
+            <AnalyticsTracker />
             <AppContent />
           </ErrorBoundary>
           <Toaster />

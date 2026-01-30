@@ -23,11 +23,13 @@ import {
   type Payment,
   type InsertPayment,
   type Analysis,
-  type InsertAnalysis
+  type InsertAnalysis,
+  analyticsVisits,
+  type InsertAnalyticsVisit
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
-import { eq, desc, ne } from "drizzle-orm";
+import { eq, desc, ne, sql } from "drizzle-orm";
 import path from "path";
 import {
   sendOrderNotificationToAdmin,
@@ -94,6 +96,9 @@ export interface IStorage {
     teaserText: string;
   }): Promise<Analysis>;
   deleteGalleryItem(id: number): Promise<boolean>;
+  // Analytics
+  logVisit(visit: InsertAnalyticsVisit): Promise<void>;
+  getAnalyticsStats(days: number): Promise<any>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -123,6 +128,47 @@ export class DatabaseStorage implements IStorage {
   async deleteProject(id: string): Promise<boolean> {
     const [deleted] = await db.delete(projects).where(eq(projects.id, id)).returning();
     return !!deleted;
+  }
+
+  async logVisit(visit: InsertAnalyticsVisit): Promise<void> {
+    await db.insert(analyticsVisits).values(visit);
+  }
+
+  async getAnalyticsStats(days: number): Promise<any> {
+    const period = sql`now() - interval '${sql.raw(days.toString())} days'`;
+
+    // Total visits
+    const totalVisits = await db.execute(sql`
+      SELECT count(*)::int as count 
+      FROM analytics_visits 
+      WHERE created_at >= ${period}
+    `);
+
+    // Visits by path
+    const pathStats = await db.execute(sql`
+      SELECT path, count(*)::int as count 
+      FROM analytics_visits 
+      WHERE created_at >= ${period}
+      GROUP BY path 
+      ORDER BY count DESC
+    `);
+
+    // Visits by day (for chart)
+    const dailyStats = await db.execute(sql`
+      SELECT 
+        date_trunc('day', created_at)::date as date, 
+        count(*)::int as count 
+      FROM analytics_visits 
+      WHERE created_at >= ${period}
+      GROUP BY date 
+      ORDER BY date ASC
+    `);
+
+    return {
+      total: totalVisits[0]?.count || 0,
+      paths: pathStats,
+      daily: dailyStats
+    };
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -832,6 +878,15 @@ export class MemStorage implements IStorage {
     this.analysesMap.delete(a.videoId);
     this.videosMap.delete(a.videoId);
     return true;
+  }
+
+  // Analytics (Dummy for MemStorage)
+  async logVisit(_visit: InsertAnalyticsVisit): Promise<void> {
+    return;
+  }
+
+  async getAnalyticsStats(_days: number): Promise<any> {
+    return { total: 0, paths: [], daily: [] };
   }
 }
 

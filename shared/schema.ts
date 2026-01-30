@@ -178,3 +178,23 @@ export const insertProductSchema = createInsertSchema(products).omit({
 
 export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type Product = typeof products.$inferSelect;
+
+// --- ANALYTICS ---
+
+export const analyticsVisits = pgTable("analytics_visits", {
+  id: serial("id").primaryKey(),
+  path: text("path").notNull(),
+  language: text("language").notNull(), // "pt" or "en"
+  userAgent: text("user_agent"),
+  referer: text("referer"),
+  ipHash: text("ip_hash"), // anonymized IP for basic unique counting
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertAnalyticsVisitSchema = createInsertSchema(analyticsVisits).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertAnalyticsVisit = z.infer<typeof insertAnalyticsVisitSchema>;
+export type AnalyticsVisit = typeof analyticsVisits.$inferSelect;

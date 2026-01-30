@@ -388,6 +388,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
 
+  // --- ANALYTICS MODULE ---
+
+  // 1. Record a visit
+  app.post("/api/analytics/track", async (req, res) => {
+    try {
+      const { path, language } = req.body;
+      const userAgent = req.get("User-Agent");
+      const referer = req.get("Referer");
+      const ip = req.ip || req.headers['x-forwarded-for'];
+
+      // Simple hash for IP anonymization
+      const ipHash = ip ? Buffer.from(ip.toString()).toString("base64").substring(0, 10) : null;
+
+      await storage.logVisit({
+        path: path || "/",
+        language: language || "en",
+        userAgent: userAgent || null,
+        referer: referer || null,
+        ipHash
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Analytics track error:", error);
+      res.status(500).json({ error: "Failed to log visit" });
+    }
+  });
+
+  // 2. Get stats (protected via token)
+  app.get("/api/analytics/stats", async (req, res) => {
+    const token = req.query.token;
+    const analyticsSecret = (process.env.ANALYTICS_SECRET || "1+1 Slxcodmcrypto 1+1").trim();
+
+    if (token !== analyticsSecret) {
+      console.warn(`[Analytics] Unauthorized access attempt with token: ${token}`);
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    try {
+      const days = parseInt(req.query.days as string) || 7;
+      const stats = await storage.getAnalyticsStats(days);
+      res.json(stats);
+    } catch (error) {
+      console.error("Analytics stats error:", error);
+      res.status(500).json({ error: "Failed to fetch stats" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
