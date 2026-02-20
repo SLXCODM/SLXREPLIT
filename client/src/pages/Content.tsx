@@ -83,7 +83,21 @@ export default function Content() {
           </div>
 
           {/* Tabs Filter */}
-          <Tabs value={currentTab} onValueChange={setActiveTab} className="w-full">
+          <Tabs
+            value={currentTab}
+            onValueChange={(val) => {
+              setActiveTab(val);
+              // Update URL so AnalyticsTracker picks it up
+              const newUrl = val === "all" || val === "gaming"
+                ? window.location.pathname
+                : `${window.location.pathname}?category=${val}`;
+              window.history.pushState({}, '', newUrl);
+              // We dispatch a popstate event to simulate a location change manually 
+              // so useLocation in AnalyticsTracker might pick it up, although Wouter might handle it.
+              window.dispatchEvent(new Event('popstate'));
+            }}
+            className="w-full"
+          >
             <TabsList className="w-full justify-start overflow-x-auto flex-wrap gap-2 bg-transparent h-auto p-0" data-testid="tabs-content-filter">
               {tabs.map(tab => (
                 <TabsTrigger

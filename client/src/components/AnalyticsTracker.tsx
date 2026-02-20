@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -9,9 +9,19 @@ import { useLanguage } from "@/contexts/LanguageContext";
 export default function AnalyticsTracker() {
     const [location] = useLocation();
     const { language } = useLanguage();
+    const lastTrackedPath = useRef<string | null>(null);
 
     useEffect(() => {
         const trackVisit = async () => {
+            const currentPath = location + window.location.search;
+
+            // Prevent duplicate tracking if the path hasn't changed
+            if (lastTrackedPath.current === currentPath) {
+                return;
+            }
+
+            lastTrackedPath.current = currentPath;
+
             try {
                 await fetch("/api/analytics/track", {
                     method: "POST",
@@ -19,7 +29,7 @@ export default function AnalyticsTracker() {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        path: location + window.location.search,
+                        path: currentPath,
                         language: language,
                     }),
                 });
