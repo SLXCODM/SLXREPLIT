@@ -84,6 +84,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         status: "ok",
         db: dbStatus.length > 0 ? "connected_and_warm" : "empty_but_connected",
         version: "1.3.4-warm-keepalive",
+        appName: "SLX Keep Alive", // Included to satisfy UptimeRobot keyword monitor
         time: new Date().toISOString()
       });
     } catch (err: any) {
