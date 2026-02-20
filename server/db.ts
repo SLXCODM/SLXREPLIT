@@ -29,10 +29,11 @@ export const db = new Proxy({}, {
 
         const client = postgres(url, {
           ssl: { rejectUnauthorized: false },
-          connect_timeout: 30, // Increase timeout for cold starts
-          max: 1, // Crucial for Vercel/Serverless to avoid Neon/Supabase connection exhaustion
-          idle_timeout: 10, // Close idle connections faster
-          prepare: false // CRITICAL: Required for Supabase PgBouncer/Connection Pooler transaction mode
+          max: 10, // Back to a reasonable number to prevent queueing
+          idle_timeout: 5, // VERY FAST drop. Closes connections after 5s idle to prevent silent TCP drops by firewalls
+          connect_timeout: 10, // Fail fast if Supabase is unreachable instead of hanging for 30s
+          max_lifetime: 60 * 5, // Force kill connections every 5 minutes to keep pool perfectly fresh
+          prepare: false // Required for Supabase transaction poolers
         });
         _db = drizzle(client, { schema });
         console.log("Database client initialized successfully.");
@@ -52,11 +53,12 @@ export const db = new Proxy({}, {
 // Helper to initialize database tables if they don't exist
 export async function bootstrapDatabase() {
   const isVercel = process.env.VERCEL === '1';
+  const isProduction = process.env.NODE_ENV === 'production';
   const forceBootstrap = process.env.DB_BOOTSTRAP === 'true';
 
-  // In production (Vercel), skip bootstrapping unless explicitly forced.
+  // In production (Vercel/Replit), skip bootstrapping unless explicitly forced.
   // This drastically reduces cold start times from ~1 minute to a few seconds.
-  if (isVercel && !forceBootstrap) {
+  if ((isVercel || isProduction) && !forceBootstrap) {
     console.log("[Bootstrap] Skipping database check in production to optimize cold start.");
     return;
   }

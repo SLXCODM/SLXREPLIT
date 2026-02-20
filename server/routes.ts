@@ -76,12 +76,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.setHeader("Expires", "0");
 
     try {
-      // Test DB connection with a simple query
-      const dbStatus = await db.execute(sql`SELECT 1 as connected`);
+      // Return immediately to keep Vercel/Express awake without risking DB TCP timeouts
       res.json({
         status: "ok",
-        db: dbStatus[0]?.connected === 1 ? "connected" : "error",
-        version: "1.3.2-keepalive",
+        db: "alive_no_check", // Bypassed to prevent exhaustion
+        version: "1.3.3-fast-keepalive",
         time: new Date().toISOString()
       });
     } catch (err: any) {
@@ -89,7 +88,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(200).json({
         status: "alive_no_db",
         error: err.message,
-        version: "1.3.2-keepalive"
+        version: "1.3.3-fast-keepalive"
       });
     }
   });
