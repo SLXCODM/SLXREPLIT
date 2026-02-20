@@ -13,10 +13,10 @@ import express, {
 } from "express";
 
 import session from "express-session";
-import pgSession from "connect-pg-simple";
+import MemoryStoreFactory from "memorystore";
 import { registerRoutes } from "./routes";
 
-const PostgresStore = pgSession(session);
+const MemoryStore = MemoryStoreFactory(session);
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -44,25 +44,22 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ extended: false }));
 
-// Session configuration (Persistent via Supabase)
+// Environment detection
+const isVercel = process.env.VERCEL === "1";
+
+// Create memory store instance for sessions
+// In a serverless environment like Vercel, memory is wiped between function invocations,
+// which essentially makes sessions stateless. This is preferred over exhausting the DB connections.
+const sessionStore = new MemoryStore({
+  checkPeriod: 86400000 // prune expired entries every 24h
+});
+
+// Session configuration 
 app.use(session({
-  store: new PostgresStore({
-    conObject: {
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false
-      },
-      max: 1, // CRITICAL: Vercel serverless exhaustion fix for session store
-      idleTimeoutMillis: 10000,
-      connectionTimeoutMillis: 10000
-    },
-    tableName: 'session',
-    pruneSessionInterval: 60 * 60, // Prune expired sessions every hour (reduces DB load)
-    createTableIfMissing: false
-  }),
+  store: sessionStore,
   cookie: {
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    secure: process.env.VERCEL === "1", // Secure if on Vercel (HTTPS)
+    secure: isVercel, // Secure if on Vercel (HTTPS)
     sameSite: 'lax'
   },
   resave: false,
