@@ -31,6 +31,7 @@ import { randomUUID } from "crypto";
 import { db } from "./db";
 import { eq, desc, ne, sql } from "drizzle-orm";
 import path from "path";
+import { supabase } from "./lib/supabase";
 import {
   sendOrderNotificationToAdmin,
   sendPaymentConfirmedToClient,
@@ -103,6 +104,24 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async getProjects(): Promise<Project[]> {
+    try {
+      // Use Supabase HTTP client to bypass Vercel Postgres TCP pooler hangs completely
+      if (supabase) {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+          .order('order', { ascending: true });
+
+        if (!error && data) {
+          return data as Project[];
+        }
+        if (error) console.error("Supabase HTTP REST Fallback error:", error.message);
+      }
+    } catch (e: any) {
+      console.error("Failed to read from Supabase REST API, falling back to Drizzle TCP...", e.message);
+    }
+
+    // Fallback to traditional Drizzle TCP connection
     return await db.select().from(projects).orderBy(projects.order);
   }
 
@@ -112,6 +131,25 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getProjectsByCategory(category: string): Promise<Project[]> {
+    try {
+      // Use Supabase HTTP client to bypass Vercel Postgres TCP pooler hangs completely
+      if (supabase) {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+          .eq('category', category)
+          .order('order', { ascending: true });
+
+        if (!error && data) {
+          return data as Project[];
+        }
+        if (error) console.error("Supabase HTTP REST Fallback error:", error.message);
+      }
+    } catch (e: any) {
+      console.error("Failed to read from Supabase REST API, falling back to Drizzle TCP...", e.message);
+    }
+
+    // Fallback to traditional Drizzle TCP connection
     return await db.select().from(projects).where(eq(projects.category, category)).orderBy(projects.order);
   }
 
