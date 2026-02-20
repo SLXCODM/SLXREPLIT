@@ -51,9 +51,13 @@ app.use(session({
       connectionString: process.env.DATABASE_URL,
       ssl: {
         rejectUnauthorized: false
-      }
+      },
+      max: 1, // CRITICAL: Vercel serverless exhaustion fix for session store
+      idleTimeoutMillis: 10000,
+      connectionTimeoutMillis: 10000
     },
     tableName: 'session',
+    pruneSessionInterval: 60 * 60, // Prune expired sessions every hour (reduces DB load)
     createTableIfMissing: false
   }),
   cookie: {
