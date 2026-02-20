@@ -31,7 +31,8 @@ export const db = new Proxy({}, {
           ssl: { rejectUnauthorized: false },
           connect_timeout: 30, // Increase timeout for cold starts
           max: 1, // Crucial for Vercel/Serverless to avoid Neon/Supabase connection exhaustion
-          idle_timeout: 20 // Close idle connections faster
+          idle_timeout: 10, // Close idle connections faster
+          prepare: false // CRITICAL: Required for Supabase PgBouncer/Connection Pooler transaction mode
         });
         _db = drizzle(client, { schema });
         console.log("Database client initialized successfully.");
