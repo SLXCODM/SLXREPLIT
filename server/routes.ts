@@ -76,11 +76,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.setHeader("Expires", "0");
 
     try {
-      // Return immediately to keep Vercel/Express awake without risking DB TCP timeouts
+      // Forcefully query the exact table used by the Content page 
+      // to keep the Supabase TCP connection and the pgBouncer pool warm
+      const dbStatus = await db.execute(sql`SELECT 1 FROM projects LIMIT 1`);
+
       res.json({
         status: "ok",
-        db: "alive_no_check", // Bypassed to prevent exhaustion
-        version: "1.3.3-fast-keepalive",
+        db: dbStatus.length > 0 ? "connected_and_warm" : "empty_but_connected",
+        version: "1.3.4-warm-keepalive",
         time: new Date().toISOString()
       });
     } catch (err: any) {
@@ -88,7 +91,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(200).json({
         status: "alive_no_db",
         error: err.message,
-        version: "1.3.3-fast-keepalive"
+        version: "1.3.4-warm-keepalive"
       });
     }
   });
