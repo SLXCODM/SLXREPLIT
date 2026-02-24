@@ -6,8 +6,9 @@ const getApiBaseUrl = () => {
   if (import.meta.env.DEV) {
     return "";
   }
-  // Production: Use environment variable or default to new Render backend
-  return import.meta.env.VITE_API_BASE_URL || "https://slxreplit.onrender.com";
+  // Production: Use environment variable or default to local API (Vercel)
+  // We avoid hardcoding Render here because Vercel is our primary optimized backend.
+  return import.meta.env.VITE_API_BASE_URL || "";
 };
 
 async function throwIfResNotOk(res: Response) {
