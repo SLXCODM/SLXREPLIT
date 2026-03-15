@@ -1,39 +1,53 @@
-import { ShoppingCart, ChevronRight, Mouse, Headset, Monitor, Smartphone } from "lucide-react";
+import { ShoppingCart, ChevronRight, MousePointer2, Glasses, Camera, MonitorDot, Gamepad2, Cable } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SetupCarousel() {
   const { language } = useLanguage();
-  const affiliateLink = "https://meli.la/1w2ZJTY";
+  const mainCollectionLink = "https://meli.la/1w2ZJTY";
 
   const setupItems = [
     { 
       id: 1, 
-      name: "Mouse Gamer", 
-      icon: Mouse, 
-      desc: language === 'pt' ? "Precisão cirúrgica para FPS" : "Surgical precision for FPS",
-      link: affiliateLink 
+      name: "Luva de Dedo Flydigi", 
+      icon: MousePointer2, 
+      desc: language === 'pt' ? "Deslize perfeito na tela" : "Perfect screen sliding",
+      link: "https://meli.la/2wg3FfZ" 
     },
     { 
       id: 2, 
-      name: "Smartphone PRO", 
-      icon: Smartphone, 
-      desc: language === 'pt' ? "Alta performance no CODM" : "High performance in CODM",
-      link: affiliateLink 
+      name: "Óculos Anti Luz Azul", 
+      icon: Glasses, 
+      desc: language === 'pt' ? "Proteção para gameplays longas" : "Protection for long gameplays",
+      link: "https://meli.la/2wwafwZ" 
     },
     { 
       id: 3, 
-      name: "Headset Tático", 
-      icon: Headset, 
-      desc: language === 'pt' ? "Áudio imersivo e limpo" : "Immersive and clean audio",
-      link: affiliateLink 
+      name: "Webcam Full HD", 
+      icon: Camera, 
+      desc: language === 'pt' ? "Qualidade de imagem cristalina" : "Crystal clear image quality",
+      link: "https://www.mercadolivre.com.br/p/MLB47995865?pdp_filters=item_id:MLB5828994448#origin=share&sid=share&wid=MLB5828994448&action=copy" 
     },
     { 
       id: 4, 
-      name: "Monitor Ultrawide", 
-      icon: Monitor, 
-      desc: language === 'pt' ? "Visão máxima de jogo" : "Maximum game vision",
-      link: affiliateLink 
+      name: "Placa de Captura", 
+      icon: MonitorDot, 
+      desc: language === 'pt' ? "Grave e transmita sem delay" : "Record and stream without delay",
+      link: "https://meli.la/1UsQBPH" 
+    },
+    { 
+      id: 5, 
+      name: "Handgrip", 
+      icon: Gamepad2, 
+      desc: language === 'pt' ? "Ergonomia superior para CODM" : "Superior ergonomics for CODM",
+      link: "https://meli.la/1dYcX1a" 
+    },
+    { 
+      id: 6, 
+      name: "Cabo HDMI Premium", 
+      icon: Cable, 
+      desc: language === 'pt' ? "Transferência de sinal perfeita" : "Perfect signal transfer",
+      link: "https://meli.la/2DHk6ke" 
     },
   ];
 
