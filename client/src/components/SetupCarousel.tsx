@@ -84,29 +84,29 @@ export default function SetupCarousel() {
             rel="noopener noreferrer"
             className="min-w-[280px] md:min-w-[320px] snap-start bg-card/40 rounded-3xl overflow-hidden border border-border/40 hover:border-primary/40 transition-all duration-500 group flex flex-col hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer backdrop-blur-sm"
           >
-            <div className="aspect-[4/3] w-full overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="aspect-[4/3] w-full overflow-hidden relative bg-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
               <img 
                 src={item.image} 
                 alt={item.name} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                className="w-full h-full object-contain p-4 transition-transform duration-700 group-hover:scale-105" 
               />
             </div>
             
-            <div className="p-6 flex flex-col flex-grow">
-              <h3 className="text-lg font-bold mb-1 line-clamp-1 group-hover:text-primary transition-colors duration-300">
+            <div className="p-5 flex flex-col flex-grow">
+              <h3 className="text-base font-bold mb-1 line-clamp-1 group-hover:text-primary transition-colors duration-300">
                 {item.name}
               </h3>
-              <p className="text-xl font-black text-primary mb-3">
+              <p className="text-lg font-black text-primary mb-2">
                 {item.price}
               </p>
-              <p className="text-xs text-muted-foreground mb-6 line-clamp-2 leading-relaxed">
+              <p className="text-[10px] text-muted-foreground mb-4 line-clamp-2 leading-tight">
                 {item.desc}
               </p>
               
-              <Button className="w-full mt-auto bg-primary text-primary-foreground hover:opacity-90 transition-all font-bold rounded-xl py-6 shadow-lg shadow-primary/20">
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                {language === 'pt' ? 'Comprar Agora' : 'Buy Now'}
+              <Button size="sm" className="w-full mt-auto bg-primary text-primary-foreground hover:opacity-90 transition-all font-semibold rounded-lg py-4 md:py-5 shadow-sm">
+                <ShoppingCart className="w-3 h-3 mr-2" />
+                {language === 'pt' ? 'Comprar' : 'Buy'}
               </Button>
             </div>
           </a>
@@ -114,9 +114,9 @@ export default function SetupCarousel() {
       </div>
       
       {/* Mobile only "View All" button */}
-      <Button variant="outline" asChild className="w-full md:hidden mt-4 border-primary/20 text-primary py-6 rounded-xl font-bold">
+      <Button variant="outline" size="sm" asChild className="w-full md:hidden mt-2 border-primary/20 text-primary py-4 rounded-lg font-semibold">
         <a href={mainCollectionLink} target="_blank" rel="noopener noreferrer">
-          {language === 'pt' ? 'Ver Coleção Completa' : 'Full Collection'} <ChevronRight className="ml-2 w-4 h-4" />
+          {language === 'pt' ? 'Ver Tudo' : 'View All'} <ChevronRight className="ml-2 w-3 h-3" />
         </a>
       </Button>
     </div>
