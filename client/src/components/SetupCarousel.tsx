@@ -12,7 +12,7 @@ export default function SetupCarousel() {
       name: "Luva De Dedo Gamer Flydigi P1 Tecido Supercondutor", 
       price: "R$ 79",
       image: "https://http2.mlstatic.com/D_NQ_NP_685175-MLB54866724360_042023-O.webp",
-      desc: language === 'pt' ? "Deslize perfeito e anti-suor" : "Perfect sliding and anti-sweat",
+      desc: language === 'pt' ? "Fibra de prata supercondutora, ultra-fina e anti-suor para jogos." : "Superconductive silver fiber, ultra-thin and anti-sweat for gaming.",
       link: "https://meli.la/2wg3FfZ" 
     },
     { 
@@ -20,7 +20,7 @@ export default function SetupCarousel() {
       name: "Óculos Anti Luz Azul Descanso Gamer", 
       price: "R$ 87,20",
       image: "https://http2.mlstatic.com/D_NQ_NP_795610-MLB95098009738_102025-O.webp",
-      desc: language === 'pt' ? "Proteção para gameplays longas" : "Protection for long gameplays",
+      desc: language === 'pt' ? "Filtro Blue Ray Blocker anti-fadiga para proteção ocular." : "Blue Ray Blocker anti-fatigue filter for eye protection.",
       link: "https://meli.la/2wwafwZ" 
     },
     { 
@@ -28,7 +28,7 @@ export default function SetupCarousel() {
       name: "Webcam Obsbot Meet SE Grey 1080p 100fps", 
       price: "R$ 799",
       image: "https://http2.mlstatic.com/D_NQ_NP_864119-MLA95240406598_102025-O.webp",
-      desc: language === 'pt' ? "Qualidade de imagem profissional" : "Professional image quality",
+      desc: language === 'pt' ? "Resolução 1080p com enquadramento automático por IA e foco rápido." : "1080p resolution with AI auto-framing and fast focus.",
       link: "https://www.mercadolivre.com.br/p/MLB47995865?pdp_filters=item_id:MLB5828994448#origin=share&sid=share&wid=MLB5828994448&action=copy" 
     },
     { 
@@ -36,7 +36,7 @@ export default function SetupCarousel() {
       name: "Placa De Captura Ezcap 321 4k / 1080p 120 Fps", 
       price: "R$ 498,49",
       image: "https://http2.mlstatic.com/D_NQ_NP_931837-MLB70708269930_072023-O.webp",
-      desc: language === 'pt' ? "Grave e transmita sem delay" : "Record and stream without delay",
+      desc: language === 'pt' ? "Captura 4K ou 1080p a 120fps com interface USB 3.0." : "4K or 1080p capture at 120fps with USB 3.0 interface.",
       link: "https://meli.la/1UsQBPH" 
     },
     { 
@@ -44,7 +44,7 @@ export default function SetupCarousel() {
       name: "Hand Grip Ante Braço Punho Ajuste Até 60 Kg", 
       price: "R$ 19",
       image: "https://http2.mlstatic.com/D_NQ_NP_667242-MLA100080029891_122025-O.webp",
-      desc: language === 'pt' ? "Ergonomia superior para CODM" : "Superior ergonomics for CODM",
+      desc: language === 'pt' ? "Resistência ajustável até 60kg com contador integrado." : "Adjustable resistance up to 60kg with integrated counter.",
       link: "https://meli.la/1dYcX1a" 
     },
     { 
@@ -52,7 +52,7 @@ export default function SetupCarousel() {
       name: "Cabo Usb C Para Hdmi 2.1 Ugreen 8k @60hz", 
       price: "R$ 206,51",
       image: "https://http2.mlstatic.com/D_NQ_NP_691216-CBT80660121394_112024-O.webp",
-      desc: language === 'pt' ? "Transferência de sinal 8K perfeita" : "Perfect 8K signal transfer",
+      desc: language === 'pt' ? "Suporte a 8K@60Hz e 4K@240Hz para alta performance." : "Support for 8K@60Hz and 4K@240Hz for high performance.",
       link: "https://meli.la/2DHk6ke" 
     },
   ];
