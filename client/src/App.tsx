@@ -26,8 +26,8 @@ import { CommunityProvider } from "./community/CommunityProvider";
 import { EbookNanoCard } from "./components/EbookNanoCard";
 import ScrollToTop from "./components/ScrollToTop";
 import AnalyticsTracker from "./components/AnalyticsTracker";
-
 import WeaponReview from "@/pages/WeaponReview";
+import PremiumMockup from "./pages/PremiumMockup";
 
 function Router() {
   return (
@@ -46,6 +46,7 @@ function Router() {
       <Route path="/privacy" component={Privacy} />
       <Route path="/ebook" component={EbookSkill} />
       <Route path="/analytics" component={AnalyticsDashboard} />
+      <Route path="/premium-test" component={PremiumMockup} />
 
       {/* Community Routes */}
       <Route path="/community" component={CommunityProvider} />
