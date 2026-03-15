@@ -24,111 +24,107 @@ export default function PremiumMockup() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-purple-200">
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-purple-200">
       
-      {/* 1. HERO SECTION (The Facade) */}
-      <section className="pt-24 pb-16 px-6 max-w-5xl mx-auto text-center flex flex-col items-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-sm font-medium mb-6">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
-          </span>
-          Novo E-book Disponível
+      {/* 1. HERO SECTION (Clean & Minimalist) */}
+      <section className="pt-24 pb-12 px-6 max-w-4xl mx-auto text-center flex flex-col items-center">
+        {/* Removed the pulsing animation, kept it clean */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-50 text-slate-600 text-sm font-medium mb-8 border border-slate-200">
+          <span className="w-2 h-2 rounded-full bg-purple-600"></span>
+          Novo E-book Oficial Disponível
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight">
-          Domine o Sentido <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">
-            Tático Extremo
-          </span>
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight">
+          Sentido Tático Extremo
         </h1>
         
-        <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
-          O guia definitivo que transformou centenas de jogadores casuais em analistas pro-level. Aprenda posicionamento, rotação e leitura de mapa avançada.
+        {/* Adjusted typography: removed "artificial" descriptions, kept it straight to the point */}
+        <p className="text-base md:text-lg text-slate-500 max-w-xl mx-auto mb-10 leading-relaxed font-medium">
+          Domine o posicionamento avançado, rotação de mapa e leitura de jogo no Call of Duty Mobile.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-          <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-6 rounded-xl text-lg shadow-lg shadow-purple-200 transition-all hover:scale-105 active:scale-95">
-            Adquirir Agora
-            <ChevronRight className="ml-2 w-5 h-5" />
-          </Button>
-          <Button size="lg" variant="outline" className="bg-white border-slate-200 text-slate-700 font-semibold px-8 py-6 rounded-xl text-lg hover:bg-slate-50 transition-all">
-            Ver Amostra Grátis
+          <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-6 rounded-xl text-md transition-all active:scale-95">
+            Adquirir o E-book
+            <ChevronRight className="ml-2 w-4 h-4" />
           </Button>
         </div>
       </section>
 
-      {/* 2. CONTENT TABS (The Drawers) */}
-      <section className="py-16 px-6 bg-white border-y border-slate-100">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">Navegue por Conteúdo</h2>
+      {/* ADSENSE PLACEHOLDER (Top) - Clean integration */}
+      <div className="max-w-4xl mx-auto px-6 mb-12">
+        <div className="w-full h-24 bg-slate-50 border border-slate-100/50 rounded-xl flex items-center justify-center text-xs text-slate-300 font-mono tracking-widest">
+          ADSENSE_HEADER_SPACE
+        </div>
+      </div>
+
+      {/* 2. CONTENT TABS */}
+      <section className="py-12 px-6 bg-white border-t border-slate-100">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-xl font-bold text-slate-900 mb-8 border-b pb-4">Conteúdo</h2>
           
-          {/* 6 Buttons Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
+          {/* 6 Buttons Grid - Kept clean with subtle active states */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-12">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-200 ${
+                className={`flex flex-col items-center justify-center py-5 px-2 rounded-xl border transition-all duration-200 ${
                   activeTab === cat.id 
-                    ? 'border-purple-600 bg-purple-50 text-purple-700 shadow-sm' 
-                    : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                    ? 'border-purple-600 bg-purple-50/50 text-purple-700' 
+                    : 'border-slate-100 bg-white text-slate-500 hover:border-slate-200'
                 }`}
               >
-                <cat.icon className={`w-8 h-8 mb-3 ${activeTab === cat.id ? 'text-purple-600' : 'text-slate-400'}`} />
-                <span className="font-semibold text-sm md:text-base">{cat.label}</span>
+                <cat.icon className={`w-6 h-6 mb-2 ${activeTab === cat.id ? 'text-purple-600' : 'text-slate-400'}`} />
+                <span className="font-medium text-sm">{cat.label}</span>
               </button>
             ))}
           </div>
 
-          {/* Dummy visual for selected content */}
-          <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100 min-h-[300px] flex items-center justify-center text-slate-400">
-            [ Área limpa exibindo os projetos da aba "{categories.find(c => c.id === activeTab)?.label}" ]
+          <div className="bg-slate-50/50 rounded-2xl p-8 border border-slate-100 min-h-[250px] flex items-center justify-center text-slate-400 text-sm">
+            Exibindo lista de projetos para: {categories.find(c => c.id === activeTab)?.label}
           </div>
         </div>
       </section>
 
-      {/* 3. SETUP & GEAR CAROUSEL (The Invisible Store) */}
-      <section className="py-20 px-6 max-w-5xl mx-auto overflow-hidden">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Meu Setup & Recomendações</h2>
-            <p className="text-slate-500">Equipamentos testados e aprovados para alta performance.</p>
-          </div>
-          <Button variant="ghost" className="text-purple-600 font-semibold hover:text-purple-700 hover:bg-purple-50">
-            Ver Todos <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
+      {/* ADSENSE PLACEHOLDER (Middle) */}
+      <div className="max-w-4xl mx-auto px-6 py-6">
+        <div className="w-full h-32 bg-slate-50 border border-slate-100/50 rounded-xl flex items-center justify-center text-xs text-slate-300 font-mono tracking-widest">
+          ADSENSE_CONTENT_SPACE
+        </div>
+      </div>
+
+      {/* 3. SETUP & GEAR CAROUSEL */}
+      <section className="py-16 px-6 max-w-4xl mx-auto overflow-hidden">
+        <div className="flex items-center justify-between mb-8 border-b pb-4">
+          <h2 className="text-xl font-bold text-slate-900">Equipamentos Base</h2>
         </div>
 
         {/* Horizontal scroll container */}
-        <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0">
+        <div className="flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0">
           {setupItems.map((item) => (
-            <div key={item.id} className="min-w-[280px] md:min-w-[320px] snap-start bg-white rounded-3xl p-4 border border-slate-100 shadow-sm hover:shadow-md transition-shadow group flex flex-col">
-              <div className="aspect-[4/3] rounded-2xl bg-slate-100 mb-4 overflow-hidden relative">
-                {/* Fallback pattern for dummy images */}
-                <div className="absolute inset-0 bg-slate-200 animate-pulse"></div>
-                <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div key={item.id} className="min-w-[240px] md:min-w-[280px] snap-start bg-white rounded-2xl p-3 border border-slate-100 shadow-sm transition-shadow flex flex-col">
+              <div className="aspect-[4/3] rounded-xl bg-slate-100 mb-3 overflow-hidden relative">
+                <img src={item.image} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
               </div>
-              <h3 className="font-bold text-slate-900 mb-1">{item.name}</h3>
-              <p className="text-purple-600 font-bold mb-4">{item.price}</p>
-              <Button className="w-full mt-auto bg-slate-900 text-white hover:bg-slate-800 rounded-xl font-semibold">
-                <ShoppingCart className="w-4 h-4 mr-2" /> Comprar
+              <h3 className="font-semibold text-slate-900 text-sm mb-1">{item.name}</h3>
+              <p className="text-purple-600 font-semibold text-xs mb-3">{item.price}</p>
+              <Button size="sm" variant="outline" className="w-full mt-auto text-slate-600 border-slate-200">
+                <ShoppingCart className="w-3 h-3 mr-2" /> Comprar
               </Button>
             </div>
           ))}
         </div>
       </section>
 
-      {/* 4. DYNAMIC ALERTS (Raffles/Events) - Kept out of the way */}
-      <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50">
-        <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 cursor-pointer hover:shadow-2xl transition-all hover:-translate-y-1">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white">
-            🎁
+      {/* 4. DYNAMIC ALERTS (Clean text-only approach) */}
+      <div className="pb-12 px-6 max-w-4xl mx-auto">
+        <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-between cursor-pointer">
+          <div className="flex items-center gap-3">
+             <span className="text-purple-400 text-lg">💡</span>
+             <p className="font-medium text-white text-sm">Sorteio ROG Phone 6 em andamento</p>
           </div>
-          <div className="pr-4">
-            <p className="text-xs font-bold text-purple-600 mb-0.5">SORTEIO ATIVO</p>
-            <p className="font-bold text-slate-900 text-sm">Ganhe um ROG Phone</p>
-          </div>
+          <ChevronRight className="w-4 h-4 text-slate-500" />
         </div>
       </div>
       
