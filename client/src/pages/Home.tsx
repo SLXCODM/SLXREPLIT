@@ -6,6 +6,7 @@ import RafflePopup from "@/components/RafflePopup";
 import SocialLinks from "@/components/SocialLinks";
 import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { useLanguage } from "@/contexts/LanguageContext";
+import SetupCarousel from "@/components/SetupCarousel";
 
 export default function Home() {
   const { language } = useLanguage();
@@ -307,6 +308,8 @@ export default function Home() {
               })}
             </div>
           </div>
+
+          <SetupCarousel />
 
           {/* AdSense Banner */}
           <div className="mt-16 mb-12">
