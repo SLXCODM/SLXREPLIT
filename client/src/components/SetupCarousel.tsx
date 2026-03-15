@@ -1,4 +1,4 @@
-import { ShoppingCart, ChevronRight, MousePointer2, Glasses, Camera, MonitorDot, Gamepad2, Cable } from "lucide-react";
+import { ShoppingCart, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -9,94 +9,117 @@ export default function SetupCarousel() {
   const setupItems = [
     { 
       id: 1, 
-      name: "Luva de Dedo Flydigi", 
-      icon: MousePointer2, 
-      desc: language === 'pt' ? "Deslize perfeito na tela" : "Perfect screen sliding",
+      name: "Luva De Dedo Gamer Flydigi P1 Tecido Supercondutor", 
+      price: "R$ 79",
+      image: "https://http2.mlstatic.com/D_NQ_NP_685175-MLB54866724360_042023-O.webp",
+      desc: language === 'pt' ? "Deslize perfeito e anti-suor" : "Perfect sliding and anti-sweat",
       link: "https://meli.la/2wg3FfZ" 
     },
     { 
       id: 2, 
-      name: "Óculos Anti Luz Azul", 
-      icon: Glasses, 
+      name: "Óculos Anti Luz Azul Descanso Gamer", 
+      price: "R$ 87,20",
+      image: "https://http2.mlstatic.com/D_NQ_NP_795610-MLB95098009738_102025-O.webp",
       desc: language === 'pt' ? "Proteção para gameplays longas" : "Protection for long gameplays",
       link: "https://meli.la/2wwafwZ" 
     },
     { 
       id: 3, 
-      name: "Webcam Full HD", 
-      icon: Camera, 
-      desc: language === 'pt' ? "Qualidade de imagem cristalina" : "Crystal clear image quality",
+      name: "Webcam Obsbot Meet SE Grey 1080p 100fps", 
+      price: "R$ 799",
+      image: "https://http2.mlstatic.com/D_NQ_NP_864119-MLA95240406598_102025-O.webp",
+      desc: language === 'pt' ? "Qualidade de imagem profissional" : "Professional image quality",
       link: "https://www.mercadolivre.com.br/p/MLB47995865?pdp_filters=item_id:MLB5828994448#origin=share&sid=share&wid=MLB5828994448&action=copy" 
     },
     { 
       id: 4, 
-      name: "Placa de Captura", 
-      icon: MonitorDot, 
+      name: "Placa De Captura Ezcap 321 4k / 1080p 120 Fps", 
+      price: "R$ 498,49",
+      image: "https://http2.mlstatic.com/D_NQ_NP_931837-MLB70708269930_072023-O.webp",
       desc: language === 'pt' ? "Grave e transmita sem delay" : "Record and stream without delay",
       link: "https://meli.la/1UsQBPH" 
     },
     { 
       id: 5, 
-      name: "Handgrip", 
-      icon: Gamepad2, 
+      name: "Hand Grip Ante Braço Punho Ajuste Até 60 Kg", 
+      price: "R$ 19",
+      image: "https://http2.mlstatic.com/D_NQ_NP_667242-MLA100080029891_122025-O.webp",
       desc: language === 'pt' ? "Ergonomia superior para CODM" : "Superior ergonomics for CODM",
       link: "https://meli.la/1dYcX1a" 
     },
     { 
       id: 6, 
-      name: "Cabo HDMI Premium", 
-      icon: Cable, 
-      desc: language === 'pt' ? "Transferência de sinal perfeita" : "Perfect signal transfer",
+      name: "Cabo Usb C Para Hdmi 2.1 Ugreen 8k @60hz", 
+      price: "R$ 206,51",
+      image: "https://http2.mlstatic.com/D_NQ_NP_691216-CBT80660121394_112024-O.webp",
+      desc: language === 'pt' ? "Transferência de sinal 8K perfeita" : "Perfect 8K signal transfer",
       link: "https://meli.la/2DHk6ke" 
     },
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 md:px-8 py-12 border-t border-border/30 mt-8">
-      <div className="flex items-center justify-between mb-8">
+    <div className="w-full max-w-7xl mx-auto px-4 md:px-8 py-16 border-t border-border/30 mt-12 mb-16">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-2" style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 900 }}>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3" style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 900 }}>
             {language === 'pt' ? 'Meu Setup' : 'My Setup'}
           </h2>
-          <p className="text-muted-foreground text-sm md:text-base">
-            {language === 'pt' ? 'Equipamentos que eu uso e recomendo para alta performance.' : 'Gear I use and recommend for high performance.'}
+          <p className="text-muted-foreground text-base max-w-2xl">
+            {language === 'pt' ? 'Equipamentos que eu uso e recomendo para garantir a melhor performance nas partidas.' : 'Gear I use and recommend to ensure the best performance in matches.'}
           </p>
         </div>
-        <Button variant="ghost" asChild className="hidden md:flex hover:bg-white/5 text-muted-foreground hover:text-primary">
+        <Button variant="outline" asChild className="hidden md:flex border-primary/20 hover:bg-primary/10 text-primary transition-all rounded-xl">
           <a href={mainCollectionLink} target="_blank" rel="noopener noreferrer">
-            {language === 'pt' ? 'Ver Coleção no Mercado Livre' : 'View Full Collection'} <ChevronRight className="ml-2 w-4 h-4" />
+            {language === 'pt' ? 'Coleção Completa' : 'Full Collection'} <ChevronRight className="ml-2 w-4 h-4" />
           </a>
         </Button>
       </div>
 
-      <div className="flex overflow-x-auto gap-4 md:gap-6 pb-6 snap-x snap-mandatory hide-scrollbar -mx-4 px-4 md:mx-0 md:px-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      <div className="flex overflow-x-auto gap-5 md:gap-7 pb-8 snap-x snap-mandatory hide-scrollbar -mx-4 px-4 md:mx-0 md:px-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {setupItems.map((item) => (
           <a 
             key={item.id} 
             href={item.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="min-w-[240px] md:min-w-[280px] snap-start bg-card/50 rounded-2xl p-6 border border-border/50 hover:border-primary/50 transition-all duration-300 group flex flex-col hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5 cursor-pointer"
+            className="min-w-[280px] md:min-w-[320px] snap-start bg-card/40 rounded-3xl overflow-hidden border border-border/40 hover:border-primary/40 transition-all duration-500 group flex flex-col hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer backdrop-blur-sm"
           >
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-              <item.icon className="w-6 h-6 text-primary" />
+            <div className="aspect-[4/3] w-full overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <img 
+                src={item.image} 
+                alt={item.name} 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+              />
             </div>
-            <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{item.name}</h3>
-            <p className="text-sm text-muted-foreground mb-6 flex-grow">{item.desc}</p>
-            <Button variant="secondary" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors font-medium">
-              <ShoppingCart className="w-4 h-4 mr-2" />
-              {language === 'pt' ? 'Ver Produto' : 'View Product'}
-            </Button>
+            
+            <div className="p-6 flex flex-col flex-grow">
+              <h3 className="text-lg font-bold mb-1 line-clamp-1 group-hover:text-primary transition-colors duration-300">
+                {item.name}
+              </h3>
+              <p className="text-xl font-black text-primary mb-3">
+                {item.price}
+              </p>
+              <p className="text-xs text-muted-foreground mb-6 line-clamp-2 leading-relaxed">
+                {item.desc}
+              </p>
+              
+              <Button className="w-full mt-auto bg-primary text-primary-foreground hover:opacity-90 transition-all font-bold rounded-xl py-6 shadow-lg shadow-primary/20">
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                {language === 'pt' ? 'Comprar Agora' : 'Buy Now'}
+              </Button>
+            </div>
           </a>
         ))}
       </div>
       
       {/* Mobile only "View All" button */}
-      <Button variant="outline" asChild className="w-full md:hidden mt-4 border-border/50 text-muted-foreground">
+      <Button variant="outline" asChild className="w-full md:hidden mt-4 border-primary/20 text-primary py-6 rounded-xl font-bold">
         <a href={mainCollectionLink} target="_blank" rel="noopener noreferrer">
-          {language === 'pt' ? 'Coleção Completa' : 'Full Collection'} <ChevronRight className="ml-2 w-4 h-4" />
+          {language === 'pt' ? 'Ver Coleção Completa' : 'Full Collection'} <ChevronRight className="ml-2 w-4 h-4" />
         </a>
       </Button>
     </div>
   );
 }
+
