@@ -63,7 +63,7 @@ export default function SetupCarousel() {
           </p>
         </div>
         <Button variant="ghost" asChild className="hidden md:flex hover:bg-white/5 text-muted-foreground hover:text-primary">
-          <a href={affiliateLink} target="_blank" rel="noopener noreferrer">
+          <a href={mainCollectionLink} target="_blank" rel="noopener noreferrer">
             {language === 'pt' ? 'Ver Coleção no Mercado Livre' : 'View Full Collection'} <ChevronRight className="ml-2 w-4 h-4" />
           </a>
         </Button>
@@ -93,7 +93,7 @@ export default function SetupCarousel() {
       
       {/* Mobile only "View All" button */}
       <Button variant="outline" asChild className="w-full md:hidden mt-4 border-border/50 text-muted-foreground">
-        <a href={affiliateLink} target="_blank" rel="noopener noreferrer">
+        <a href={mainCollectionLink} target="_blank" rel="noopener noreferrer">
           {language === 'pt' ? 'Coleção Completa' : 'Full Collection'} <ChevronRight className="ml-2 w-4 h-4" />
         </a>
       </Button>
