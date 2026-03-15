@@ -1,4 +1,4 @@
-import React from "react";
+export default function Gallery() { return null; }
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -174,13 +174,12 @@ function GalleryCard({ item }: { item: any }) {
         }
     });
 
-    const deleteItem = api.upload.deleteGalleryItem.useMutation({
-        onSuccess: () => {
-            toast({ title: t.deleteSuccess });
-            queryClient.upload.getGalleryItems.invalidate();
-        },
-        onError: (err) => {
-            toast({ title: t.deleteError, description: err.message, variant: "destructive" });
+    const { data: auth } = useQuery<any>({
+        queryKey: ["/api/community/auth/me"],
+        queryFn: async () => {
+            const res = await fetch("/api/community/auth/me");
+            if (!res.ok) return { loggedIn: false };
+            return res.json();
         }
     });
 

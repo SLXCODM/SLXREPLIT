@@ -4,7 +4,6 @@ import { uploadRouter } from "./routers/upload";
 
 export const appRouter = router({
     health: healthRouter,
-    upload: uploadRouter,
 });
 
 export type AppRouter = typeof appRouter;

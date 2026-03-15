@@ -51,9 +51,6 @@ export function CommunityHeader() {
                 </Link>
 
                 <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-zinc-400">
-                    <Link href="/community/gallery">
-                        <span className="hover:text-emerald-400 transition-colors cursor-pointer">{t.results}</span>
-                    </Link>
                     <a href="/community#metodologia" className="hover:text-emerald-400 transition-colors">{t.methodology}</a>
                     <a href="/community#analista" className="hover:text-emerald-400 transition-colors">{t.analyst}</a>
                     <a href="/community#faq" className="hover:text-emerald-400 transition-colors">{t.faq}</a>
@@ -99,13 +96,6 @@ export function CommunityHeader() {
                                 <LogOut className="w-4 h-4" />
                             </Button>
 
-                            {auth?.user?.role === "admin" && (
-                                <Link href="/community/admin">
-                                    <Button size="sm" variant="outline" className="hidden lg:flex border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 rounded-full px-6 font-semibold mr-2">
-                                        {t.analystPanel}
-                                    </Button>
-                                </Link>
-                            )}
 
                             <Link href="/community/dashboard">
                                 <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-3 md:px-6 font-semibold shadow-emerald-900/20 shadow-lg text-[10px] md:text-sm h-8 md:h-10">

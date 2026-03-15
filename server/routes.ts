@@ -12,7 +12,6 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import { appRouter } from "./community/appRouter";
 import { createContext } from "./community/trpc";
 
-import { upload } from "./community/multer-config";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Ensure database tables exist
@@ -35,37 +34,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     })
   );
 
-  // 4. Manual Payment Confirmation (Analyst Dashboard)
-  app.post("/api/community/admin/confirm-payment", async (req, res) => {
-    const user = (req.session as any).user;
-    if (!user || user.role !== "admin") {
-      return res.status(403).json({ error: "Acesso negado. Apenas o Analista SLX pode confirmar pagamentos." });
-    }
-
-    const { paymentId } = req.body;
-    try {
-      await storage.confirmPayment(paymentId);
-      res.json({ success: true });
-    } catch (error) {
-      res.status(500).json({ error: "Erro ao confirmar pagamento." });
-    }
-  });
-
-  // 5. Video Uploads
-  app.post("/api/upload-video", upload.single("video"), async (req, res) => {
-    try {
-      const videoId = parseInt(req.body.videoId);
-      if (!req.file || !videoId) {
-        return res.status(400).json({ error: "Missing file or videoId" });
-      }
-
-      await storage.updateVideoPath(videoId, req.file.path);
-      res.json({ success: true, filePath: req.file.path });
-    } catch (err) {
-      console.error("Upload error:", err);
-      res.status(500).json({ error: "Upload failed" });
-    }
-  });
 
   // Health Check to verify server and database
   // Target this for UptimeRobot to keep the database awake
