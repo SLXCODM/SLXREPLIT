@@ -111,6 +111,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // GET /api/projects - Get all projects
   app.get("/api/projects", async (_req, res) => {
+    // Edge Cache: 10 mins fresh, 20 mins background revalidate
+    res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=1200");
     try {
       const projects = await storage.getProjects();
       res.json(projects);
@@ -279,6 +281,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // GET /api/products - Get all products
   app.get("/api/products", async (_req, res) => {
+    // Edge Cache: 10 mins fresh, 20 mins background revalidate
+    res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=1200");
     try {
       const products = await storage.getProducts();
       res.json(products);

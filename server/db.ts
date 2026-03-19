@@ -31,7 +31,7 @@ export const db = new Proxy({}, {
           ssl: { rejectUnauthorized: false },
           max: 10, // Back to a reasonable number to prevent queueing
           idle_timeout: 5, // VERY FAST drop. Closes connections after 5s idle to prevent silent TCP drops by firewalls
-          connect_timeout: 10, // Fail fast if Supabase is unreachable instead of hanging for 30s
+          connect_timeout: 5, // Fail FAST if Supabase is unreachable instead of hanging for 10-30s
           max_lifetime: 60 * 5, // Force kill connections every 5 minutes to keep pool perfectly fresh
           prepare: false // Required for Supabase transaction poolers
         });

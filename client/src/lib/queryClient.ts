@@ -6,9 +6,9 @@ const getApiBaseUrl = () => {
   if (import.meta.env.DEV) {
     return "";
   }
-  // Production: Use environment variable or default to local API (Vercel)
-  // We avoid hardcoding Render here because Vercel is our primary optimized backend.
-  return import.meta.env.VITE_API_BASE_URL || "";
+  // Production: ALWAYS use local/relative path in production (Vercel)
+  // This completely eliminates the 1-minute delay caused by hitting the old Render backend.
+  return "";
 };
 
 async function throwIfResNotOk(res: Response) {
