@@ -288,8 +288,8 @@
 <body class="skin-default">
 
     <div class="nav-top">
-        <a href="/" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
-        <a href="training_hub.html" class="btn-back">← Hub</a>
+        <a href="/" id="btn-nav-home" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
+        <a href="training_hub.html" id="btn-nav-hub" class="btn-back">← Hub</a>
     </div>
 
     <div class="container">
@@ -531,7 +531,8 @@
                 manyErrors: "MUITOS ERROS! Máximo de 5 no Lendário.",
                 minAcc80: "Precisão Mínima de 80% exigida no Mestre.",
                 rankUp: "Trocou de patente!",
-                hub: "← Hub"
+                hub: "← Lobby de Jogos",
+                home: "🏠 Página Inicial"
             },
             en: {
                 title: "Elite Aim",
@@ -556,7 +557,8 @@
                 manyErrors: "TOO MANY ERRORS! Max 5 on Legendary.",
                 minAcc80: "Min Accuracy 80% required for Master.",
                 rankUp: "Rank Switched!",
-                hub: "← Hub"
+                hub: "← Games Lobby",
+                home: "🏠 Home Page"
             }
         };
 
@@ -564,14 +566,13 @@
             const lang = localStorage.getItem('slx_language') || 'pt'; // KEY CORRIGIDA
             const t = translations[lang] || translations.pt;
 
-            // Textos estáticos
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (t[key]) el.textContent = t[key];
             });
 
-            // Botão Hub
-            document.querySelector('.btn-back').textContent = t.hub;
+            if (document.getElementById('btn-nav-home')) document.getElementById('btn-nav-home').textContent = t.home;
+            if (document.getElementById('btn-nav-hub')) document.getElementById('btn-nav-hub').textContent = t.hub;
         }
 
         // Chamar tradução ao carregar

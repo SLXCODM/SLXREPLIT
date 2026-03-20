@@ -334,8 +334,8 @@
 <body>
 
     <div class="nav-top">
-        <a href="/" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
-        <a href="training_hub.html" class="btn-back">← Hub</a>
+        <a href="/" id="btn-nav-home" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
+        <a href="training_hub.html" id="btn-nav-hub" class="btn-back">← Hub</a>
     </div>
 
     <div class="container">
@@ -643,7 +643,8 @@
                 compilation: "COMPILAÇÃO",
                 missionComplete: "MISSÃO COMPLETA",
                 reproved: "⚠️ REPROVADO: PRECISÃO ABAIXO DE 97%",
-                hub: "← Hub"
+                hub: "← Lobby de Jogos",
+                home: "🏠 Página Inicial"
             },
             en: {
                 title: "Dominant Operation",
@@ -667,7 +668,8 @@
                 compilation: "COMPILATION",
                 missionComplete: "MISSION COMPLETE",
                 reproved: "⚠️ FAIL: ACCURACY BELOW 97%",
-                hub: "← Hub"
+                hub: "← Games Lobby",
+                home: "🏠 Home Page"
             }
         };
 
@@ -685,7 +687,8 @@
                 if (t[key]) el.textContent = t[key];
             });
 
-            document.querySelector('.btn-back').textContent = t.hub;
+            if (document.getElementById('btn-nav-home')) document.getElementById('btn-nav-home').textContent = t.home;
+            if (document.getElementById('btn-nav-hub')) document.getElementById('btn-nav-hub').textContent = t.hub;
         }
 
         applyLanguage();

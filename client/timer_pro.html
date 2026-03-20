@@ -290,8 +290,8 @@
 <body onclick="handleAreaClick()">
 
     <div class="nav-top">
-        <a href="/" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
-        <a href="training_hub.html" class="btn-back">← Hub</a>
+        <a href="/" id="btn-nav-home" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
+        <a href="training_hub.html" id="btn-nav-hub" class="btn-back">← Hub</a>
     </div>
 
     <div class="container">
@@ -365,8 +365,8 @@
             <button onclick="window.location.href='training_hub.html'" class="btn-main"
                 style="background: rgba(255,255,255,0.1); color: #fff;" data-i18n="exit">Sair</button>
         </div>
+        <div id="ranking-container" style="width: 100%; max-width: 400px; margin-top: 20px;"></div>
     </div>
-    <div id="ranking-container" style="width: 100%; max-width: 400px; margin-top: 20px;"></div>
     </div>
 
     <!-- ANÚNCIO SIMULADO -->
@@ -608,7 +608,8 @@
                 sessionComplete: "SESSÃO COMPLETA",
                 slowReflex: "REFLEXO LENTO",
                 reproved: "⚠️ REPROVADO: MUITO LENTO PARA ESSA PATENTE",
-                hub: "← Hub"
+                hub: "← Lobby de Jogos",
+                home: "🏠 Página Inicial"
             },
             en: {
                 title: "Reflex Pro",
@@ -638,7 +639,8 @@
                 sessionComplete: "SESSION COMPLETE",
                 slowReflex: "SLOW REFLEX",
                 reproved: "⚠️ FAIL: TOO SLOW FOR THIS RANK",
-                hub: "← Hub"
+                hub: "← Games Lobby",
+                home: "🏠 Home Page"
             }
         };
 
@@ -656,7 +658,8 @@
                 if (t[key]) el.textContent = t[key];
             });
 
-            document.querySelector('.btn-back').textContent = t.hub;
+            if (document.getElementById('btn-nav-home')) document.getElementById('btn-nav-home').textContent = t.home;
+            if (document.getElementById('btn-nav-hub')) document.getElementById('btn-nav-hub').textContent = t.hub;
         }
 
         applyLanguage();
