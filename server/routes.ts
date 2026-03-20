@@ -69,6 +69,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   console.log("Registering ranking routes (priority)...");
   app.get("/api/rankings/:gameId", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ error: "Serviço de Ranking indisponível. Chaves do banco de dados não configuradas." });
+      }
       const { gameId } = req.params;
       const { data, error } = await supabase
         .from('game_rankings')
@@ -87,6 +90,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/rankings", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ error: "Serviço de Ranking indisponível. Chaves do banco de dados não configuradas." });
+      }
       const { game_id, username, score } = req.body;
 
       if (!game_id || !username || score === undefined) {
@@ -259,7 +265,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/weapon-likes/:weaponId/like", async (req, res) => {
     try {
       const { weaponId } = req.params;
-      const likes = await storage.incrementWeaponLikes(weaponId);
+      const fingerprint = req.header('x-fingerprint') || 'anonymous';
+      const likes = await storage.incrementWeaponLikes(weaponId, fingerprint);
       res.json({ weaponId, likes });
     } catch (error) {
       res.status(500).json({ error: "Failed to update weapon likes" });
@@ -270,7 +277,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/weapon-likes/:weaponId/unlike", async (req, res) => {
     try {
       const { weaponId } = req.params;
-      const likes = await storage.decrementWeaponLikes(weaponId);
+      const fingerprint = req.header('x-fingerprint') || 'anonymous';
+      const likes = await storage.decrementWeaponLikes(weaponId, fingerprint);
       res.json({ weaponId, likes });
     } catch (error) {
       res.status(500).json({ error: "Failed to update weapon likes" });

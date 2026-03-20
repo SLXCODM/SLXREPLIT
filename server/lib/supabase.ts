@@ -9,24 +9,7 @@ if (supabaseUrl && supabaseAnonKey) {
     supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 } else {
     console.warn('Backend Supabase credentials missing. Ranking features will be disabled.');
-    // Dummy client to prevent crashes while calling methods
-    supabaseClient = {
-        from: () => ({
-            select: () => ({
-                eq: () => ({
-                    order: () => ({
-                        limit: () => Promise.resolve({ data: [], error: null })
-                    })
-                }),
-                order: () => ({
-                    limit: () => Promise.resolve({ data: [], error: null })
-                })
-            }),
-            insert: () => ({
-                select: () => Promise.resolve({ data: [], error: null })
-            })
-        })
-    };
+    supabaseClient = null;
 }
 
 export const supabase = supabaseClient;
