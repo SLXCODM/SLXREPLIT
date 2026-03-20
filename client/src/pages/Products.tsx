@@ -1,14 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { type Product } from "@shared/schema";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ShoppingCart, ExternalLink, Package, Star } from "lucide-react";
-import { motion } from "framer-motion";
+import { ShoppingCart, Package, Star, ChevronLeft } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useState, useMemo } from "react";
 import { apiRequest } from "@/lib/queryClient";
+import { Link } from "wouter";
 
 export default function Products() {
   const { language } = useLanguage();
@@ -35,151 +36,196 @@ export default function Products() {
 
   const t = {
     title: language === "pt" ? "Produtos Recomendados" : "Recommended Products",
-    subtitle: language === "pt" ? "Os melhores equipamentos e acessórios para o seu setup" : "The best gear and accessories for your setup",
-    buyNow: language === "pt" ? "Comprar Agora" : "Buy Now",
+    subtitle: language === "pt" ? "Equipamentos que eu uso e recomendo para garantir a melhor performance nas partidas." : "Gear I use and recommend to ensure the best performance in matches.",
+    buyNow: language === "pt" ? "Comprar" : "Buy",
     all: language === "pt" ? "Todos" : "All",
     loading: language === "pt" ? "Carregando produtos..." : "Loading products...",
-    noProducts: language === "pt" ? "Nenhum produto encontrado" : "No products found"
+    noProducts: language === "pt" ? "Ainda não há produtos cadastrados." : "No products added yet."
   };
 
   return (
-    <div className="min-h-screen bg-black text-white pb-20 pt-8 sm:pt-12">
+    <div className="min-h-screen bg-black text-white pb-24 pt-6 md:pt-12 relative overflow-hidden">
+      {/* Background Glows */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full filter blur-[100px] -z-10 animate-pulse" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full filter blur-[100px] -z-10" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-12 text-center text-balance">
+        
+        {/* Breadcrumb & Navigation */}
+        <div className="mb-8">
+          <Link href="/">
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary transition-colors gap-2 px-0 font-bold group">
+              <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              {language === 'pt' ? 'Voltar para Início' : 'Back to Home'}
+            </Button>
+          </Link>
+        </div>
+
+        {/* Header Section */}
+        <div className="mb-16 text-left">
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-4xl md:text-5xl font-black tracking-tight mb-4"
+            style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 900 }}
           >
             {t.title}
           </motion.h1>
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-zinc-400 text-lg"
+            className="text-muted-foreground text-lg max-w-2xl leading-relaxed"
           >
             {t.subtitle}
           </motion.p>
         </div>
 
-        {/* Categories */}
-        {categories.length > 0 && (
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
-            <Button
-              variant={selectedCategory === null ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedCategory(null)}
-              className={selectedCategory === null ? "bg-red-600 hover:bg-red-700" : "border-zinc-800 text-zinc-400"}
+        {/* Categories Filter */}
+        <AnimatePresence>
+          {categories.length > 0 && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-wrap gap-3 mb-12"
             >
-              {t.all}
-            </Button>
-            {categories.map(cat => (
               <Button
-                key={cat}
-                variant={selectedCategory === cat ? "default" : "outline"}
+                variant={selectedCategory === null ? "default" : "outline"}
                 size="sm"
-                onClick={() => setSelectedCategory(cat)}
-                className={selectedCategory === cat ? "bg-red-600 hover:bg-red-700" : "border-zinc-800 text-zinc-400"}
+                onClick={() => setSelectedCategory(null)}
+                className={`rounded-xl px-6 font-bold transition-all ${
+                  selectedCategory === null 
+                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
+                  : "border-primary/20 text-muted-foreground hover:border-primary/40 hover:text-primary bg-card/20"
+                }`}
               >
-                {cat}
+                {t.all}
               </Button>
-            ))}
-          </div>
-        )}
+              {categories.map(cat => (
+                <Button
+                  key={cat}
+                  variant={selectedCategory === cat ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`rounded-xl px-6 font-bold transition-all ${
+                    selectedCategory === cat 
+                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
+                    : "border-primary/20 text-muted-foreground hover:border-primary/40 hover:text-primary bg-card/20"
+                  }`}
+                >
+                  {cat}
+                </Button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Grid */}
+        {/* Products Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-              <Card key={i} className="bg-zinc-900/50 border-zinc-800">
-                <CardHeader className="p-0">
-                  <Skeleton className="h-48 w-full rounded-t-lg bg-zinc-800" />
-                </CardHeader>
-                <CardContent className="p-4 space-y-2">
+              <Card key={i} className="bg-card/40 border-border/40 rounded-3xl overflow-hidden backdrop-blur-sm">
+                <div className="aspect-[4/3] w-full bg-zinc-800 animate-pulse" />
+                <div className="p-5 space-y-4">
                   <Skeleton className="h-6 w-3/4 bg-zinc-800" />
                   <Skeleton className="h-4 w-full bg-zinc-800" />
-                  <Skeleton className="h-4 w-1/2 bg-zinc-800" />
-                </CardContent>
+                  <Skeleton className="h-8 w-full bg-zinc-800" />
+                </div>
               </Card>
             ))}
           </div>
         ) : filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredProducts.map((product, index) => (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
+                className="group"
               >
-                <Card className="h-full bg-zinc-900 border-zinc-800 hover:border-red-600/50 transition-all duration-300 group overflow-hidden flex flex-col">
-                  {/* Image Container */}
-                  <div className="relative aspect-square overflow-hidden bg-zinc-800">
-                    {product.imageUrl ? (
-                      <img 
-                        src={product.imageUrl} 
-                        alt={product.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-full">
-                        <Package className="w-12 h-12 text-zinc-700" />
-                      </div>
-                    )}
+                <div className="h-full bg-card/40 rounded-3xl overflow-hidden border border-border/40 hover:border-primary/40 transition-all duration-500 flex flex-col hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 backdrop-blur-sm relative">
+                  
+                  {/* Image Container - Matching Carousel Style */}
+                  <div className="aspect-[4/3] w-full overflow-hidden relative bg-white">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <img 
+                      src={product.imageUrl || (product as any).image_url || "/placeholder-product.png"} 
+                      alt={product.name}
+                      className="w-full h-full object-contain p-4 transition-transform duration-700 group-hover:scale-105"
+                    />
+                    
+                    {/* Floating Badges */}
                     {product.featured && (
-                      <Badge className="absolute top-2 right-2 bg-red-600 hover:bg-red-600">
-                        <Star className="w-3 h-3 mr-1 fill-white" /> Featured
+                      <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground shadow-lg shadow-primary/20 border-none px-3 py-1 font-black">
+                        <Star className="w-3 h-3 mr-1 fill-white" /> FEAT
                       </Badge>
                     )}
-                    <div className="absolute top-2 left-2">
-                      <Badge variant="outline" className="bg-black/60 backdrop-blur-md border-zinc-700 text-xs text-zinc-300">
-                        {product.category}
-                      </Badge>
-                    </div>
+                    <Badge variant="outline" className="absolute top-4 left-4 bg-black/60 backdrop-blur-md border-white/10 text-[10px] text-white/80 py-0.5 px-2 uppercase tracking-widest font-bold">
+                      {product.category}
+                    </Badge>
                   </div>
 
-                  <CardHeader className="p-4 pb-0">
-                    <h3 className="text-lg font-bold line-clamp-1 group-hover:text-red-500 transition-colors">
+                  {/* Content - Matching Carousel Style */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-base font-bold mb-1 line-clamp-2 group-hover:text-primary transition-colors duration-300 min-h-[48px]">
                       {product.name}
                     </h3>
-                  </CardHeader>
-
-                  <CardContent className="p-4 flex-1">
-                    <p className="text-zinc-400 text-sm line-clamp-3 mb-4">
+                    
+                    <p className="text-2xl font-black text-primary mb-3">
+                      R$ {(parseInt(product.price) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    </p>
+                    
+                    <p className="text-[11px] text-muted-foreground mb-6 line-clamp-3 leading-relaxed flex-grow">
                       {product.description}
                     </p>
-                    <div className="flex items-center justify-between mt-auto">
-                      <span className="text-xl font-black text-white">
-                        R$ {(parseInt(product.price) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </span>
-                    </div>
-                  </CardContent>
-
-                  <CardFooter className="p-4 pt-0">
+                    
                     <Button 
-                      className="w-full bg-red-600 hover:bg-red-700 text-white font-bold gap-2 btn-minimal"
+                      className="w-full bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.98] transition-all font-black rounded-xl py-6 shadow-sm shadow-primary/10 text-sm uppercase tracking-wider"
                       onClick={() => {
-                        const baseUrl = "https://www.mercadolivre.com.br"; // Default or track click
-                        window.open(product.stripeProductId || baseUrl, "_blank");
+                        const url = product.stripeProductId || "https://www.mercadolivre.com.br";
+                        window.open(url, "_blank");
                       }}
                     >
+                      <ShoppingCart className="w-4 h-4 mr-2" />
                       {t.buyNow}
-                      <ExternalLink className="w-4 h-4" />
                     </Button>
-                  </CardFooter>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-zinc-900/20 rounded-2xl border border-dashed border-zinc-800">
-            <Package className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
-            <p className="text-zinc-500 text-lg">{t.noProducts}</p>
-          </div>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-24 bg-card/20 rounded-[2.5rem] border-2 border-dashed border-primary/10"
+          >
+            <Package className="w-20 h-20 text-primary/10 mx-auto mb-6" />
+            <h3 className="text-2xl font-bold text-muted-foreground">{t.noProducts}</h3>
+            <Link href="/">
+              <Button variant="link" className="text-primary mt-4 font-bold text-lg">
+                Voltar para o Início
+              </Button>
+            </Link>
+          </motion.div>
         )}
       </div>
+
+      <style jsx>{`
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </div>
   );
 }

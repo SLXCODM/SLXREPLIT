@@ -1,10 +1,20 @@
-import { ShoppingCart, ChevronRight } from "lucide-react";
+import { ShoppingCart, ChevronRight, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useRef } from "react";
 
 export default function SetupCarousel() {
   const { language } = useLanguage();
+  const scrollRef = useRef<HTMLDivElement>(null);
   const mainCollectionLink = "https://meli.la/1w2ZJTY";
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo = direction === 'left' ? scrollLeft - clientWidth / 2 : scrollLeft + clientWidth / 2;
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
 
   const setupItems = [
     { 
@@ -107,7 +117,29 @@ export default function SetupCarousel() {
         </Button>
       </div>
 
-      <div className="flex overflow-x-auto gap-5 md:gap-7 pb-8 snap-x snap-mandatory hide-scrollbar -mx-4 px-4 md:mx-0 md:px-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      <div className="relative group/arrows">
+        {/* Navigation Arrows - Desktop only */}
+        <button 
+          onClick={() => scroll('left')}
+          className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-black/60 backdrop-blur-md border border-white/10 p-3 rounded-full text-primary opacity-0 group-hover/arrows:opacity-100 transition-opacity hidden md:flex hover:bg-black/80 hover:scale-110 shadow-lg"
+          aria-label="Anterior"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+
+        <button 
+          onClick={() => scroll('right')}
+          className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-black/60 backdrop-blur-md border border-white/10 p-3 rounded-full text-primary opacity-0 group-hover/arrows:opacity-100 transition-opacity hidden md:flex hover:bg-black/80 hover:scale-110 shadow-lg"
+          aria-label="Próximo"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+
+        <div 
+          ref={scrollRef}
+          className="flex overflow-x-auto gap-5 md:gap-7 pb-8 snap-x snap-mandatory hide-scrollbar -mx-4 px-4 md:mx-0 md:px-0" 
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
         {setupItems.map((item) => (
           <a 
             key={item.id} 
@@ -143,6 +175,7 @@ export default function SetupCarousel() {
             </div>
           </a>
         ))}
+        </div>
       </div>
       
       {/* Mobile only "View All" button */}
@@ -154,3 +187,4 @@ export default function SetupCarousel() {
     </div>
   );
 }
+
