@@ -7,6 +7,7 @@ import {
   type Product,
   type InsertProduct,
   weaponLikes,
+  weaponIndividualLikes,
   projects,
   aboutContent,
   products,
@@ -25,11 +26,12 @@ import {
   type Analysis,
   type InsertAnalysis,
   analyticsVisits,
-  type InsertAnalyticsVisit
+  type InsertAnalyticsVisit,
+  type WeaponIndividualLike
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
-import { eq, desc, ne, sql } from "drizzle-orm";
+import { eq, desc, ne, and, sql } from "drizzle-orm";
 import path from "path";
 import { supabase } from "./lib/supabase";
 import {
@@ -65,8 +67,8 @@ export interface IStorage {
   // Weapon Likes
   getAllWeaponLikes(): Promise<WeaponLike[]>;
   getWeaponLikes(weaponId: string): Promise<number>;
-  incrementWeaponLikes(weaponId: string): Promise<number>;
-  decrementWeaponLikes(weaponId: string): Promise<number>;
+  incrementWeaponLikes(weaponId: string, fingerprint: string): Promise<number>;
+  decrementWeaponLikes(weaponId: string, fingerprint: string): Promise<number>;
 
   // Products
   getProducts(): Promise<Product[]>;
@@ -112,7 +114,7 @@ export class DatabaseStorage implements IStorage {
           .select('*')
           .order('order', { ascending: true });
 
-        if (!error && data) {
+        if (!error && data && data.length > 0) {
           return data as Project[];
         }
         if (error) console.error("Supabase HTTP REST Fallback error:", error.message);
@@ -140,7 +142,7 @@ export class DatabaseStorage implements IStorage {
           .eq('category', category)
           .order('order', { ascending: true });
 
-        if (!error && data) {
+        if (!error && data && data.length > 0) {
           return data as Project[];
         }
         if (error) console.error("Supabase HTTP REST Fallback error:", error.message);
@@ -259,35 +261,34 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getWeaponLikes(weaponId: string): Promise<number> {
-    const [record] = await db.select().from(weaponLikes).where(eq(weaponLikes.weaponId, weaponId));
-    return record ? parseInt(record.likes) : 0;
+    const [result] = await db.select({ count: sql<number>`count(*)` })
+      .from(weaponIndividualLikes)
+      .where(eq(weaponIndividualLikes.weaponId, weaponId));
+    return Number(result?.count || 0);
   }
 
-  async incrementWeaponLikes(weaponId: string): Promise<number> {
-    const current = await this.getWeaponLikes(weaponId);
-    const newVal = (current + 1).toString();
-    const [record] = await db.insert(weaponLikes)
-      .values({ weaponId, likes: newVal })
-      .onConflictDoUpdate({
-        target: weaponLikes.weaponId,
-        set: { likes: newVal }
-      })
-      .returning();
-    return parseInt(record.likes);
+  async incrementWeaponLikes(weaponId: string, fingerprint: string): Promise<number> {
+    // 1. Insert individual like
+    await db.insert(weaponIndividualLikes)
+      .values({ weaponId, fingerprint })
+      .onConflictDoNothing();
+
+    // 2. Return fresh count
+    return await this.getWeaponLikes(weaponId);
   }
 
-  async decrementWeaponLikes(weaponId: string): Promise<number> {
-    const current = await this.getWeaponLikes(weaponId);
-    const newVal = Math.max(0, current - 1).toString();
-    const [record] = await db.insert(weaponLikes)
-      .values({ weaponId, likes: newVal })
-      .onConflictDoUpdate({
-        target: weaponLikes.weaponId,
-        set: { likes: newVal }
-      })
-      .returning();
-    return parseInt(record.likes);
+  async decrementWeaponLikes(weaponId: string, fingerprint: string): Promise<number> {
+    // 1. Remove individual like
+    await db.delete(weaponIndividualLikes)
+      .where(and(
+        eq(weaponIndividualLikes.weaponId, weaponId),
+        eq(weaponIndividualLikes.fingerprint, fingerprint)
+      ));
+
+    // 2. Return fresh count
+    return await this.getWeaponLikes(weaponId);
   }
+
 
   // Products
   async getProducts(): Promise<Product[]> {
@@ -515,7 +516,7 @@ export class DatabaseStorage implements IStorage {
 export class MemStorage implements IStorage {
   private projects: Map<string, Project>;
   private aboutContent: AboutContent | undefined;
-  private weaponLikesMap = new Map<string, number>();
+  private weaponLikesMap = new Map<string, { weaponId: string, fingerprint: string }>();
   private productsMap: Map<string, Product>;
   private videosMap: Map<number, Video>;
   private analysesMap: Map<number, Analysis>;
@@ -751,21 +752,22 @@ export class MemStorage implements IStorage {
   }
 
   async getWeaponLikes(weaponId: string): Promise<number> {
-    return this.weaponLikesMap.get(weaponId) || 0;
+    return Array.from(this.weaponLikesMap.values())
+      .filter(l => l.weaponId === weaponId).length;
   }
 
-  async incrementWeaponLikes(weaponId: string): Promise<number> {
-    const current = await this.getWeaponLikes(weaponId);
-    const newVal = current + 1;
-    this.weaponLikesMap.set(weaponId, newVal);
-    return newVal;
+  async incrementWeaponLikes(weaponId: string, fingerprint: string): Promise<number> {
+    const key = `${weaponId}:${fingerprint}`;
+    if (!this.weaponLikesMap.has(key)) {
+      this.weaponLikesMap.set(key, { weaponId, fingerprint });
+    }
+    return this.getWeaponLikes(weaponId);
   }
 
-  async decrementWeaponLikes(weaponId: string): Promise<number> {
-    const current = await this.getWeaponLikes(weaponId);
-    const newVal = Math.max(0, current - 1);
-    this.weaponLikesMap.set(weaponId, newVal);
-    return newVal;
+  async decrementWeaponLikes(weaponId: string, fingerprint: string): Promise<number> {
+    const key = `${weaponId}:${fingerprint}`;
+    this.weaponLikesMap.delete(key);
+    return this.getWeaponLikes(weaponId);
   }
 
   // Products
