@@ -253,11 +253,14 @@ export class DatabaseStorage implements IStorage {
 
   // Weapon Likes
   async getAllWeaponLikes(): Promise<WeaponLike[]> {
-    const raw = await db.select().from(weaponLikes);
-    return raw.map((r: any) => ({
-      ...r,
-      likes: r.likes.toString()
-    }));
+    const result = await db.select({
+      weaponId: weaponIndividualLikes.weaponId,
+      likes: sql<string>`count(*)::text`
+    })
+      .from(weaponIndividualLikes)
+      .groupBy(weaponIndividualLikes.weaponId);
+
+    return result as WeaponLike[];
   }
 
   async getWeaponLikes(weaponId: string): Promise<number> {
