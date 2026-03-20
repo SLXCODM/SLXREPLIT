@@ -77,7 +77,7 @@ export default function SetupCarousel() {
       id: 8, 
       name: "Capa Giopuey Para Tablet Redmagic Astra", 
       price: "R$ 38,48",
-      image: "https://http2.mlstatic.com/D_NQ_NP_799205-MLA74508030657_022024-O.jpg",
+      image: "/images/products/tablet_case.png",
       desc: language === 'pt' ? "Capa protetora em TPU transparente de alta resistência." : "High-resistance transparent TPU protective case.",
       link: "https://meli.la/2148RCL" 
     },
@@ -85,7 +85,7 @@ export default function SetupCarousel() {
       id: 9, 
       name: "Película Hydrogel Para Redmagic Astra", 
       price: "R$ 54,99",
-      image: "https://mla-s2-p.mlstatic.com/931898-MLA52559680060_112022-O.jpg",
+      image: "/images/products/screen_protector.png",
       desc: language === 'pt' ? "Película de proteção em hydrogel TPU com auto-reparo." : "Hydrogel TPU screen protector with self-repair technology.",
       link: "https://meli.la/27TV7W7" 
     },
@@ -93,7 +93,7 @@ export default function SetupCarousel() {
       id: 10, 
       name: "Monitor Gamer VXpro VX190Z 19\" LED", 
       price: "R$ 229,90",
-      image: "https://mla-s1-p.mlstatic.com/655200-MLA77463324641_072024-O.jpg",
+      image: "/images/products/monitor_vx190z.png",
       desc: language === 'pt' ? "Monitor LED de 19 polegadas com 60Hz e 5ms de resposta." : "19-inch LED monitor with 60Hz and 5ms response time.",
       link: "https://meli.la/2cEMTUz" 
     },
