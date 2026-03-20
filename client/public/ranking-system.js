@@ -4,8 +4,7 @@
 const RankingSystem = window.RankingSystem = {
     // Detect environment
     getApiUrl() {
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        return isLocal ? '' : 'https://slxreplit.onrender.com';
+        return '';
     },
 
     async fetchTopRanks(gameId) {
