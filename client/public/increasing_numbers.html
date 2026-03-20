@@ -351,8 +351,8 @@
 <body>
 
     <div class="nav-top">
-        <a href="/" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
-        <a href="training_hub.html" class="btn-back">← Hub</a>
+        <a href="/" id="btn-nav-home" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
+        <a href="training_hub.html" id="btn-nav-hub" class="btn-back">← Hub</a>
     </div>
 
     <div class="container">
@@ -638,8 +638,14 @@
                 adSimulation: "[ REWARD ADS SIMULATION ]",
                 now: "NOW!",
                 missionComplete: "MISSION COMPLETE",
-                reproved: "⚠️ FAIL: ACCURACY BELOW 92%",
-                hub: "← Hub"
+                reproved: "⚠️ FAIL: ACCURACY BELOW 100%",
+                hub: "← Games Lobby",
+                home: "🏠 Home Page",
+                best: "Best",
+                startTraining: "Start Training",
+                restart: "Restart",
+                again: "Again",
+                compilation: "COMPILATION"
             }
         };
 
@@ -657,7 +663,8 @@
                 if (t[key]) el.textContent = t[key];
             });
 
-            document.querySelector('.btn-back').textContent = t.hub;
+            if (document.getElementById('btn-nav-home')) document.getElementById('btn-nav-home').textContent = t.home;
+            if (document.getElementById('btn-nav-hub')) document.getElementById('btn-nav-hub').textContent = t.hub;
         }
 
         applyLanguage();
