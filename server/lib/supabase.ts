@@ -13,9 +13,17 @@ if (supabaseUrl && supabaseAnonKey) {
     supabaseClient = {
         from: () => ({
             select: () => ({
+                eq: () => ({
+                    order: () => ({
+                        limit: () => Promise.resolve({ data: [], error: null })
+                    })
+                }),
                 order: () => ({
                     limit: () => Promise.resolve({ data: [], error: null })
                 })
+            }),
+            insert: () => ({
+                select: () => Promise.resolve({ data: [], error: null })
             })
         })
     };
