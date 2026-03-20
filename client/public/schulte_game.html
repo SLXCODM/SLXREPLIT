@@ -474,8 +474,8 @@
     <div class="smoke-particle"></div>
     <div class="flash-overlay"></div>
     <div class="nav-top">
-        <a href="/" id="btn-nav-home" class="btn-back" style="margin-right: 10px;">🏠 Home</a>
-        <a href="training_hub.html" id="btn-nav-hub" class="btn-back">← Hub</a>
+        <a href="/" id="btn-nav-home" class="btn-back" style="margin-right: 10px;" data-i18n="home">🏠 Página Inicial</a>
+        <a href="training_hub.html" id="btn-nav-hub" class="btn-back" data-i18n="hub">← Lobby de Jogos</a>
     </div>
 
     <div class="container">
@@ -514,10 +514,10 @@
         </div>
 
         <div class="grid-container">
-            <div id="game-board" class="schulte-grid" style="grid-template-columns: repeat(5, 1fr);"></div>
+            <div id="main-grid" class="grid grid-5"></div>
         </div>
 
-        <div id="ranking-container" style="width: 100%; max-width: 400px; margin: 20px auto;"></div>
+        <div id="ranking-container" style="width: 100%; max-width: 400px; margin: 30px auto;"></div>
 
         <div class="controls" onclick="event.stopPropagation()">
             <button id="start-game-btn" class="btn-main" data-i18n="startMission">Iniciar Missão</button>
