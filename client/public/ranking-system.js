@@ -55,26 +55,32 @@ const RankingSystem = window.RankingSystem = {
         const displayTitle = title || defaultTitle;
 
         let html = `
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; margin-top: 20px; text-align: left;">
-                <div style="background: rgba(255,255,255,0.05); padding: 10px; font-weight: 900; text-transform: uppercase; font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 8px;">
-                    🏆 <span>${displayTitle}</span>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; overflow: hidden; margin-top: 25px; text-align: left; box-shadow: 0 0 20px rgba(0,0,0,0.5); backdrop-filter: blur(5px);">
+                <div style="background: rgba(0, 242, 255, 0.1); padding: 12px 15px; font-weight: 900; text-transform: uppercase; font-size: 0.85rem; border-bottom: 1px solid rgba(0, 242, 255, 0.2); display: flex; align-items: center; justify-content: space-between; color: var(--primary);">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span>🏆 ${displayTitle}</span>
+                    </div>
                 </div>
                 <div style="max-height: 250px; overflow-y: auto;">
         `;
 
         if (rankings.length === 0) {
-            html += `<div style="padding: 20px; text-align: center; color: #555; font-style: italic; font-size: 0.8rem;">${emptyMsg}</div>`;
+            html += `<div style="padding: 30px; text-align: center; color: #666; font-style: italic; font-size: 0.85rem;">${emptyMsg}</div>`;
         } else {
             rankings.slice(0, 10).forEach((r, i) => {
                 const isTop = i < 3;
                 const colors = ['#ffd700', '#c0c0c0', '#cd7f32'];
                 const color = isTop ? colors[i] : '#666';
+                const bg = i % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'transparent';
 
                 html += `
-                    <div style="display: flex; align-items: center; padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.02);">
-                        <span style="width: 25px; font-weight: 900; color: ${color}; font-size: 0.8rem;">${i + 1}</span>
-                        <span style="flex-grow: 1; font-weight: 700; font-size: 0.85rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #ccc;">${r.username}</span>
-                        <span style="font-weight: 900; color: var(--primary); font-size: 0.95rem; text-shadow: 0 0 10px var(--primary-glow);">${r.score}</span>
+                    <div style="display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.03); background: ${bg}; transition: background 0.2s;">
+                        <span style="width: 30px; font-weight: 900; color: ${color}; font-size: 0.9rem;">${i + 1}</span>
+                        <span style="flex-grow: 1; font-weight: 700; font-size: 0.85rem; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #fff; opacity: 0.9;">${r.username}</span>
+                        <div style="text-align: right;">
+                            <span style="font-weight: 900; color: var(--primary); font-size: 1rem; text-shadow: 0 0 8px var(--primary-glow);">${r.score}</span>
+                            <div style="font-size: 0.55rem; color: #444; text-transform: uppercase; letter-spacing: 1px; margin-top: -2px;">points</div>
+                        </div>
                     </div>
                 `;
             });
