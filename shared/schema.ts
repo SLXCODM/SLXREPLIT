@@ -1,4 +1,4 @@
-import { pgTable, text, varchar, timestamp, boolean, serial, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, boolean, serial, integer, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { sql } from "drizzle-orm";
@@ -46,15 +46,30 @@ export type Project = typeof projects.$inferSelect;
 export type InsertAboutContent = z.infer<typeof insertAboutContentSchema>;
 export type AboutContent = typeof aboutContent.$inferSelect;
 
-// Weapons Likes
+// --- WEAPON LIKES SYSTEM (UPGRADED) ---
+
+// Current total likes (cached / summary)
 export const weaponLikes = pgTable("weapon_likes", {
   weaponId: varchar("weapon_id").primaryKey(),
   likes: text("likes").default("0").notNull(),
 });
 
+// Individual likes record (source of truth)
+export const weaponIndividualLikes = pgTable("weapon_individual_likes", {
+  id: serial("id").primaryKey(),
+  weaponId: varchar("weapon_id").notNull(),
+  fingerprint: text("fingerprint").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  weaponFingerprintIdx: uniqueIndex("weapon_fingerprint_idx").on(table.weaponId, table.fingerprint),
+}));
+
 export const insertWeaponLikeSchema = createInsertSchema(weaponLikes);
-export type InsertWeaponLike = z.infer<typeof insertWeaponLikeSchema>;
+export const insertWeaponIndividualLikeSchema = createInsertSchema(weaponIndividualLikes).omit({ id: true, createdAt: true });
+
 export type WeaponLike = typeof weaponLikes.$inferSelect;
+export type WeaponIndividualLike = typeof weaponIndividualLikes.$inferSelect;
+export type InsertWeaponIndividualLike = z.infer<typeof insertWeaponIndividualLikeSchema>;
 
 // --- COMMUNITY TABLES ---
 
