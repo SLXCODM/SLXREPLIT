@@ -55,6 +55,38 @@ export default function SetupCarousel() {
       desc: language === 'pt' ? "Suporte a 8K@60Hz e 4K@240Hz para alta performance." : "Support for 8K@60Hz and 4K@240Hz for high performance.",
       link: "https://meli.la/2DHk6ke" 
     },
+    { 
+      id: 7, 
+      name: "Tablet Gamer Redmagic Astra 24G+1TB OLED", 
+      price: "R$ 7.999,00",
+      image: "https://http2.mlstatic.com/D_NQ_NP_602131-MLB82622359570_022025-O.webp",
+      desc: language === 'pt' ? "Tablet gamer premium com Snapdragon 8 Elite e 24GB RAM." : "Premium gaming tablet with Snapdragon 8 Elite and 24GB RAM.",
+      link: "https://meli.la/1guZEsS" 
+    },
+    { 
+      id: 8, 
+      name: "Capa Giopuey Para Tablet Redmagic Astra", 
+      price: "R$ 38,48",
+      image: "https://http2.mlstatic.com/D_NQ_NP_605553-MLB74070743621_012024-O.webp",
+      desc: language === 'pt' ? "Capa protetora em TPU transparente de alta resistência." : "High-resistance transparent TPU protective case.",
+      link: "https://meli.la/2148RCL" 
+    },
+    { 
+      id: 9, 
+      name: "Película Hydrogel Para Redmagic Astra", 
+      price: "R$ 54,99",
+      image: "https://http2.mlstatic.com/D_NQ_NP_900667-MLB71751842036_092023-O.webp",
+      desc: language === 'pt' ? "Película de proteção em hydrogel TPU com auto-reparo." : "Hydrogel TPU screen protector with self-repair technology.",
+      link: "https://meli.la/27TV7W7" 
+    },
+    { 
+      id: 10, 
+      name: "Monitor Gamer VXpro VX190Z 19\" LED", 
+      price: "R$ 229,90",
+      image: "https://http2.mlstatic.com/D_NQ_NP_632488-MLB76186835061_052024-O.webp",
+      desc: language === 'pt' ? "Monitor LED de 19 polegadas com 60Hz e 5ms de resposta." : "19-inch LED monitor with 60Hz and 5ms response time.",
+      link: "https://meli.la/2cEMTUz" 
+    },
   ];
 
   return (
@@ -122,4 +154,3 @@ export default function SetupCarousel() {
     </div>
   );
 }
-
