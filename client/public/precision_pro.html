@@ -329,7 +329,9 @@
             <!-- Alvos aparecem aqui -->
         </div>
 
-        <div class="footer-btns">
+        <div id="ranking-container" style="width: 100%; max-width: 400px; margin: 20px auto;"></div>
+
+        <div class="footer-btns" onclick="event.stopPropagation()">
             <button id="start-btn" class="btn-main" onclick="event.stopPropagation(); startGame()"
                 data-i18n="startOp">Iniciar
                 Operação</button>

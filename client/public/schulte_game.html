@@ -513,10 +513,12 @@
         </div>
 
         <div class="grid-container">
-            <div id="main-grid" class="grid grid-5"></div>
+            <div id="game-board" class="schulte-grid" style="grid-template-columns: repeat(5, 1fr);"></div>
         </div>
 
-        <div class="footer-btns">
+        <div id="ranking-container" style="width: 100%; max-width: 400px; margin: 20px auto;"></div>
+
+        <div class="controls" onclick="event.stopPropagation()">
             <button id="start-game-btn" class="btn-main" data-i18n="startMission">Iniciar Missão</button>
             <button id="reset-game-btn" class="btn-main btn-reset" onclick="resetGame()">
                 <div class="btn-restart-icon"></div> <span data-i18n="restart">Reiniciar</span>
@@ -541,7 +543,6 @@
                 (Ad)</button>
             <button onclick="window.location.href='training_hub.html'" class="btn-main"
                 style="background: rgba(255,255,255,0.1); color: #fff;" data-i18n="exit">Sair</button>
-            <div id="ranking-container" style="width: 100%; max-width: 400px; margin-top: 20px;"></div>
         </div>
     </div>
 
