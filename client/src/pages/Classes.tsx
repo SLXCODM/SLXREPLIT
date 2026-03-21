@@ -21,6 +21,16 @@ interface WeaponLikes {
   likes: number;
 }
 
+// Simple fingerprint generation for anonymous but unique tracking
+const getFingerprint = () => {
+  let fp = localStorage.getItem('slx_weapon_fingerprint');
+  if (!fp) {
+    fp = Math.random().toString(36).substring(2) + Date.now().toString(36);
+    localStorage.setItem('slx_weapon_fingerprint', fp);
+  }
+  return fp;
+};
+
 export default function Classes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -48,21 +58,20 @@ export default function Classes() {
 
   // Fetch all weapon likes with polling to sync across devices
   // SERVER IS SOURCE OF TRUTH - no localStorage caching
-  const { data: allLikes = [] } = useQuery({
+  const { data: allLikes = [] } = useQuery<WeaponLikes[]>({
     queryKey: ['/api/weapon-likes'],
     queryFn: async () => {
       // Add timestamp to bypass CDN cache
       const res = await apiRequest('GET', `/api/weapon-likes?t=${Date.now()}`);
       return res.json() as Promise<WeaponLikes[]>;
     },
-    refetchInterval: 1000, // Refetch every 1 second for real-time sync
+    refetchInterval: 1000,
     staleTime: 0,
     gcTime: 0,
     refetchOnMount: true,
-    refetchOnWindowFocus: 'always', // Refetch when tab regains focus
-    retry: true, // Retry on error
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff
-  });
+    refetchOnWindowFocus: 'always',
+    retry: true,
+  } as any);
 
   // Server is the only source of truth (handle string likes from API)
   const serverLikes = new Map(allLikes.map(w => [w.weaponId, Number(w.likes)]));
@@ -76,7 +85,9 @@ export default function Classes() {
   // Like mutation
   const likeMutation = useMutation({
     mutationFn: async (weaponId: string) => {
-      const res = await apiRequest('POST', `/api/weapon-likes/${weaponId}/like`);
+      const res = await apiRequest('POST', `/api/weapon-likes/${weaponId}/like`, {
+        fingerprint: getFingerprint()
+      });
       return res.json() as Promise<WeaponLikes>;
     },
     onSuccess: (data) => {
@@ -93,14 +104,16 @@ export default function Classes() {
           : [...oldData, data];
       });
       // Also invalidate to ensure fresh fetch
-      queryClient.invalidateQueries({ queryKey: ['/api/weapon-likes'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/weapon-likes'] } as any);
     },
   });
 
   // Unlike mutation
   const unlikeMutation = useMutation({
     mutationFn: async (weaponId: string) => {
-      const res = await apiRequest('POST', `/api/weapon-likes/${weaponId}/unlike`);
+      const res = await apiRequest('POST', `/api/weapon-likes/${weaponId}/unlike`, {
+        fingerprint: getFingerprint()
+      });
       return res.json() as Promise<WeaponLikes>;
     },
     onSuccess: (data) => {
@@ -117,7 +130,7 @@ export default function Classes() {
           : [...oldData, data];
       });
       // Also invalidate to ensure fresh fetch
-      queryClient.invalidateQueries({ queryKey: ['/api/weapon-likes'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/weapon-likes'] } as any);
     },
   });
 
@@ -189,10 +202,12 @@ export default function Classes() {
   const filteredWeapons = useMemo(() => {
     return weaponsData
       .filter(weapon => {
+        const weaponType = (weapon.type as string) || "";
+        const selType = (selectedType as string) || "";
         const typeMatch = !selectedType ||
-          weapon.type === selectedType ||
-          (selectedType === "Assault" && weapon.type === "Assault Rifle") ||
-          (selectedType === "Assault Rifle" && weapon.type === "Assault");
+          weaponType === selType ||
+          (selType === "Assault" && weaponType === "Assault Rifle") ||
+          (weaponType === "Assault" && selType === "Assault Rifle");
         const searchMatch =
           !searchTerm ||
           fuzzyMatch(searchTerm, language === "pt" ? weapon.namePt || weapon.name : weapon.nameEn || weapon.name) > -1 ||

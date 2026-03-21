@@ -265,7 +265,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/weapon-likes/:weaponId/like", async (req, res) => {
     try {
       const { weaponId } = req.params;
-      const fingerprint = req.header('x-fingerprint') || 'anonymous';
+      const fingerprint = req.body?.fingerprint || req.header('x-fingerprint') || 'anonymous';
       const likes = await storage.incrementWeaponLikes(weaponId, fingerprint);
       res.json({ weaponId, likes });
     } catch (error) {
@@ -277,7 +277,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/weapon-likes/:weaponId/unlike", async (req, res) => {
     try {
       const { weaponId } = req.params;
-      const fingerprint = req.header('x-fingerprint') || 'anonymous';
+      const fingerprint = req.body?.fingerprint || req.header('x-fingerprint') || 'anonymous';
       const likes = await storage.decrementWeaponLikes(weaponId, fingerprint);
       res.json({ weaponId, likes });
     } catch (error) {
