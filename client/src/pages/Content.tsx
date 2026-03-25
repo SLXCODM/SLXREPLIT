@@ -64,9 +64,55 @@ export default function Content() {
   const defaultTab = "gaming";
   const currentTab = activeTab === "all" ? defaultTab : activeTab;
 
-  const filteredProjects = currentTab === "writer"
-    ? []
-    : projects.filter(p => p.category === currentTab);
+  const filteredProjects = projects.filter(p => p.category === currentTab);
+
+  const writerPosts = [
+    {
+      title: "Eu criei um EU totalmente digital",
+      url: "https://substack.com/@slnx/p-191813717?utm_source=profile&utm_medium=reader2",
+      description: "Reflexões sobre a criação de uma presença digital e a dualidade entre o ser real e o virtual."
+    },
+    {
+      title: "Simplesmente, um cérebro composto por caos",
+      url: "https://substack.com/@slnx/p-189383888?utm_source=profile&utm_medium=reader2",
+      description: "Um mergulho na neurodivergência e na complexidade de processar o mundo com hiperfoco."
+    },
+    {
+      title: "Eu simplesmente criei algo foda.",
+      url: "https://substack.com/@slnx/p-188816809?utm_source=profile&utm_medium=reader2",
+      description: "Sobre o processo criativo e a satisfação de materializar ideias complexas em projetos reais."
+    },
+    {
+      title: "Como funciona uma crise existencial?",
+      url: "https://substack.com/@slnx/p-184613697?utm_source=profile&utm_medium=reader2",
+      description: "Análise psicológica e pessoal sobre os momentos de questionamento profundo sobre a vida."
+    },
+    {
+      title: "Não Use Droga, Use Whey Protein",
+      url: "https://substack.com/@slnx/p-174704423?utm_source=profile&utm_medium=reader2",
+      description: "Uma visão provocativa sobre saúde, disciplina e substituição de vícios por hábitos produtivos."
+    },
+    {
+      title: "O Vazio da Internet",
+      url: "https://substack.com/@slnx/p-174645674?utm_source=profile&utm_medium=reader2",
+      description: "A solidão em meio ao excesso de conexões e a busca por significado na era digital."
+    },
+    {
+      title: "Discurso de Violência Sexual Online",
+      url: "https://substack.com/@slnx/p-174303051?utm_source=profile&utm_medium=reader2",
+      description: "Discussão séria sobre os perigos e a ética nos ambientes digitais modernos."
+    },
+    {
+      title: "Relacionamento à Distância e Toque Físico",
+      url: "https://substack.com/@slnx/p-174182095?utm_source=profile&utm_medium=reader2",
+      description: "As dificuldades e descobertas de manter conexões emocionais sem a presença física."
+    },
+    {
+      title: "Por Que Indivíduos Altamente Inteligentes Sempre se Subestimam?",
+      url: "https://substack.com/@slnx/p-174174879?utm_source=profile&utm_medium=reader2",
+      description: "Um estudo sobre a Síndrome do Impostor e como o conhecimento revela novas dúvidas."
+    }
+  ];
 
   const contentComponent = (
     <div className="min-h-screen py-24 md:py-32">
@@ -481,64 +527,123 @@ export default function Content() {
               </TabsContent>
             ) : currentTab === "writer" ? (
               <TabsContent value={currentTab} className="mt-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                  {/* Substack Card */}
-                  <a
-                    href="https://slnx.substack.com/?utm_campaign=profile&utm_medium=profile-page"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-testid="button-writer-substack"
-                  >
-                    <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full">
-                      {/* Background with gradient and icon */}
-                      <div className="aspect-video overflow-hidden bg-gradient-to-br from-purple-900/20 to-purple-600/10 flex items-center justify-center relative">
-                        <div className="absolute inset-0 bg-black/20" />
-                        <SiSubstack className="h-32 w-32 text-purple-400/30 transition-transform duration-500 group-hover:scale-110" />
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-6 space-y-3">
-                        <div className="space-y-2">
-                          <h3 className="text-2xl font-semibold leading-tight group-hover:text-primary transition-colors duration-300">
-                            Substack
-                          </h3>
+                <div className="space-y-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    {/* Substack Card */}
+                    <a
+                      href="https://slnx.substack.com/?utm_campaign=profile&utm_medium=profile-page"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-testid="button-writer-substack"
+                    >
+                      <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full border-primary/20">
+                        {/* Background with gradient and icon */}
+                        <div className="aspect-video overflow-hidden bg-gradient-to-br from-purple-900/20 to-purple-600/10 flex items-center justify-center relative">
+                          <div className="absolute inset-0 bg-black/20" />
+                          <SiSubstack className="h-32 w-32 text-purple-400/30 transition-transform duration-500 group-hover:scale-110" />
+                          <div className="absolute top-4 right-4">
+                            <Badge className="bg-primary text-primary-foreground">Blog Principal</Badge>
+                          </div>
                         </div>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {language === "pt"
-                            ? "Reflexões sobre superdotação, melancolia, desenvolvimento pessoal e estudos. Desabafos sinceros sobre como vejo a realidade e as complexidades da vida."
-                            : "Reflections on giftedness, melancholy, personal development and learning. Honest thoughts on how I see reality and life's complexities."}
-                        </p>
-                      </div>
-                    </Card>
-                  </a>
 
-                  {/* Write.as Card (disabled) */}
-                  <div
-                    className="opacity-60 cursor-not-allowed"
-                    title={language === "pt" ? "Em breve" : "Coming soon"}
-                    data-testid="button-writer-writeas"
-                  >
-                    <Card className="overflow-hidden h-full">
-                      {/* Background with gradient and icon */}
-                      <div className="aspect-video overflow-hidden bg-gradient-to-br from-slate-700/20 to-slate-600/10 flex items-center justify-center relative">
-                        <div className="absolute inset-0 bg-black/40" />
-                        <PenTool className="h-32 w-32 text-slate-400/30" />
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-6 space-y-3">
-                        <div className="space-y-2">
-                          <h3 className="text-2xl font-semibold leading-tight text-muted-foreground">
-                            Write.as
-                          </h3>
+                        {/* Content */}
+                        <div className="p-6 space-y-3">
+                          <div className="space-y-2">
+                            <h3 className="text-2xl font-semibold leading-tight group-hover:text-primary transition-colors duration-300">
+                              Substack (SLNX)
+                            </h3>
+                          </div>
+                          <p className="text-sm text-muted-foreground leading-relaxed">
+                            {language === "pt"
+                              ? "Reflexões sobre superdotação, melancolia, desenvolvimento pessoal e estudos. Desabafos sinceros sobre como vejo a realidade e as complexidades da vida."
+                              : "Reflections on giftedness, melancholy, personal development and learning. Honest thoughts on how I see reality and life's complexities."}
+                          </p>
                         </div>
-                        <p className="text-sm text-muted-foreground/70 leading-relaxed">
-                          {language === "pt"
-                            ? "Diários anônimos. Desabafos sinceros, melancolia profunda e reflexões sobre como eu vejo a realidade. Textos pesados sobre a minha vida, depressão e solidão."
-                            : "Anonymous diaries. Honest confessions, deep melancholy and reflections on how I see reality. Heavy texts about my life, depression and loneliness."}
-                        </p>
+                      </Card>
+                    </a>
+
+                    {/* Write.as Card (disabled) */}
+                    <div
+                      className="opacity-60 cursor-not-allowed"
+                      title={language === "pt" ? "Em breve" : "Coming soon"}
+                      data-testid="button-writer-writeas"
+                    >
+                      <Card className="overflow-hidden h-full">
+                        {/* Background with gradient and icon */}
+                        <div className="aspect-video overflow-hidden bg-gradient-to-br from-slate-700/20 to-slate-600/10 flex items-center justify-center relative">
+                          <div className="absolute inset-0 bg-black/40" />
+                          <PenTool className="h-32 w-32 text-slate-400/30" />
+                          <div className="absolute top-4 right-4">
+                            <Badge variant="secondary">Em Breve</Badge>
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-6 space-y-3">
+                          <div className="space-y-2">
+                            <h3 className="text-2xl font-semibold leading-tight text-muted-foreground">
+                              Write.as
+                            </h3>
+                          </div>
+                          <p className="text-sm text-muted-foreground/70 leading-relaxed">
+                            {language === "pt"
+                              ? "Diários anônimos. Desabafos sinceros, melancolia profunda e reflexões sobre como eu vejo a realidade. Textos pesados sobre a minha vida, depressão e solidão."
+                              : "Anonymous diaries. Honest confessions, deep melancholy and reflections on how I see reality. Heavy texts about my life, depression and loneliness."}
+                          </p>
+                        </div>
+                      </Card>
+                    </div>
+                  </div>
+
+                  {/* Recent Posts Section */}
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-4">
+                      <h3 className="text-2xl font-bold">
+                        {language === "pt" ? "Publicações Recentes" : "Recent Posts"}
+                      </h3>
+                      <div className="h-px flex-1 bg-border" />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                      {writerPosts.map((post, idx) => (
+                        <a
+                          key={idx}
+                          href={post.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block group"
+                        >
+                          <Card className="p-6 h-full hover:bg-card/80 transition-all duration-300 border-border/50 hover:border-primary/30 active:scale-[0.98]">
+                            <div className="space-y-3">
+                              <div className="flex justify-between items-start gap-4">
+                                <h4 className="font-bold text-lg group-hover:text-primary transition-colors line-clamp-2">
+                                  {post.title}
+                                </h4>
+                                <ExternalLink className="w-4 h-4 shrink-0 text-muted-foreground group-hover:text-primary" />
+                              </div>
+                              {post.description && (
+                                <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                                  {post.description}
+                                </p>
+                              )}
+                              <div className="pt-2 flex items-center text-xs font-semibold text-primary uppercase tracking-widest gap-2">
+                                {language === "pt" ? "Ler Post" : "Read Post"}
+                                <ChevronRight className="w-3 h-3" />
+                              </div>
+                            </div>
+                          </Card>
+                        </a>
+                      ))}
+                    </div>
+
+                    {/* Dynamic projects from DB (if any) */}
+                    {filteredProjects.length > 0 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-12">
+                        {filteredProjects.map(project => (
+                          <ProjectCard key={project.id} project={project} language={language} />
+                        ))}
                       </div>
-                    </Card>
+                    )}
                   </div>
                 </div>
               </TabsContent>

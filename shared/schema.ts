@@ -5,7 +5,7 @@ import { sql } from "drizzle-orm";
 
 // Projeto/Conteúdo
 // Valid categories enum
-export const projectCategories = ["gaming", "agriculture", "photography", "development"] as const;
+export const projectCategories = ["gaming", "agriculture", "photography", "development", "writer"] as const;
 export type ProjectCategory = typeof projectCategories[number];
 
 export const projects = pgTable("projects", {
