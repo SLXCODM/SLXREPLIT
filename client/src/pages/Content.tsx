@@ -70,47 +70,56 @@ export default function Content() {
     {
       title: "Eu criei um EU totalmente digital",
       url: "https://substack.com/@slnx/p-191813717?utm_source=profile&utm_medium=reader2",
-      description: "Reflexões sobre a criação de uma presença digital e a dualidade entre o ser real e o virtual."
+      description: "Reflexões sobre a criação de uma presença digital e a dualidade entre o ser real e o virtual.",
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1ed61191-a51a-4631-8545-3dc84050cd52_1116x1501.jpeg"
     },
     {
       title: "Simplesmente, um cérebro composto por caos",
       url: "https://substack.com/@slnx/p-189383888?utm_source=profile&utm_medium=reader2",
-      description: "Um mergulho na neurodivergência e na complexidade de processar o mundo com hiperfoco."
+      description: "Um mergulho na neurodivergência e na complexidade de processar o mundo com hiperfoco.",
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F971037ee-63f8-462b-8406-378285449614_3120x3900.jpeg"
     },
     {
       title: "Eu simplesmente criei algo foda.",
       url: "https://substack.com/@slnx/p-188816809?utm_source=profile&utm_medium=reader2",
-      description: "Sobre o processo criativo e a satisfação de materializar ideias complexas em projetos reais."
+      description: "Sobre o processo criativo e a satisfação de materializar ideias complexas em projetos reais.",
+      imageUrl: null
     },
     {
       title: "Como funciona uma crise existencial?",
       url: "https://substack.com/@slnx/p-184613697?utm_source=profile&utm_medium=reader2",
-      description: "Análise psicológica e pessoal sobre os momentos de questionamento profundo sobre a vida."
+      description: "Análise psicológica e pessoal sobre os momentos de questionamento profundo sobre a vida.",
+      imageUrl: null
     },
     {
       title: "Não Use Droga, Use Whey Protein",
       url: "https://substack.com/@slnx/p-174704423?utm_source=profile&utm_medium=reader2",
-      description: "Uma visão provocativa sobre saúde, disciplina e substituição de vícios por hábitos produtivos."
+      description: "Uma visão provocativa sobre saúde, disciplina e substituição de vícios por hábitos produtivos.",
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8e5e0cd-cbed-497a-8e46-4b69eae9fc4a_678x511.png"
     },
     {
       title: "O Vazio da Internet",
       url: "https://substack.com/@slnx/p-174645674?utm_source=profile&utm_medium=reader2",
-      description: "A solidão em meio ao excesso de conexões e a busca por significado na era digital."
+      description: "A solidão em meio ao excesso de conexões e a busca por significado na era digital.",
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8770a7e4-5648-453f-ab0c-6c825d414eb9_1662x2216.jpeg"
     },
     {
       title: "Discurso de Violência Sexual Online",
       url: "https://substack.com/@slnx/p-174303051?utm_source=profile&utm_medium=reader2",
-      description: "Discussão séria sobre os perigos e a ética nos ambientes digitais modernos."
+      description: "Discussão séria sobre os perigos e a ética nos ambientes digitais modernos.",
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2834dce7-a1ff-4735-af4f-e443007053a9_310x163.jpeg"
     },
     {
       title: "Relacionamento à Distância e Toque Físico",
       url: "https://substack.com/@slnx/p-174182095?utm_source=profile&utm_medium=reader2",
-      description: "As dificuldades e descobertas de manter conexões emocionais sem a presença física."
+      description: "As dificuldades e descobertas de manter conexões emocionais sem a presença física.",
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fed4a7de1-8aa3-4787-b8c8-6bd2ab81d43d_1200x1600.jpeg"
     },
     {
       title: "Por Que Indivíduos Altamente Inteligentes Sempre se Subestimam?",
       url: "https://substack.com/@slnx/p-174174879?utm_source=profile&utm_medium=reader2",
-      description: "Um estudo sobre a Síndrome do Impostor e como o conhecimento revela novas dúvidas."
+      description: "Um estudo sobre a Síndrome do Impostor e como o conhecimento revela novas dúvidas.",
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2b33d902-9ee2-4e91-b0ba-14b466692264_1920x1080.png"
     }
   ];
 
@@ -613,21 +622,41 @@ export default function Content() {
                           rel="noopener noreferrer"
                           className="block group"
                         >
-                          <Card className="p-6 h-full hover:bg-card/80 transition-all duration-300 border-border/50 hover:border-primary/30 active:scale-[0.98]">
-                            <div className="space-y-3">
-                              <div className="flex justify-between items-start gap-4">
-                                <h4 className="font-bold text-lg group-hover:text-primary transition-colors line-clamp-2">
-                                  {post.title}
-                                </h4>
-                                <ExternalLink className="w-4 h-4 shrink-0 text-muted-foreground group-hover:text-primary" />
+                          <Card className="overflow-hidden h-full hover-elevate transition-all duration-300 border-border/50 hover:border-primary/30 active:scale-[0.98]">
+                            {/* Card Header Image */}
+                            <div className="aspect-video overflow-hidden relative">
+                              {post.imageUrl ? (
+                                <img
+                                  src={post.imageUrl}
+                                  alt={post.title}
+                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-purple-900/30 to-purple-600/20 flex items-center justify-center">
+                                  <SiSubstack className="w-12 h-12 text-purple-400/30" />
+                                </div>
+                              )}
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                              <div className="absolute bottom-3 left-4 right-4 flex justify-between items-center">
+                                <Badge variant="secondary" className="bg-black/50 backdrop-blur-md text-[10px] uppercase tracking-tighter border-white/10 text-white">
+                                  Substack
+                                </Badge>
+                                <ExternalLink className="w-3 h-3 text-white/50 group-hover:text-white transition-colors" />
                               </div>
+                            </div>
+
+                            {/* Card Content */}
+                            <div className="p-5 space-y-3">
+                              <h4 className="font-bold text-lg leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                                {post.title}
+                              </h4>
                               {post.description && (
-                                <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                                <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                                   {post.description}
                                 </p>
                               )}
-                              <div className="pt-2 flex items-center text-xs font-semibold text-primary uppercase tracking-widest gap-2">
-                                {language === "pt" ? "Ler Post" : "Read Post"}
+                              <div className="pt-2 flex items-center text-[10px] font-bold text-primary uppercase tracking-widest gap-2">
+                                {language === "pt" ? "Ler Publicação" : "Read Publication"}
                                 <ChevronRight className="w-3 h-3" />
                               </div>
                             </div>
