@@ -13,10 +13,9 @@ import Contact from "./pages/Contact";
 import Sponsors from "./pages/Sponsors";
 import Donations from "./pages/Donations";
 import Classes from "./pages/Classes";
-import Products from "./pages/Products";
 import SocialLinksPage from "./pages/SocialLinksPage";
 import LanguageSelect from "./pages/LanguageSelect";
-import RafflePopup from "./components/RafflePopup";
+
 import EbookSkill from "@/pages/EbookSkill";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
@@ -41,7 +40,6 @@ function Router() {
       <Route path="/patrocinadores" component={Sponsors} />
       <Route path="/doacoes" component={DonationsPage} />
       <Route path="/classes" component={Classes} />
-      <Route path="/produtos" component={Products} />
       <Route path="/review" component={WeaponReview} />
       <Route path="/redes-sociais" component={SocialLinksPage} />
       <Route path="/terms" component={Terms} />

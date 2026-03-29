@@ -2,7 +2,7 @@ import { ArrowDown, Gamepad2, Camera, Sprout, Brain, Target } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import RafflePopup from "@/components/RafflePopup";
+
 import SocialLinks from "@/components/SocialLinks";
 import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -10,19 +10,9 @@ import SetupCarousel from "@/components/SetupCarousel";
 
 export default function Home() {
   const { language } = useLanguage();
-  const [showRaffle, setShowRaffle] = useState(false);
 
-  useEffect(() => {
-    // Show raffle popup only once per session when Home page loads and language is Portuguese
-    // Fixed: raffle now only shows once regardless of Home component remounts
-    if (language === "pt") {
-      const raffleShown = sessionStorage.getItem("slx_raffle_shown");
-      if (!raffleShown) {
-        sessionStorage.setItem("slx_raffle_shown", "true");
-        setShowRaffle(true);
-      }
-    }
-  }, []);
+
+
 
   useEffect(() => {
     // Database Wakeup Trigger
@@ -136,10 +126,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Raffle Popup */}
-      {showRaffle && language === "pt" && (
-        <RafflePopup onClose={() => setShowRaffle(false)} language={language} />
-      )}
+
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden" data-testid="section-hero">

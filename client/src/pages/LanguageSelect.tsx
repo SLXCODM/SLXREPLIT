@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import RafflePopup from "@/components/RafflePopup";
+
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LanguageSelectProps {
@@ -11,36 +11,25 @@ interface LanguageSelectProps {
 export default function LanguageSelect({ onComplete }: LanguageSelectProps) {
   const { setLanguage, language } = useLanguage();
   const [selectedLanguage, setSelectedLanguage] = useState<"pt" | "en" | null>(null);
-  const [showRaffle, setShowRaffle] = useState(false);
+
 
   const handleLanguageSelect = (lang: "pt" | "en") => {
     setSelectedLanguage(lang);
     setLanguage(lang);
     
     if (lang === "pt") {
-      // Mark raffle as shown in this session
-      sessionStorage.setItem("slx_raffle_shown", "true");
-      setShowRaffle(true);
+      setLanguage(lang);
+      onComplete();
     } else {
       onComplete();
     }
   };
 
-  const handleRaffleClose = () => {
-    setShowRaffle(false);
-    onComplete();
-  };
+
 
   return (
     <div className="fixed inset-0 bg-background flex items-center justify-center z-50 overflow-hidden">
-      {/* Raffle Popup */}
-      {showRaffle && selectedLanguage === "pt" && (
-        <RafflePopup onClose={handleRaffleClose} language="pt" />
-      )}
-
-      {/* Language Selection */}
-      {!showRaffle && (
-        <div className="max-w-2xl mx-auto px-4 text-center space-y-12">
+      <div className="max-w-2xl mx-auto px-4 text-center space-y-12">
           {/* Header */}
           <div className="space-y-4">
             <div className="flex justify-center mb-8">
@@ -94,7 +83,6 @@ export default function LanguageSelect({ onComplete }: LanguageSelectProps) {
           </div>
 
         </div>
-      )}
     </div>
   );
 }
