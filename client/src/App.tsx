@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 import Sponsors from "./pages/Sponsors";
 import Donations from "./pages/Donations";
 import Classes from "./pages/Classes";
+import Products from "./pages/Products";
 import SocialLinksPage from "./pages/SocialLinksPage";
 import LanguageSelect from "./pages/LanguageSelect";
 
@@ -38,6 +39,7 @@ function Router() {
       <Route path="/projetos" component={Projects} />
       <Route path="/contato" component={Contact} />
       <Route path="/patrocinadores" component={Sponsors} />
+      <Route path="/produtos" component={Products} />
       <Route path="/doacoes" component={DonationsPage} />
       <Route path="/classes" component={Classes} />
       <Route path="/review" component={WeaponReview} />
