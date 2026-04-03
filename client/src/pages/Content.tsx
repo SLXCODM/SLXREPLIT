@@ -247,7 +247,7 @@ export default function Content() {
                     </div>
                   ) : filteredProjects.length > 0 ? (
                     <div className="space-y-8">
-                      {/* TRAINING HUB - BLOQUEADO ATÉ ANÚNCIOS ESTAREM PRONTOS
+                      {/* Training Hub — desbloqueado */}
                       <a
                         href="/training_hub.html"
                         className="block"
@@ -278,7 +278,9 @@ export default function Content() {
                           </div>
                         </Card>
                       </a>
-                      FIM DO BLOQUEIO */}
+                      {/* AdSense — dentro do conteúdo de gaming */}
+                      <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
+
 
                       {/* Original Projects Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">

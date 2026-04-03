@@ -98,7 +98,7 @@ export default function Footer() {
 
         {/* Advertisement */}
         <div className="my-12 py-8 border-t border-border">
-          <AdSenseUnit slot="2345678901" format="auto" />
+          <AdSenseUnit slot="8830689235" format="auto" />
         </div>
 
         {/* Bottom Bar */}

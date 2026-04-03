@@ -95,6 +95,7 @@ function AppContent() {
 }
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { CookieBanner } from "@/components/CookieBanner";
 
 function App() {
   return (
@@ -105,6 +106,7 @@ function App() {
             <ScrollToTop />
             <AnalyticsTracker />
             <AppContent />
+            <CookieBanner />
           </ErrorBoundary>
           <Toaster />
         </TooltipProvider>
