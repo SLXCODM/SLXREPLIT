@@ -314,6 +314,9 @@ export default function Content() {
                     </p>
                   </div>
 
+                  {/* AdSense — In-article Photography */}
+                  <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
+
                   {/* Photography Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     <a
@@ -574,6 +577,9 @@ export default function Content() {
                     </div>
                   </div>
 
+                  {/* AdSense — In-article Writer */}
+                  <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
+
                   {/* Recent Posts Section */}
                   <div className="space-y-6">
                     <div className="flex items-center gap-4">
@@ -666,6 +672,9 @@ export default function Content() {
                   </div>
                 ) : currentTab === "agriculture" ? (
                   <div className="space-y-8">
+                    {/* AdSense — Display Agriculture */}
+                    <AdSenseUnit slot="8830689235" format="auto" />
+                    
                     {/* Agriculture Stories Card */}
                     <a
                       href="https://www.instagram.com/slx.wav"
@@ -725,6 +734,10 @@ export default function Content() {
                   </div>
                 ) : currentTab === "development" ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
+                    {/* AdSense — In-article Development */}
+                    <div className="col-span-1 md:col-span-2 lg:col-span-3">
+                      <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
+                    </div>
                     {/* Substack card first */}
                     <a
                       href="https://slnx.substack.com/?utm_campaign=profile&utm_medium=profile-page"
@@ -787,7 +800,7 @@ export default function Content() {
             )}
             {/* Advertisement Section - Bottom Region */}
             <div className="my-8">
-              <AdSenseUnit slot="5678901234" format="auto" />
+              <AdSenseUnit slot="8830689235" format="auto" />
             </div>
           </Tabs>
         </div>
