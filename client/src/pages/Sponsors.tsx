@@ -2,6 +2,7 @@ import { Mail, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AdSenseUnit } from "@/components/AdSenseUnit";
 
 export default function Sponsors() {
   const { language } = useLanguage();
@@ -105,6 +106,10 @@ export default function Sponsors() {
               </Button>
             </div>
           </Card>
+          
+          <div className="mt-12">
+            <AdSenseUnit slot="8830689235" format="auto" />
+          </div>
         </div>
       </div>
     </div>

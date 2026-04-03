@@ -1,6 +1,7 @@
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { AdSenseUnit } from "@/components/AdSenseUnit";
 
 interface DonationsProps {
   language: "pt" | "en";
@@ -177,6 +178,10 @@ export default function Donations({ language }: DonationsProps) {
             <p className="text-muted-foreground max-w-2xl mx-auto">
               {t.yourSupport}
             </p>
+          </div>
+
+          <div className="pt-8">
+            <AdSenseUnit slot="8830689235" format="auto" />
           </div>
         </div>
       </div>

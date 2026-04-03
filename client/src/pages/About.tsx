@@ -32,7 +32,9 @@ export default function About() {
             </div>
 
             {/* AdSense Ad */}
-            <AdSenseUnit slot="3456789012" format="auto" />
+            <div className="mb-8">
+              <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
+            </div>
 
             {/* Full Bio Section */}
             <div className="space-y-4 border-t border-border pt-8">

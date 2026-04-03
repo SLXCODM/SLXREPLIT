@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ShoppingCart, Package, Star, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useState, useMemo } from "react";
 import { apiRequest } from "@/lib/queryClient";
@@ -120,6 +121,11 @@ export default function Products() {
           )}
         </AnimatePresence>
 
+        {/* AdSense Unit */}
+        <div className="mb-12">
+          <AdSenseUnit slot="8830689235" format="auto" />
+        </div>
+
         {/* Products Grid */}
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -210,6 +216,11 @@ export default function Products() {
             </Link>
           </motion.div>
         )}
+      </div>
+
+      {/* Bottom AdSense Unit */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-8">
+        <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
       </div>
 
       <style jsx>{`

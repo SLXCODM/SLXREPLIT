@@ -1,5 +1,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import SocialLinks from "@/components/SocialLinks";
+import { AdSenseUnit } from "@/components/AdSenseUnit";
 
 export default function SocialLinksPage() {
   const { language } = useLanguage();
@@ -34,6 +35,10 @@ export default function SocialLinksPage() {
           {/* Social Links */}
           <div className="py-8">
             <SocialLinks language={language} />
+          </div>
+
+          <div className="pt-8">
+            <AdSenseUnit slot="8830689235" format="auto" />
           </div>
         </div>
       </div>
