@@ -247,78 +247,12 @@ export default function Content() {
                     </div>
                   ) : filteredProjects.length > 0 ? (
                     <div className="space-y-8">
-                      {/* Training Hub — desbloqueado */}
-                      <a
-                        href="/training_hub.html"
-                        className="block"
-                        data-testid="button-training-hub"
-                      >
-                        <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer bg-gradient-to-br from-red-900/20 to-orange-600/10 border-red-500/20">
-                          <div className="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
-                            <div className="text-6xl">🎯</div>
-                            <div className="flex-1 text-center md:text-left">
-                              <div className="flex items-center gap-3 justify-center md:justify-start mb-2">
-                                <h3 className="text-2xl md:text-3xl font-bold group-hover:text-primary transition-colors duration-300">
-                                  Training Hub
-                                </h3>
-                                <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-                                  {language === "pt" ? "5 Jogos" : "5 Games"}
-                                </Badge>
-                              </div>
-                              <p className="text-muted-foreground">
-                                {language === "pt"
-                                  ? "Treine suas habilidades com 5 mini-jogos exclusivos: Schulte, Operação Dominante, Números Crescentes, Reflexo Pro e Mira de Elite!"
-                                  : "Train your skills with 5 exclusive mini-games: Schulte, Dominant Operation, Increasing Numbers, Reflex Pro and Elite Aim!"}
-                              </p>
-                              <div className="mt-4 inline-flex items-center gap-2 text-primary text-sm font-medium">
-                                {language === "pt" ? "Acessar Training Hub" : "Access Training Hub"}
-                                <ExternalLink className="w-4 h-4" />
-                              </div>
-                            </div>
-                          </div>
-                        </Card>
-                      </a>
                       {/* AdSense — dentro do conteúdo de gaming */}
                       <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
 
-
                       {/* Original Projects Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
-                        {filteredProjects.slice(0, 1).map(project => (
-                          <ProjectCard key={project.id} project={project} language={language} />
-                        ))}
-                        <a href="/training_hub.html" data-testid="button-focus-training-gaming">
-                          <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full">
-                            <div className="aspect-video overflow-hidden relative"><img src="/attached_assets/treino_de_foco.png" alt="Treino de Foco" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" /><div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-                              <span className="text-6xl"></span>
-                            </div>
-                            <div className="p-6 space-y-3">
-                              <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
-                                {language === "pt" ? "Treino de Foco" : "Focus Training"}
-                              </h3>
-                              <p className="text-sm text-muted-foreground">
-                                {language === "pt" ? "Níveis impossíveis e reflexos extremos. O único treino capaz de superar o SLX." : "Impossible levels and extreme reflexes. The only training capable of surpassing SLX."}
-                              </p>
-                            </div>
-                          </Card>
-                        </a>
-                        <a href="/community" data-testid="button-analysis-pro-gaming">
-                          <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full border border-emerald-500/50">
-                            <div className="aspect-video overflow-hidden relative">
-                              <img src="/slx_analysis_pro.png" alt="Análise Pro" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-                            </div>
-                            <div className="p-6 space-y-3">
-                              <h3 className="text-xl font-semibold group-hover:text-emerald-400 transition-colors text-emerald-500">
-                                {language === "pt" ? "ANÁLISE PRO" : "ANALYSIS PRO"}
-                              </h3>
-                              <p className="text-sm text-muted-foreground">
-                                {language === "pt" ? "Descubra por que você ainda não é um pro-player. Análise técnica detalhada da sua gameplay." : "Discover why you are not a pro-player yet. Detailed technical analysis of your gameplay."}
-                              </p>
-                            </div>
-                          </Card>
-                        </a>
-                        {filteredProjects.slice(1).map(project => (
+                        {filteredProjects.map(project => (
                           <ProjectCard key={project.id} project={project} language={language} />
                         ))}
                       </div>
