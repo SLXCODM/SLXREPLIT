@@ -42,7 +42,7 @@ export function EbookNanoCard() {
                     exit={{ opacity: 0, x: 100, scale: 0.9 }}
                     transition={{ type: "spring", damping: 20, stiffness: 100 }}
                     onClick={handleLink}
-                    className="fixed bottom-6 right-6 z-[100] w-[340px] p-4 bg-zinc-950/80 backdrop-blur-xl border border-emerald-500/30 rounded-3xl shadow-2xl shadow-emerald-500/10 cursor-pointer group hover:border-emerald-500 transition-colors"
+                    className="fixed bottom-4 left-4 right-4 md:left-auto md:bottom-6 md:right-6 z-[100] md:w-[340px] p-4 bg-zinc-950/80 backdrop-blur-xl border border-emerald-500/30 rounded-3xl shadow-2xl shadow-emerald-500/10 cursor-pointer group hover:border-emerald-500 transition-colors"
                 >
                     <button
                         onClick={handleClose}
