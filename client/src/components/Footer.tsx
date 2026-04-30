@@ -1,7 +1,6 @@
 import { Instagram, Youtube } from "lucide-react";
 import { SiTiktok } from "react-icons/si";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { AdSenseUnit } from "@/components/AdSenseUnit";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -94,11 +93,6 @@ export default function Footer() {
               <li><a href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">{t.privacy}</a></li>
             </ul>
           </div>
-        </div>
-
-        {/* Advertisement */}
-        <div className="my-12 py-8 border-t border-border">
-          <AdSenseUnit slot="8830689235" format="auto" />
         </div>
 
         {/* Bottom Bar */}

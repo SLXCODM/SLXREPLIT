@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 
 import SocialLinks from "@/components/SocialLinks";
-import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { NewsSection } from "@/components/NewsSection";
 import { useLanguage } from "@/contexts/LanguageContext";
 import SetupCarousel from "@/components/SetupCarousel";
@@ -299,12 +298,6 @@ export default function Home() {
           </div>
 
           <SetupCarousel />
-
-          {/* AdSense Banner — dentro da seção de categorias */}
-          <div className="mt-16 mb-12">
-            <AdSenseUnit slot="8830689235" format="auto" minHeight={90} />
-
-          </div>
         </div>
       </section>
 

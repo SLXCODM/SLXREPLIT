@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import ProjectCard from "@/components/ProjectCard";
 import FollowToUnlock from "@/components/FollowToUnlock";
-import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Project } from "@shared/schema";
 import { SiSubstack } from "react-icons/si";
@@ -172,63 +171,7 @@ export default function Content() {
               <FollowToUnlock contentName="Call of Duty Mobile" language={language}>
                 <TabsContent value={currentTab} className="mt-8 space-y-12">
                   {/* EBOOK HERO SECTION */}
-                  {language === "pt" && (
-                    <Card className="relative overflow-hidden border-none bg-zinc-950 shadow-2xl ring-1 ring-white/10 group">
-                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent opacity-50" />
-                      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
 
-                      <div className="relative p-8 md:p-12 flex flex-col lg:flex-row items-center gap-10">
-                        {/* Ebook Mockup Representation */}
-                        <div className="relative w-full max-w-[200px] aspect-[3/4] shrink-0" style={{ perspective: "1000px" }}>
-                          <div className="w-full h-full bg-gradient-to-br from-emerald-500 to-emerald-800 rounded-lg shadow-[20px_20px_50px_rgba(0,0,0,0.5)] flex flex-col justify-between p-6 border-l-8 border-emerald-900 overflow-hidden group-hover:-rotate-3 transition-transform duration-500">
-                            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                            <div className="text-[8px] font-black uppercase tracking-[0.2em] text-white/40">Manual de Alta Performance</div>
-                            <div className="space-y-1">
-                              <div className="text-xl font-black text-white leading-tight uppercase">O Princípio</div>
-                              <div className="text-xl font-black text-white/60 italic leading-tight uppercase">da Habilidade</div>
-                            </div>
-                            <div className="flex justify-between items-end">
-                              <div className="w-6 h-6 rounded-full bg-white/20" />
-                              <div className="text-[10px] font-bold text-white/40">SLX</div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 space-y-6 text-center lg:text-left">
-                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Lançamento Exclusivo</span>
-                          </div>
-
-                          <div className="space-y-2">
-                            <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-white">
-                              O Princípio da <span className="text-emerald-500 italic">Habilidade</span>
-                            </h2>
-                            <p className="text-zinc-400 text-lg md:text-xl max-w-2xl font-medium leading-relaxed">
-                              O melhor conteúdo que já produzi. Técnicas que realmente fazem diferença no jogo.
-                            </p>
-                          </div>
-
-                          <div className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start">
-                            <a href="/ebook" className="w-full sm:w-auto">
-                              <Button size="lg" className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-black px-10 py-7 rounded-2xl shadow-[0_0_30px_rgba(16,185,129,0.2)] hover:shadow-[0_0_40px_rgba(16,185,129,0.4)] transition-all text-lg">
-                                Acessar Agora
-                                <ChevronRight className="ml-2 w-5 h-5" />
-                              </Button>
-                            </a>
-
-                            <div className="flex flex-col items-center sm:items-start">
-                              <div className="flex items-center justify-center gap-2 text-white">
-                                <span className="text-sm font-bold text-zinc-500 line-through">R$ 97,00</span>
-                                <span className="text-2xl font-black italic">R$ 47,00</span>
-                              </div>
-                              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600">Investimento Único</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  )}
                   {/* Error State */}
                   {isError ? (
                     <div className="text-center py-16 space-y-4" data-testid="error-state-content">
@@ -248,7 +191,6 @@ export default function Content() {
                   ) : filteredProjects.length > 0 ? (
                     <div className="space-y-8">
                       {/* AdSense — dentro do conteúdo de gaming */}
-                      <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
 
                       {/* Original Projects Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
@@ -315,7 +257,6 @@ export default function Content() {
                   </div>
 
                   {/* AdSense — In-article Photography */}
-                  <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
 
                   {/* Photography Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -578,7 +519,6 @@ export default function Content() {
                   </div>
 
                   {/* AdSense — In-article Writer */}
-                  <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
 
                   {/* Recent Posts Section */}
                   <div className="space-y-6">
@@ -673,7 +613,6 @@ export default function Content() {
                 ) : currentTab === "agriculture" ? (
                   <div className="space-y-8">
                     {/* AdSense — Display Agriculture */}
-                    <AdSenseUnit slot="8830689235" format="auto" />
                     
                     {/* Agriculture Stories Card */}
                     <a
@@ -736,7 +675,6 @@ export default function Content() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" data-testid="grid-content-projects">
                     {/* AdSense — In-article Development */}
                     <div className="col-span-1 md:col-span-2 lg:col-span-3">
-                      <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
                     </div>
                     {/* Substack card first */}
                     <a
@@ -800,7 +738,6 @@ export default function Content() {
             )}
             {/* Advertisement Section - Bottom Region */}
             <div className="my-8">
-              <AdSenseUnit slot="8830689235" format="auto" />
             </div>
           </Tabs>
         </div>

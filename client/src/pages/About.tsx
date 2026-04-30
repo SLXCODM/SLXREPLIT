@@ -1,6 +1,5 @@
 import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function About() {
@@ -29,11 +28,6 @@ export default function About() {
                   ? "Olá. Sou SLX, estrategista de pensamento, criador de conteúdo técnico e profundo nas áreas de gaming, fotografia, agricultura e desenvolvimento pessoal. Este espaço é onde compartilho minha jornada, experiências e tudo o que aprendi ao longo do caminho."
                   : "Hi. I'm SLX, a mental strategist, creator of technical and deep content in gaming, photography, agriculture and personal development. This space is where I share my journey, experiences and everything I've learned along the way."}
               </p>
-            </div>
-
-            {/* AdSense Ad */}
-            <div className="mb-8">
-              <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
             </div>
 
             {/* Full Bio Section */}

@@ -207,11 +207,6 @@ export function NewsSection() {
               </div>
             </div>
 
-            {/* AdSense — dentro do conteúdo */}
-            <div className="my-8">
-              <AdSenseUnit slot="5495845816" format="fluid" layout="in-article" />
-            </div>
-
             {/* Remaining Articles Row (últimos 2) */}
             {articles.length > 3 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
