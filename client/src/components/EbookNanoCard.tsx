@@ -12,7 +12,7 @@ export function EbookNanoCard() {
 
         // Show after 2 seconds delay
         const timer = setTimeout(() => {
-            const hasClosed = localStorage.getItem("slx_ebook_promo_closed");
+            const hasClosed = sessionStorage.getItem("slx_ebook_promo_closed");
             if (!hasClosed) {
                 setIsVisible(true);
             }
@@ -24,7 +24,7 @@ export function EbookNanoCard() {
     const handleClose = (e: React.MouseEvent) => {
         e.stopPropagation();
         setIsVisible(false);
-        localStorage.setItem("slx_ebook_promo_closed", "true");
+        sessionStorage.setItem("slx_ebook_promo_closed", "true");
     };
 
     const handleLink = () => {
@@ -42,7 +42,7 @@ export function EbookNanoCard() {
                     exit={{ opacity: 0, x: 100, scale: 0.9 }}
                     transition={{ type: "spring", damping: 20, stiffness: 100 }}
                     onClick={handleLink}
-                    className="fixed bottom-4 left-4 right-4 md:left-auto md:bottom-6 md:right-6 z-[100] md:w-[340px] p-4 bg-zinc-950/80 backdrop-blur-xl border border-emerald-500/30 rounded-3xl shadow-2xl shadow-emerald-500/10 cursor-pointer group hover:border-emerald-500 transition-colors"
+                    className="fixed bottom-4 left-4 w-[calc(100vw-32px)] md:left-auto md:bottom-6 md:right-6 z-[100] md:w-[340px] p-4 bg-zinc-950/80 backdrop-blur-xl border border-emerald-500/30 rounded-3xl shadow-2xl shadow-emerald-500/10 cursor-pointer group hover:border-emerald-500 transition-colors"
                 >
                     <button
                         onClick={handleClose}
