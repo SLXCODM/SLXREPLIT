@@ -105,7 +105,7 @@ export default function EbookSkill() {
                                 <div className="flex flex-col items-center lg:items-start gap-4">
                                     <div className="flex items-end gap-3 text-foreground mb-2">
                                         <span className="text-xl opacity-50 line-through mb-1">R$ 97,00</span>
-                                        <span className="text-4xl font-bold">R$ 47,00</span>
+                                        <span className="text-4xl font-bold">R$ 23,00</span>
                                     </div>
                                     <Button
                                         size="lg"

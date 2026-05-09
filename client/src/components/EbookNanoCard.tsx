@@ -72,7 +72,7 @@ export function EbookNanoCard() {
                             <div className="flex items-center justify-between pt-1">
                                 <div className="flex items-center gap-2">
                                     <span className="text-xs text-zinc-500 line-through">R$ 97</span>
-                                    <span className="text-sm font-black text-white">R$ 47,00</span>
+                                    <span className="text-sm font-black text-white">R$ 23,00</span>
                                 </div>
                                 <div className="w-6 h-6 rounded-full bg-zinc-800 group-hover:bg-emerald-500 flex items-center justify-center transition-all group-hover:translate-x-1">
                                     <ChevronRight className="w-4 h-4 text-white" />
