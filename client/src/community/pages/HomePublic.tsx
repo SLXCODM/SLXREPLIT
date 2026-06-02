@@ -256,7 +256,7 @@ export default function HomePublic() {
                                     </div>
                                 </div>
                                 <a href={MERCADO_PAGO_URL} target="_blank" rel="noopener noreferrer" className="w-full outline-none focus:outline-none">
-                                    <Button size="lg" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white h-12 md:h-14 px-4 md:px-10 text-sm md:text-lg font-black rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95 group outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none">
+                                    <Button size="lg" className="border-none w-full bg-emerald-600 hover:bg-emerald-500 text-white h-12 md:h-14 px-4 md:px-10 text-sm md:text-lg font-black rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95 group outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none">
                                         {t.pricingCta}
                                         <ArrowRight className="ml-1 md:ml-2 w-4 md:w-5 h-4 md:h-5 group-hover:translate-x-1 transition-transform" />
                                     </Button>
