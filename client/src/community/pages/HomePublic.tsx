@@ -255,8 +255,8 @@ export default function HomePublic() {
                                         <span className="text-5xl font-black text-white tracking-tighter">R$ 5</span>
                                     </div>
                                 </div>
-                                <a href={MERCADO_PAGO_URL} target="_blank" rel="noopener noreferrer" className="w-full">
-                                    <Button size="lg" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white h-12 md:h-14 px-4 md:px-10 text-sm md:text-lg font-black rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95 group">
+                                <a href={MERCADO_PAGO_URL} target="_blank" rel="noopener noreferrer" className="w-full outline-none focus:outline-none">
+                                    <Button size="lg" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white h-12 md:h-14 px-4 md:px-10 text-sm md:text-lg font-black rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95 group outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none">
                                         {t.pricingCta}
                                         <ArrowRight className="ml-1 md:ml-2 w-4 md:w-5 h-4 md:h-5 group-hover:translate-x-1 transition-transform" />
                                     </Button>
@@ -282,18 +282,7 @@ export default function HomePublic() {
                     </Accordion>
                 </div>
 
-                {/* Final CTA */}
-                <div className="py-16 text-center space-y-8 bg-gradient-to-b from-transparent to-emerald-900/10 rounded-3xl mb-12 border border-zinc-800/50">
-                    <h2 className="text-2xl md:text-4xl font-bold tracking-tighter max-w-2xl mx-auto">
-                        {t.finalTitle}
-                    </h2>
-                    <a href={MERCADO_PAGO_URL} target="_blank" rel="noopener noreferrer">
-                        <Button size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white h-14 px-10 text-lg font-bold rounded-full shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:shadow-[0_0_50px_rgba(16,185,129,0.6)] hover:scale-105 transition-all duration-300">
-                            {t.finalCta}
-                            <ArrowRight className="ml-2 w-5 h-5" />
-                        </Button>
-                    </a>
-                </div>
+
 
                 {/* Footer info */}
                 <div className="py-10 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4 px-4">
