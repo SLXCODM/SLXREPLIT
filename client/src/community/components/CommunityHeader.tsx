@@ -1,44 +1,14 @@
 import React from "react";
-import { Link, useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { LogOut, User as UserIcon } from "lucide-react";
+import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export function CommunityHeader() {
-    const queryClient = useQueryClient();
-    const [, setLocation] = useLocation();
     const { language } = useLanguage();
 
-    const { data: auth } = useQuery({
-        queryKey: ["/api/community/auth/me"],
-        queryFn: async () => {
-            const res = await fetch("/api/community/auth/me");
-            if (!res.ok) return { loggedIn: false };
-            return res.json();
-        }
-    });
-
-    const logout = useMutation({
-        mutationFn: async () => {
-            const res = await fetch("/api/community/auth/logout", { method: "POST" });
-            return res.json();
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["/api/community/auth/me"] });
-            setLocation("/community");
-        }
-    });
-
     const t = {
-        results: language === "pt" ? "Resultados" : "Results",
         methodology: language === "pt" ? "Metodologia" : "Methodology",
         analyst: language === "pt" ? "O Analista" : "Analyst",
         faq: language === "pt" ? "Dúvidas" : "FAQ",
-        logout: language === "pt" ? "Sair" : "Logout",
-        analystPanel: language === "pt" ? "Painel do Analista" : "Analyst Panel",
-        studentArea: language === "pt" ? "Área do Aluno" : "Student Area",
-        login: language === "pt" ? "Login" : "Login",
     };
 
     return (
@@ -55,85 +25,7 @@ export function CommunityHeader() {
                     <a href="/community#analista" className="hover:text-emerald-400 transition-colors">{t.analyst}</a>
                     <a href="/community#faq" className="hover:text-emerald-400 transition-colors">{t.faq}</a>
                 </nav>
-
-                <div className="flex items-center gap-2 md:gap-4">
-                    {auth?.loggedIn ? (
-                        <div className="flex items-center gap-2 md:gap-4">
-                            {/* Desktop User Info */}
-                            <div className="hidden lg:flex items-center gap-2 text-xs font-bold text-zinc-400 bg-zinc-900 px-3 py-1.5 rounded-full border border-zinc-800">
-                                <UserIcon className="w-3 h-3 text-emerald-500" />
-                                <span className="max-w-[80px] truncate">{auth.user.name}</span>
-                                {auth.user.role === "admin" && (
-                                    <span className="ml-1 text-[8px] bg-emerald-500/20 text-emerald-400 px-1 rounded-sm uppercase tracking-tighter">Admin</span>
-                                )}
-                            </div>
-
-                            {/* Mobile User Info (Compact) */}
-                            <div className="flex md:hidden items-center gap-2 bg-zinc-900/50 p-1 rounded-full border border-zinc-800 pr-2">
-                                <div className="p-1 bg-zinc-900 rounded-full text-emerald-500">
-                                    <UserIcon className="w-2.5 h-2.5" />
-                                </div>
-                                <span className="text-[9px] font-bold text-zinc-300 max-w-[40px] truncate">{(auth.user.name || "User").split(' ')[0]}</span>
-                            </div>
-
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => logout.mutate()}
-                                className="hidden md:flex text-zinc-500 hover:text-red-400 hover:bg-red-500/10 p-2 sm:px-3"
-                            >
-                                <LogOut className="w-4 h-4 md:mr-2" />
-                                <span className="hidden md:inline text-xs">{t.logout}</span>
-                            </Button>
-
-                            {/* Mobile Logout Button */}
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => logout.mutate()}
-                                className="flex md:hidden h-8 w-8 text-zinc-400 hover:text-red-400 hover:bg-red-500/10"
-                            >
-                                <LogOut className="w-4 h-4" />
-                            </Button>
-
-
-                            <Link href="/community/dashboard">
-                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-3 md:px-6 font-semibold shadow-emerald-900/20 shadow-lg text-[10px] md:text-sm h-8 md:h-10">
-                                    <span className="hidden xs:inline">{t.studentArea}</span>
-                                    <span className="xs:hidden">Entrar</span>
-                                </Button>
-                            </Link>
-                        </div>
-                    ) : (
-                        <div className="flex items-center gap-2 md:gap-4">
-                            <Link href="/community/login">
-                                <Button variant="ghost" size="sm" className="hidden md:flex text-zinc-400 hover:text-white hover:bg-zinc-900">
-                                    {t.login}
-                                </Button>
-                            </Link>
-                            <Link href="/community/dashboard">
-                                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full px-4 md:px-6 font-semibold shadow-emerald-900/20 shadow-lg text-[10px] md:text-sm h-9 md:h-10">
-                                    <span className="hidden xs:inline">{t.studentArea}</span>
-                                    <span className="xs:hidden">Acessar</span>
-                                </Button>
-                            </Link>
-                        </div>
-                    )}
-                </div>
             </div>
         </header>
     );
 }
-
-// Helper para Mobile Menu se necessário no futuro
-function MobileUserMenu({ user, logout }: { user: any, logout: () => void }) {
-    return (
-        <div className="flex sm:hidden items-center gap-2">
-            <span className="text-[10px] font-bold text-zinc-400 max-w-[80px] truncate">{user.name}</span>
-            <Button size="icon" variant="ghost" onClick={logout} className="h-8 w-8 text-red-400">
-                <LogOut className="w-4 h-4" />
-            </Button>
-        </div>
-    );
-}
-
