@@ -69,7 +69,7 @@ export default function HomePublic() {
         // FAQ
         faqTitle: language === "pt" ? "Dúvidas" : "FAQ",
         faq1Q: language === "pt" ? "Como funciona?" : "How does it work?",
-        faq1A: language === "pt" ? "Você paga pelo Mercado Pago, envia o link do seu vídeo do YouTube pelo formulário, e recebe a análise em vídeo em alguns dias." : "You pay through Mercado Pago, submit your YouTube video link through the form, and receive your video analysis within a few days.",
+        faq1A: language === "pt" ? "Você paga pelo Mercado Pago, envia o link do seu vídeo do YouTube ou TikTok pelo formulário, e recebe a análise em vídeo em alguns dias." : "You pay through Mercado Pago, submit your YouTube or TikTok video link through the form, and receive your video analysis within a few days.",
         faq2Q: language === "pt" ? "Quanto tempo demora?" : "How long does it take?",
         faq2A: language === "pt" ? "A análise é entregue em até alguns dias após o envio. SLX trabalha 12h por dia, então agradecemos a paciência." : "The analysis is delivered within a few days after submission. SLX works 12h a day, so we appreciate your patience.",
         faq3Q: language === "pt" ? "Sou iniciante, serve pra mim?" : "I'm a beginner, is this for me?",
