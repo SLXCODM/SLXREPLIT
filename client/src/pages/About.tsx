@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react";
+import { Mail, Cpu, HardDrive, Layers, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -28,6 +28,53 @@ export default function About() {
                   ? "Olá. Sou SLX, estrategista de pensamento, criador de conteúdo técnico e profundo nas áreas de gaming, fotografia, agricultura e desenvolvimento pessoal. Este espaço é onde compartilho minha jornada, experiências e tudo o que aprendi ao longo do caminho."
                   : "Hi. I'm SLX, a mental strategist, creator of technical and deep content in gaming, photography, agriculture and personal development. This space is where I share my journey, experiences and everything I've learned along the way."}
               </p>
+            </div>
+
+            {/* Setup / Specs Section */}
+            <div className="mt-8 p-6 bg-gradient-to-br from-card/80 to-card border border-border rounded-xl shadow-lg relative overflow-hidden backdrop-blur-sm">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full filter blur-2xl -z-10" />
+              <p className="font-semibold text-foreground text-lg mb-4 flex items-center gap-2">
+                <Monitor className="h-5 w-5 text-primary animate-pulse" />
+                {language === "pt" ? "Meu Setup / Configurações do PC" : "My Setup / PC Specifications"}
+              </p>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {/* CPU */}
+                <div className="p-3 bg-background/50 border border-border/60 rounded-lg hover:border-primary/30 transition-colors">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Cpu className="h-4 w-4 text-primary" />
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">CPU</span>
+                  </div>
+                  <p className="text-sm font-semibold text-foreground">Ryzen 5 5600GT</p>
+                </div>
+
+                {/* GPU */}
+                <div className="p-3 bg-background/50 border border-border/60 rounded-lg hover:border-primary/30 transition-colors">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Monitor className="h-4 w-4 text-primary" />
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">GPU</span>
+                  </div>
+                  <p className="text-sm font-semibold text-foreground">GTX 1660 SUPER</p>
+                </div>
+
+                {/* RAM */}
+                <div className="p-3 bg-background/50 border border-border/60 rounded-lg hover:border-primary/30 transition-colors">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Layers className="h-4 w-4 text-primary" />
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">RAM</span>
+                  </div>
+                  <p className="text-sm font-semibold text-foreground">32GB RAM</p>
+                </div>
+
+                {/* Storage */}
+                <div className="p-3 bg-background/50 border border-border/60 rounded-lg hover:border-primary/30 transition-colors">
+                  <div className="flex items-center gap-2 mb-1">
+                    <HardDrive className="h-4 w-4 text-primary" />
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">SSD</span>
+                  </div>
+                  <p className="text-sm font-semibold text-foreground">NVMe</p>
+                </div>
+              </div>
             </div>
 
             {/* Full Bio Section */}
