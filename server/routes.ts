@@ -8,6 +8,7 @@ import { bootstrapDatabase } from "./db";
 import { supabase } from "./lib/supabase";
 import { setupAuth } from "./community/auth";
 import { setupStripeRoutes } from "./community/stripe";
+import { setupMercadoPagoRoutes } from "./community/mercadopago";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { appRouter } from "./community/appRouter";
 import { createContext } from "./community/trpc";
@@ -24,6 +25,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // 2. Setup Stripe (Checkouts & Webhooks)
   setupStripeRoutes(app);
+  
+  // 2.5 Setup Mercado Pago
+  setupMercadoPagoRoutes(app);
 
   // 3. Setup tRPC
   app.use(

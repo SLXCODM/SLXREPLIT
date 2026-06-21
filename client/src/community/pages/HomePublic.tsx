@@ -9,13 +9,35 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useToast } from "@/hooks/use-toast";
 
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const MERCADO_PAGO_URL = "https://mpago.la/19uTZ7N";
-
 export default function HomePublic() {
     const { language } = useLanguage();
+    const { toast } = useToast();
+    const [isLoadingCheckout, setIsLoadingCheckout] = React.useState(false);
+
+    const handleCheckout = async () => {
+        try {
+            setIsLoadingCheckout(true);
+            const res = await fetch("/api/mercadopago/create-preference", { method: "POST" });
+            const data = await res.json();
+            
+            if (data.init_point) {
+                window.location.href = data.init_point;
+            } else {
+                throw new Error("Erro ao gerar link de pagamento");
+            }
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Erro de Conexão",
+                description: "Não foi possível conectar ao Mercado Pago. Tente novamente."
+            });
+            setIsLoadingCheckout(false);
+        }
+    };
 
     const t = {
         badge: language === "pt" ? "Análise de Gameplay CODM" : "CODM Gameplay Analysis",
@@ -115,12 +137,14 @@ export default function HomePublic() {
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 w-full max-w-md mx-auto sm:max-w-none">
-                        <a href={MERCADO_PAGO_URL} target="_blank" rel="noopener noreferrer">
-                            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white h-14 px-10 text-lg font-bold rounded-full w-full sm:w-auto shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_40px_rgba(16,185,129,0.5)] hover:scale-105 transition-all duration-300 border border-emerald-500/50">
-                                {t.ctaMain}
-                                <ArrowRight className="ml-2 w-5 h-5" />
-                            </Button>
-                        </a>
+                        <Button 
+                            size="lg" 
+                            onClick={handleCheckout}
+                            disabled={isLoadingCheckout}
+                            className="bg-emerald-600 hover:bg-emerald-500 text-white h-14 px-10 text-lg font-bold rounded-full w-full sm:w-auto shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_40px_rgba(16,185,129,0.5)] hover:scale-105 transition-all duration-300 border border-emerald-500/50">
+                            {isLoadingCheckout ? "Gerando PIX/Cartão..." : t.ctaMain}
+                            {!isLoadingCheckout && <ArrowRight className="ml-2 w-5 h-5" />}
+                        </Button>
 
                         <a href="#como-funciona">
                             <Button variant="ghost" size="lg" className="text-zinc-400 hover:text-white hover:bg-zinc-900/80 h-14 px-8 text-base rounded-full w-full sm:w-auto border border-zinc-800 hover:border-zinc-700 transition-all backdrop-blur-sm">
@@ -255,12 +279,14 @@ export default function HomePublic() {
                                         <span className="text-5xl font-black text-white tracking-tighter">R$ 5</span>
                                     </div>
                                 </div>
-                                <a href={MERCADO_PAGO_URL} target="_blank" rel="noopener noreferrer" className="w-full outline-none focus:outline-none">
-                                    <Button size="lg" className="border-none w-full bg-emerald-600 hover:bg-emerald-500 text-white h-12 md:h-14 px-4 md:px-10 text-sm md:text-lg font-black rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95 group outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none">
-                                        {t.pricingCta}
-                                        <ArrowRight className="ml-1 md:ml-2 w-4 md:w-5 h-4 md:h-5 group-hover:translate-x-1 transition-transform" />
-                                    </Button>
-                                </a>
+                                <Button 
+                                    size="lg" 
+                                    onClick={handleCheckout}
+                                    disabled={isLoadingCheckout}
+                                    className="border-none w-full bg-emerald-600 hover:bg-emerald-500 text-white h-12 md:h-14 px-4 md:px-10 text-sm md:text-lg font-black rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95 group outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none">
+                                    {isLoadingCheckout ? "Aguarde..." : t.pricingCta}
+                                    {!isLoadingCheckout && <ArrowRight className="ml-1 md:ml-2 w-4 md:w-5 h-4 md:h-5 group-hover:translate-x-1 transition-transform" />}
+                                </Button>
                                 <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
                                     {t.pricingLifetime}
                                 </p>
