@@ -9,6 +9,15 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogFooter
+} from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -17,6 +26,7 @@ export default function HomePublic() {
     const { language } = useLanguage();
     const { toast } = useToast();
     const [isLoadingCheckout, setIsLoadingCheckout] = React.useState(false);
+    const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
     const handleCheckout = async () => {
         try {
@@ -139,11 +149,10 @@ export default function HomePublic() {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 w-full max-w-md mx-auto sm:max-w-none">
                         <Button 
                             size="lg" 
-                            onClick={handleCheckout}
-                            disabled={isLoadingCheckout}
+                            onClick={() => setIsDialogOpen(true)}
                             className="bg-emerald-600 hover:bg-emerald-500 text-white h-14 px-10 text-lg font-bold rounded-full w-full sm:w-auto shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_40px_rgba(16,185,129,0.5)] hover:scale-105 transition-all duration-300 border border-emerald-500/50">
-                            {isLoadingCheckout ? "Gerando PIX/Cartão..." : t.ctaMain}
-                            {!isLoadingCheckout && <ArrowRight className="ml-2 w-5 h-5" />}
+                            {t.ctaMain}
+                            <ArrowRight className="ml-2 w-5 h-5" />
                         </Button>
 
                         <a href="#como-funciona">
@@ -281,11 +290,10 @@ export default function HomePublic() {
                                 </div>
                                 <Button 
                                     size="lg" 
-                                    onClick={handleCheckout}
-                                    disabled={isLoadingCheckout}
+                                    onClick={() => setIsDialogOpen(true)}
                                     className="border-none w-full bg-emerald-600 hover:bg-emerald-500 text-white h-12 md:h-14 px-4 md:px-10 text-sm md:text-lg font-black rounded-2xl shadow-lg shadow-emerald-900/40 transition-all active:scale-95 group outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none">
-                                    {isLoadingCheckout ? "Aguarde..." : t.pricingCta}
-                                    {!isLoadingCheckout && <ArrowRight className="ml-1 md:ml-2 w-4 md:w-5 h-4 md:h-5 group-hover:translate-x-1 transition-transform" />}
+                                    {t.pricingCta}
+                                    <ArrowRight className="ml-1 md:ml-2 w-4 md:w-5 h-4 md:h-5 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                                 <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
                                     {t.pricingLifetime}
@@ -325,6 +333,46 @@ export default function HomePublic() {
                         </Link>
                     </div>
                 </div>
+
+                {/* Pre-Checkout Instructions Modal */}
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <DialogContent className="bg-zinc-950 border-zinc-800 text-white sm:max-w-md">
+                        <DialogHeader>
+                            <DialogTitle className="text-2xl font-black flex items-center gap-2">
+                                <Crosshair className="w-6 h-6 text-emerald-500" />
+                                Instruções Rápidas
+                            </DialogTitle>
+                            <DialogDescription className="text-zinc-400 text-base pt-3 space-y-4">
+                                <p>Antes de ir para a tela de pagamento, lembre-se destas regras de ouro:</p>
+                                
+                                <div className="bg-zinc-900/50 border border-zinc-800 p-4 rounded-xl space-y-3">
+                                    <div className="flex items-start gap-3">
+                                        <div className="bg-amber-500/20 p-1.5 rounded-full mt-0.5">
+                                            <Target className="w-4 h-4 text-amber-500" />
+                                        </div>
+                                        <p className="text-sm font-medium text-zinc-200"><strong className="text-amber-500">Salve o comprovante!</strong> Ao pagar no app do seu banco, tire print do comprovante do PIX.</p>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="bg-emerald-500/20 p-1.5 rounded-full mt-0.5">
+                                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                                        </div>
+                                        <p className="text-sm font-medium text-zinc-200">Não feche a janela do Mercado Pago. Aguarde o redirecionamento.</p>
+                                    </div>
+                                </div>
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter className="mt-4">
+                            <Button 
+                                onClick={handleCheckout} 
+                                disabled={isLoadingCheckout}
+                                className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold h-12 rounded-xl"
+                            >
+                                {isLoadingCheckout ? "Processando..." : "Entendido, ir para pagamento"}
+                                {!isLoadingCheckout && <ArrowRight className="ml-2 w-4 h-4" />}
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
         </div>
     );
