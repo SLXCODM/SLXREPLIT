@@ -8,7 +8,7 @@ import ProjectCard from "@/components/ProjectCard";
 import FollowToUnlock from "@/components/FollowToUnlock";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Project } from "@shared/schema";
-import { SiSubstack } from "react-icons/si";
+import { SiSubstack, SiTiktok } from "react-icons/si";
 import { PenTool, ExternalLink, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 const photoSilhouettes = "/attached_assets/photo-silhouettes.jpg";
@@ -70,13 +70,13 @@ export default function Content() {
       title: "Eu criei um EU totalmente digital",
       url: "https://substack.com/@slnx/p-191813717?utm_source=profile&utm_medium=reader2",
       description: "Reflexões sobre a criação de uma presença digital e a dualidade entre o ser real e o virtual.",
-      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1ed61191-a51a-4631-8545-3dc84050cd52_1116x1501.jpeg"
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1ed61191-a51a-4631-8545-3dc84050[...]
     },
     {
       title: "Simplesmente, um cérebro composto por caos",
       url: "https://substack.com/@slnx/p-189383888?utm_source=profile&utm_medium=reader2",
       description: "Um mergulho na neurodivergência e na complexidade de processar o mundo com hiperfoco.",
-      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F971037ee-63f8-462b-8406-378285449614_3120x3900.jpeg"
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F971037ee-63f8-462b-8406-37828544[...]
     },
     {
       title: "Eu simplesmente criei algo foda.",
@@ -94,31 +94,31 @@ export default function Content() {
       title: "Não Use Droga, Use Whey Protein",
       url: "https://substack.com/@slnx/p-174704423?utm_source=profile&utm_medium=reader2",
       description: "Uma visão provocativa sobre saúde, disciplina e substituição de vícios por hábitos produtivos.",
-      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8e5e0cd-cbed-497a-8e46-4b69eae9fc4a_678x511.png"
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8e5e0cd-cbed-497a-8e46-4b69eae9[...]
     },
     {
       title: "O Vazio da Internet",
       url: "https://substack.com/@slnx/p-174645674?utm_source=profile&utm_medium=reader2",
       description: "A solidão em meio ao excesso de conexões e a busca por significado na era digital.",
-      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8770a7e4-5648-453f-ab0c-6c825d414eb9_1662x2216.jpeg"
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8770a7e4-5648-453f-ab0c-6c825d4[...]
     },
     {
       title: "Discurso de Violência Sexual Online",
       url: "https://substack.com/@slnx/p-174303051?utm_source=profile&utm_medium=reader2",
       description: "Discussão séria sobre os perigos e a ética nos ambientes digitais modernos.",
-      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2834dce7-a1ff-4735-af4f-e443007053a9_310x163.jpeg"
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2834dce7-a1ff-4735-af4f-e443007[...]
     },
     {
       title: "Relacionamento à Distância e Toque Físico",
       url: "https://substack.com/@slnx/p-174182095?utm_source=profile&utm_medium=reader2",
       description: "As dificuldades e descobertas de manter conexões emocionais sem a presença física.",
-      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fed4a7de1-8aa3-4787-b8c8-6bd2ab81d43d_1200x1600.jpeg"
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fed4a7de1-8aa3-4787-b8c8-6bd2ab8[...]
     },
     {
       title: "Por Que Indivíduos Altamente Inteligentes Sempre se Subestimam?",
       url: "https://substack.com/@slnx/p-174174879?utm_source=profile&utm_medium=reader2",
       description: "Um estudo sobre a Síndrome do Impostor e como o conhecimento revela novas dúvidas.",
-      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2b33d902-9ee2-4e91-b0ba-14b466692264_1920x1080.png"
+      imageUrl: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2b33d902-9ee2-4e91-b0ba-14b4666[...]
     }
   ];
 
@@ -157,7 +157,7 @@ export default function Content() {
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className="px-6 py-3 text-sm font-medium transition-all duration-300 rounded-md bg-card hover:bg-primary/10 text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:hover:bg-primary"
+                  className="px-6 py-3 text-sm font-medium transition-all duration-300 rounded-md bg-card hover:bg-primary/10 text-muted-foreground data-[state=active]:bg-primary data-[state=acti[...]
                   data-testid={tab.testId}
                 >
                   {tab.label}
@@ -199,7 +199,7 @@ export default function Content() {
                         ))}
                         <a href="/training_hub.html" data-testid="button-focus-training-gaming">
                           <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full">
-                            <div className="aspect-video overflow-hidden relative"><img src="/attached_assets/treino_de_foco.png" alt="Treino de Foco" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" /><div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                            <div className="aspect-video overflow-hidden relative"><img src="/attached_assets/treino_de_foco.png" alt="Treino de Foco" className="w-full h-full object-cover group-[...]
                               <span className="text-6xl"></span>
                             </div>
                             <div className="p-6 space-y-3">
@@ -207,7 +207,7 @@ export default function Content() {
                                 {language === "pt" ? "Treino de Foco" : "Focus Training"}
                               </h3>
                               <p className="text-sm text-muted-foreground">
-                                {language === "pt" ? "Níveis impossíveis e reflexos extremos. O único treino capaz de superar o SLX." : "Impossible levels and extreme reflexes. The only training capable of surpassing SLX."}
+                                {language === "pt" ? "Níveis impossíveis e reflexos extremos. O único treino capaz de superar o SLX." : "Impossible levels and extreme reflexes. The only traini[...]
                               </p>
                             </div>
                           </Card>
@@ -223,7 +223,7 @@ export default function Content() {
                                 {language === "pt" ? "ANÁLISE PRO" : "ANALYSIS PRO"}
                               </h3>
                               <p className="text-sm text-muted-foreground">
-                                {language === "pt" ? "Descubra por que você ainda não é um pro-player. Análise técnica detalhada da sua gameplay." : "Discover why you are not a pro-player yet. Detailed technical analysis of your gameplay."}
+                                {language === "pt" ? "Descubra por que você ainda não é um pro-player. Análise técnica detalhada da sua gameplay." : "Discover why you are not a pro-player ye[...]
                               </p>
                             </div>
                           </Card>
@@ -294,7 +294,7 @@ export default function Content() {
                               {language === "pt" ? "Melancolia Visual" : "Visual Melancholy"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "Essa é a forma que enxergo o mundo, escuro, sombrio e vazio, mas não triste, apenas confortável e sozinho." : "This is how I see the world — dark, gloomy and empty, but not sad, just comfortable and alone."}
+                              {language === "pt" ? "Essa é a forma que enxergo o mundo, escuro, sombrio e vazio, mas não triste, apenas confortável e sozinho." : "This is how I see the world dark, gloomy and empty, but not sad, just comfortable and alone."}
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -325,7 +325,7 @@ export default function Content() {
                               {language === "pt" ? "Quem sou eu?" : "Who am I?"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "As pessoas querem ver meu rosto inteiro, querem entender quem eu sou só pela aparência. Não entendem o que somente os gestos traduzem.." : "People want to see my whole face, want to understand who I am just by appearance. They don't understand what only gestures translate.."}
+                              {language === "pt" ? "As pessoas querem ver meu rosto inteiro, querem entender quem eu sou só pela aparência. Não entendem o que somente os gestos traduzem.." : "People want to see my whole face, they want to understand who I am just by appearance. They don't understand what only gestures translate."}
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -387,7 +387,7 @@ export default function Content() {
                               {language === "pt" ? "O que eu faço?" : "What do I do?"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "Enquanto todo mundo vive no barulho, eu fico aqui... Criando, editando, produzindo ideias que ninguém vê. Silêncio, foco, e um pouco de esquizofrenia" : "While everyone else lives in the noise, I stay here... Creating, editing, producing ideas no one sees. Silence, focus, and a little schizophrenia."}
+                              {language === "pt" ? "Enquanto todo mundo vive no barulho, eu fico aqui... Criando, editando, produzindo ideias que ninguém vê. Silêncio, foco, e um pouco de esquizofrenia criativa." : "While everyone lives in the noise, I'm here... Creating, editing, producing ideas that nobody sees. Silence, focus, and a little creative schizophrenia."}
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -418,7 +418,7 @@ export default function Content() {
                               {language === "pt" ? "Meu trabalho" : "My work"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "Um trabalho pesado, sujo e cansativo. um lembrete que sou o melhor, não por ser bom, mas por conseguir me doar 100% em tudo o que faço e trazer o melhor possível para meu público." : "Heavy, dirty and tiring work. A reminder that I'm the best, not for being good, but for being able to give 100% in everything I do and bring the best possible to my audience."}
+                              {language === "pt" ? "Um trabalho pesado, sujo e cansativo. um lembrete que sou o melhor, não por ser bom, mas por conseguir me doar 100% em tudo o que faço e traz sentido pra minha vida." : "Heavy, dirty and tiring work. A reminder that I am the best, not because I am good, but because I can give 100% in everything I do and it brings meaning to my life."}
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -449,7 +449,7 @@ export default function Content() {
                               {language === "pt" ? "Foco nos detalhes" : "Focus on details"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "Tem coisa que quase ninguém vê somente porque não param pra observar, eu paro. E quanto mais eu observo, mais percebo o quanto o mundo é cheio de detalhes que não cabem na pressa." : "There are things almost no one sees only because they don't stop to observe. I do. And the more I observe, the more I realize how full the world is of details that don't fit in the rush."}
+                              {language === "pt" ? "Tem coisa que quase ninguém vê somente porque não param pra observar, eu paro. E quanto mais eu observo, mais percebo o quanto o mundo é cheio de pequenas maravilhas." : "There are things that almost nobody sees just because they don't stop to observe, I stop. And the more I observe, the more I realize how full the world is of small wonders."}
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -658,8 +658,8 @@ export default function Content() {
                               </div>
                               <p className="text-base text-muted-foreground leading-relaxed">
                                 {language === "pt"
-                                  ? "No Instagram (@slx.wav) eu mostro o dia a dia no campo, a rotina na agricultura e o trabalho com a terra, do jeito que ele realmente é. Tenho certeza que você irá gostar."
-                                  : "Follow my Instagram Stories (@slx.wav) for daily content about agriculture, cultivation techniques, sustainability and the beauty of working with the land. Stories that show the daily life of the agricultural process with a deep and reflective perspective."}
+                                  ? "No Instagram (@slx.wav) eu mostro o dia a dia no campo, a rotina na agricultura e o trabalho com a terra, do jeito que ele realmente é. Tenho certeza que você vai gostar."
+                                  : "Follow my Instagram Stories (@slx.wav) for daily content about agriculture, cultivation techniques, sustainability and the beauty of working with the land. Stories updated regularly."}
                               </p>
                               <div className="flex items-center gap-2 text-primary text-sm font-medium pt-2">
                                 {language === "pt" ? "Ver Stories" : "View Stories"}
