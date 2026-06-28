@@ -30,7 +30,9 @@ export default function Projects() {
       tutorialsAndGameplay: "Tutoriais e Gameplay",
       photographyAndLifestyle: "Fotografia e Lifestyle",
       livesAndClips: "Lives e Clipes",
-      workAndPersonalDev: "Trabalho e Dev Pessoal"
+      workAndPersonalDev: "Trabalho e Dev Pessoal",
+      editsTitle: "Edits",
+      editsDesc: "Montagens e clipes de alta qualidade com foco em sincronia"
     },
     en: {
       title: "Classes and Channels",
@@ -52,7 +54,9 @@ export default function Projects() {
       tutorialsAndGameplay: "Tutorials and Gameplay",
       photographyAndLifestyle: "Photography and Lifestyle",
       livesAndClips: "Lives and Clips",
-      workAndPersonalDev: "Work and Personal Dev"
+      workAndPersonalDev: "Work and Personal Dev",
+      editsTitle: "Edits",
+      editsDesc: "High quality montages and clips focused on sync"
     }
   };
 
@@ -69,7 +73,7 @@ export default function Projects() {
       testId: "card-project-classes",
       isExclusive: true,
       externalLinks: [
-        { label: pt.viewOnTiktok, url: "https://www.tiktok.com/@slxcodm_/collection/Configs, loadouts, sensi etc-7510645794769668869?is_from_webapp=1&sender_device=pc" },
+        { label: pt.viewOnTiktok, url: "https://www.tiktok.com/@slxcodm_/playlist/Configs%2C%20Classes%2C%20Sensi-7630476710229560084?is_from_webapp=1&sender_device=pc" },
         { label: pt.viewOnYoutube, url: "https://youtube.com/playlist?list=PLNjPit_9myAFwYgp2zNBJs6EzzZ-qs839&si=1nwFMIqFbddx6X0F" },
       ]
     },
@@ -83,7 +87,7 @@ export default function Projects() {
       testId: "card-project-tutorials",
       isExclusive: true,
       externalLinks: [
-        { label: pt.viewOnTiktok, url: "https://www.tiktok.com/@slxcodm_/collection/Dicas e tutoriais-7505787344423766790?is_from_webapp=1&sender_device=pc" },
+        { label: pt.viewOnTiktok, url: "https://www.tiktok.com/@slxcodm_/playlist/Dicas%20e%20Tutoriais-7630469082306841361?is_from_webapp=1&sender_device=pc" },
         { label: pt.viewOnYoutube, url: "https://youtube.com/playlist?list=PLNjPit_9myAFBhDzh635QGPgzukbXRYLg&si=USW67NX2QODG00eh" },
       ]
     },
@@ -127,6 +131,19 @@ export default function Projects() {
       stats: pt.workAndPersonalDev,
       testId: "card-project-youtube-agriculture"
     },
+    {
+      id: "tiktok-edits",
+      title: pt.editsTitle,
+      description: pt.editsDesc,
+      icon: SiTiktok,
+      color: "text-purple-500",
+      stats: language === "pt" ? "Novo" : "New",
+      testId: "card-project-edits",
+      isExclusive: true,
+      externalLinks: [
+        { label: pt.viewOnTiktok, url: "https://www.tiktok.com/@slxcodm_/playlist/Edits-7635319705230560021?is_from_webapp=1&sender_device=pc" },
+      ]
+    }
   ];
 
   return (

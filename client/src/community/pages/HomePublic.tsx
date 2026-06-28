@@ -55,6 +55,7 @@ export default function HomePublic() {
         subheadline: language === "pt" ? "Análise em vídeo feita pelo SLX com correções, dicas e treino personalizado." : "Video analysis by SLX with corrections, tips and personalized training.",
         ctaMain: language === "pt" ? "Quero Minha Análise" : "Get My Analysis",
         ctaSecondary: language === "pt" ? "Ver como funciona ↓" : "See how it works ↓",
+        pastAnalyses: language === "pt" ? "Veja análises anteriores grátis:" : "See past free analyses:",
 
         // Features
         feature1Title: language === "pt" ? "Análise de Mira e Movimento" : "Aim & Movement Analysis",
@@ -160,6 +161,23 @@ export default function HomePublic() {
                                 {t.ctaSecondary}
                             </Button>
                         </a>
+                    </div>
+                    
+                    {/* Free Playlists Links */}
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12 pt-8 border-t border-zinc-800/50 max-w-2xl mx-auto">
+                        <p className="text-zinc-400 text-sm font-medium">{t.pastAnalyses}</p>
+                        <div className="flex gap-3">
+                            <a href="https://www.tiktok.com/@slxcodm_/playlist/An%C3%A1lise%20de%20Gameplay-7630466579141282576?is_from_webapp=1&sender_device=pc" target="_blank" rel="noreferrer">
+                                <Button variant="outline" size="sm" className="bg-zinc-900/50 hover:bg-zinc-800 border-zinc-700 text-zinc-300 rounded-full h-10 px-6">
+                                    TikTok
+                                </Button>
+                            </a>
+                            <a href="https://www.youtube.com/playlist?list=PLNjPit_9myAFL76l3Mh3E50QzuB6cEcau" target="_blank" rel="noreferrer">
+                                <Button variant="outline" size="sm" className="bg-zinc-900/50 hover:bg-zinc-800 border-zinc-700 text-zinc-300 rounded-full h-10 px-6">
+                                    YouTube
+                                </Button>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
