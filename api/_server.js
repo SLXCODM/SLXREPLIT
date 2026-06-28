@@ -24,6 +24,7 @@ __export(schema_exports, {
   insertProjectSchema: () => insertProjectSchema,
   insertUserSchema: () => insertUserSchema,
   insertVideoSchema: () => insertVideoSchema,
+  insertWeaponIndividualLikeSchema: () => insertWeaponIndividualLikeSchema,
   insertWeaponLikeSchema: () => insertWeaponLikeSchema,
   payments: () => payments,
   products: () => products,
@@ -31,17 +32,18 @@ __export(schema_exports, {
   projects: () => projects,
   users: () => users,
   videos: () => videos,
+  weaponIndividualLikes: () => weaponIndividualLikes,
   weaponLikes: () => weaponLikes
 });
-import { pgTable, text, varchar, timestamp, boolean, serial, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, boolean, serial, integer, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { sql } from "drizzle-orm";
-var projectCategories, projects, aboutContent, insertProjectSchema, insertAboutContentSchema, weaponLikes, insertWeaponLikeSchema, users, videos, payments, analyses, analysisComments, galleryItems, insertUserSchema, insertVideoSchema, insertPaymentSchema, insertAnalysisSchema, products, insertProductSchema, analyticsVisits, insertAnalyticsVisitSchema;
+var projectCategories, projects, aboutContent, insertProjectSchema, insertAboutContentSchema, weaponLikes, weaponIndividualLikes, insertWeaponLikeSchema, insertWeaponIndividualLikeSchema, users, videos, payments, analyses, analysisComments, galleryItems, insertUserSchema, insertVideoSchema, insertPaymentSchema, insertAnalysisSchema, products, insertProductSchema, analyticsVisits, insertAnalyticsVisitSchema;
 var init_schema = __esm({
   "shared/schema.ts"() {
     "use strict";
-    projectCategories = ["gaming", "agriculture", "photography", "development"];
+    projectCategories = ["gaming", "agriculture", "photography", "development", "writer"];
     projects = pgTable("projects", {
       id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
       title: text("title").notNull(),
@@ -75,7 +77,16 @@ var init_schema = __esm({
       weaponId: varchar("weapon_id").primaryKey(),
       likes: text("likes").default("0").notNull()
     });
+    weaponIndividualLikes = pgTable("weapon_individual_likes", {
+      id: serial("id").primaryKey(),
+      weaponId: varchar("weapon_id").notNull(),
+      fingerprint: text("fingerprint").notNull(),
+      createdAt: timestamp("created_at").defaultNow().notNull()
+    }, (table) => ({
+      weaponFingerprintIdx: uniqueIndex("weapon_fingerprint_idx").on(table.weaponId, table.fingerprint)
+    }));
     insertWeaponLikeSchema = createInsertSchema(weaponLikes);
+    insertWeaponIndividualLikeSchema = createInsertSchema(weaponIndividualLikes).omit({ id: true, createdAt: true });
     users = pgTable("users", {
       id: serial("id").primaryKey(),
       email: text("email").unique().notNull(),
@@ -449,21 +460,13 @@ var supabaseUrl, supabaseAnonKey, supabaseClient, supabase;
 var init_supabase = __esm({
   "server/lib/supabase.ts"() {
     "use strict";
-    supabaseUrl = process.env.SUPABASE_URL;
-    supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+    supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+    supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
     if (supabaseUrl && supabaseAnonKey) {
       supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
     } else {
       console.warn("Backend Supabase credentials missing. Ranking features will be disabled.");
-      supabaseClient = {
-        from: () => ({
-          select: () => ({
-            order: () => ({
-              limit: () => Promise.resolve({ data: [], error: null })
-            })
-          })
-        })
-      };
+      supabaseClient = null;
     }
     supabase = supabaseClient;
   }
@@ -557,7 +560,7 @@ __export(storage_exports, {
   storage: () => storage
 });
 import { randomUUID } from "crypto";
-import { eq, desc, ne, sql as sql3 } from "drizzle-orm";
+import { eq, desc, ne, and, sql as sql3 } from "drizzle-orm";
 import path from "path";
 var DatabaseStorage, MemStorage, storage;
 var init_storage = __esm({
@@ -572,7 +575,7 @@ var init_storage = __esm({
         try {
           if (supabase) {
             const { data, error } = await supabase.from("projects").select("*").order("order", { ascending: true });
-            if (!error && data) {
+            if (!error && data && data.length > 0) {
               return data;
             }
             if (error) console.error("Supabase HTTP REST Fallback error:", error.message);
@@ -590,7 +593,7 @@ var init_storage = __esm({
         try {
           if (supabase) {
             const { data, error } = await supabase.from("projects").select("*").eq("category", category).order("order", { ascending: true });
-            if (!error && data) {
+            if (!error && data && data.length > 0) {
               return data;
             }
             if (error) console.error("Supabase HTTP REST Fallback error:", error.message);
@@ -679,33 +682,26 @@ var init_storage = __esm({
       }
       // Weapon Likes
       async getAllWeaponLikes() {
-        const raw = await db.select().from(weaponLikes);
-        return raw.map((r) => ({
-          ...r,
-          likes: r.likes.toString()
-        }));
+        const result = await db.select({
+          weaponId: weaponIndividualLikes.weaponId,
+          likes: sql3`count(*)::text`
+        }).from(weaponIndividualLikes).groupBy(weaponIndividualLikes.weaponId);
+        return result;
       }
       async getWeaponLikes(weaponId) {
-        const [record] = await db.select().from(weaponLikes).where(eq(weaponLikes.weaponId, weaponId));
-        return record ? parseInt(record.likes) : 0;
+        const [result] = await db.select({ count: sql3`count(*)` }).from(weaponIndividualLikes).where(eq(weaponIndividualLikes.weaponId, weaponId));
+        return Number(result?.count || 0);
       }
-      async incrementWeaponLikes(weaponId) {
-        const current = await this.getWeaponLikes(weaponId);
-        const newVal = (current + 1).toString();
-        const [record] = await db.insert(weaponLikes).values({ weaponId, likes: newVal }).onConflictDoUpdate({
-          target: weaponLikes.weaponId,
-          set: { likes: newVal }
-        }).returning();
-        return parseInt(record.likes);
+      async incrementWeaponLikes(weaponId, fingerprint) {
+        await db.insert(weaponIndividualLikes).values({ weaponId, fingerprint }).onConflictDoNothing();
+        return await this.getWeaponLikes(weaponId);
       }
-      async decrementWeaponLikes(weaponId) {
-        const current = await this.getWeaponLikes(weaponId);
-        const newVal = Math.max(0, current - 1).toString();
-        const [record] = await db.insert(weaponLikes).values({ weaponId, likes: newVal }).onConflictDoUpdate({
-          target: weaponLikes.weaponId,
-          set: { likes: newVal }
-        }).returning();
-        return parseInt(record.likes);
+      async decrementWeaponLikes(weaponId, fingerprint) {
+        await db.delete(weaponIndividualLikes).where(and(
+          eq(weaponIndividualLikes.weaponId, weaponId),
+          eq(weaponIndividualLikes.fingerprint, fingerprint)
+        ));
+        return await this.getWeaponLikes(weaponId);
       }
       // Products
       async getProducts() {
@@ -1081,19 +1077,19 @@ var init_storage = __esm({
         }));
       }
       async getWeaponLikes(weaponId) {
-        return this.weaponLikesMap.get(weaponId) || 0;
+        return Array.from(this.weaponLikesMap.values()).filter((l) => l.weaponId === weaponId).length;
       }
-      async incrementWeaponLikes(weaponId) {
-        const current = await this.getWeaponLikes(weaponId);
-        const newVal = current + 1;
-        this.weaponLikesMap.set(weaponId, newVal);
-        return newVal;
+      async incrementWeaponLikes(weaponId, fingerprint) {
+        const key = `${weaponId}:${fingerprint}`;
+        if (!this.weaponLikesMap.has(key)) {
+          this.weaponLikesMap.set(key, { weaponId, fingerprint });
+        }
+        return this.getWeaponLikes(weaponId);
       }
-      async decrementWeaponLikes(weaponId) {
-        const current = await this.getWeaponLikes(weaponId);
-        const newVal = Math.max(0, current - 1);
-        this.weaponLikesMap.set(weaponId, newVal);
-        return newVal;
+      async decrementWeaponLikes(weaponId, fingerprint) {
+        const key = `${weaponId}:${fingerprint}`;
+        this.weaponLikesMap.delete(key);
+        return this.getWeaponLikes(weaponId);
       }
       // Products
       async getProducts() {
@@ -1579,6 +1575,51 @@ function setupStripeRoutes(app2) {
   });
 }
 
+// server/community/mercadopago.ts
+import { MercadoPagoConfig, Preference } from "mercadopago";
+function setupMercadoPagoRoutes(app2) {
+  app2.post("/api/mercadopago/create-preference", async (req, res) => {
+    try {
+      const client = new MercadoPagoConfig({
+        accessToken: process.env.MP_ACCESS_TOKEN || "TEST-TOKEN",
+        options: { timeout: 5e3 }
+      });
+      const preference = new Preference(client);
+      const response = await preference.create({
+        body: {
+          items: [
+            {
+              id: "codm-analysis",
+              title: "An\xE1lise de Gameplay CODM",
+              quantity: 1,
+              unit_price: 5,
+              currency_id: "BRL"
+            }
+          ],
+          back_urls: {
+            success: "https://slx-codm.vercel.app/community/payment-success",
+            failure: "https://slx-codm.vercel.app/community/payment-cancel",
+            pending: "https://slx-codm.vercel.app/community/payment-success"
+          },
+          auto_return: "approved",
+          // Excluir boleto se quiser focar no PIX/Cartão para aprovação instantânea
+          payment_methods: {
+            excluded_payment_types: [
+              { id: "ticket" }
+              // Boleto
+            ],
+            installments: 1
+          }
+        }
+      });
+      res.json({ id: response.id, init_point: response.init_point });
+    } catch (error) {
+      console.error("Erro ao criar prefer\xEAncia do Mercado Pago:", error);
+      res.status(500).json({ error: "Failed to create preference" });
+    }
+  });
+}
+
 // server/routes.ts
 import * as trpcExpress from "@trpc/server/adapters/express";
 
@@ -1690,6 +1731,7 @@ async function registerRoutes(app2) {
   await bootstrapDatabase();
   setupAuth(app2);
   setupStripeRoutes(app2);
+  setupMercadoPagoRoutes(app2);
   app2.use(
     "/api/trpc",
     trpcExpress.createExpressMiddleware({
@@ -1723,6 +1765,9 @@ async function registerRoutes(app2) {
   console.log("Registering ranking routes (priority)...");
   app2.get("/api/rankings/:gameId", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ error: "Servi\xE7o de Ranking indispon\xEDvel. Chaves do banco de dados n\xE3o configuradas." });
+      }
       const { gameId } = req.params;
       const { data, error } = await supabase.from("game_rankings").select("*").eq("game_id", gameId).order("score", { ascending: false }).limit(10);
       if (error) throw error;
@@ -1734,6 +1779,9 @@ async function registerRoutes(app2) {
   });
   app2.post("/api/rankings", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ error: "Servi\xE7o de Ranking indispon\xEDvel. Chaves do banco de dados n\xE3o configuradas." });
+      }
       const { game_id, username, score } = req.body;
       if (!game_id || !username || score === void 0) {
         return res.status(400).json({ error: "Missing required fields: game_id, username, score" });
@@ -1859,7 +1907,8 @@ async function registerRoutes(app2) {
   app2.post("/api/weapon-likes/:weaponId/like", async (req, res) => {
     try {
       const { weaponId } = req.params;
-      const likes = await storage.incrementWeaponLikes(weaponId);
+      const fingerprint = req.body?.fingerprint || req.header("x-fingerprint") || "anonymous";
+      const likes = await storage.incrementWeaponLikes(weaponId, fingerprint);
       res.json({ weaponId, likes });
     } catch (error) {
       res.status(500).json({ error: "Failed to update weapon likes" });
@@ -1868,7 +1917,8 @@ async function registerRoutes(app2) {
   app2.post("/api/weapon-likes/:weaponId/unlike", async (req, res) => {
     try {
       const { weaponId } = req.params;
-      const likes = await storage.decrementWeaponLikes(weaponId);
+      const fingerprint = req.body?.fingerprint || req.header("x-fingerprint") || "anonymous";
+      const likes = await storage.decrementWeaponLikes(weaponId, fingerprint);
       res.json({ weaponId, likes });
     } catch (error) {
       res.status(500).json({ error: "Failed to update weapon likes" });

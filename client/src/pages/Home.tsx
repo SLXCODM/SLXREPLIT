@@ -104,8 +104,8 @@ export default function Home() {
 
   const texts = {
     pt: {
-      tagline: "Estrategista mental. Criando minha autenticidade.",
-      description: "Perfil analítico com foco em performance mental, disciplina e conteúdo profundo.\nGaming, Fotografia, Agricultura e Desenvolvimento Pessoal.",
+      tagline: "",
+      description: "Perfil analítico com foco em performance mental, disciplina e conteúdo profundo.",
       explore: "Explorar Conteúdo",
       donate: "Apoiar",
       contact: "Contato",
@@ -113,8 +113,8 @@ export default function Home() {
       categoriesDesc: "Descubra meus projetos e conteúdos",
     },
     en: {
-      tagline: "Mental strategist. Creating my authenticity.",
-      description: "Analytical profile focused on mental performance, discipline and deep content.\nGaming, Photography, Agriculture and Personal Development.",
+      tagline: "",
+      description: "Analytical profile focused on mental performance, discipline and deep content.",
       explore: "Explore Content",
       donate: "Support",
       contact: "Contact",
@@ -154,12 +154,14 @@ export default function Home() {
               >
                 SLX
               </h1>
-              <p
-                className="text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
-                data-testid="text-hero-tagline"
-              >
-                {t.tagline}
-              </p>
+              {t.tagline && (
+                <p
+                  className="text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+                  data-testid="text-hero-tagline"
+                >
+                  {t.tagline}
+                </p>
+              )}
             </div>
 
             {/* Description */}
