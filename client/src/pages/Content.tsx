@@ -8,7 +8,7 @@ import ProjectCard from "@/components/ProjectCard";
 import FollowToUnlock from "@/components/FollowToUnlock";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Project } from "@shared/schema";
-import { SiSubstack, SiTiktok } from "react-icons/si";
+import { SiSubstack } from "react-icons/si";
 import { PenTool, ExternalLink, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 const photoSilhouettes = "/attached_assets/photo-silhouettes.jpg";
@@ -231,20 +231,6 @@ export default function Content() {
                         {filteredProjects.slice(1).map(project => (
                           <ProjectCard key={project.id} project={project} language={language} />
                         ))}
-                        
-                        <a href="https://www.tiktok.com/@slxcodm_/playlist/Edits-7635319705230560021?is_from_webapp=1&sender_device=pc" target="_blank" rel="noreferrer" data-testid="button-edits-gaming">
-                          <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full border border-purple-500/20 bg-zinc-900/50">
-                            <div className="p-6 space-y-3 flex flex-col items-center justify-center text-center h-full min-h-[200px]">
-                              <SiTiktok className="w-10 h-10 text-purple-500 mb-2 group-hover:scale-110 transition-transform" />
-                              <h3 className="text-xl font-semibold group-hover:text-purple-400 transition-colors">
-                                {language === "pt" ? "Edits Insanos (TikTok)" : "Insane Edits (TikTok)"}
-                              </h3>
-                              <p className="text-sm text-muted-foreground">
-                                {language === "pt" ? "Montagens e clipes de alta qualidade com foco em sincronia." : "High quality montages and clips focused on sync."}
-                              </p>
-                            </div>
-                          </Card>
-                        </a>
                       </div>
                     </div>
                   ) : (
@@ -294,7 +280,7 @@ export default function Content() {
                               {language === "pt" ? "Melancolia Visual" : "Visual Melancholy"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "Essa é a forma que enxergo o mundo, escuro, sombrio e vazio, mas não triste, apenas confortável e sozinho." : "This is how I see the world dark, gloomy and empty, but not sad, just comfortable and alone."}
+                              {language === "pt" ? "Essa é a forma que enxergo o mundo, escuro, sombrio e vazio, mas não triste, apenas confortável e sozinho." : "This is how I see the world d[...]
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -325,7 +311,7 @@ export default function Content() {
                               {language === "pt" ? "Quem sou eu?" : "Who am I?"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "As pessoas querem ver meu rosto inteiro, querem entender quem eu sou só pela aparência. Não entendem o que somente os gestos traduzem.." : "People want to see my whole face, they want to understand who I am just by appearance. They don't understand what only gestures translate."}
+                              {language === "pt" ? "As pessoas querem ver meu rosto inteiro, querem entender quem eu sou só pela aparência. Não entendem o que somente os gestos traduzem.." : "[...]
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -387,7 +373,7 @@ export default function Content() {
                               {language === "pt" ? "O que eu faço?" : "What do I do?"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "Enquanto todo mundo vive no barulho, eu fico aqui... Criando, editando, produzindo ideias que ninguém vê. Silêncio, foco, e um pouco de esquizofrenia criativa." : "While everyone lives in the noise, I'm here... Creating, editing, producing ideas that nobody sees. Silence, focus, and a little creative schizophrenia."}
+                              {language === "pt" ? "Enquanto todo mundo vive no barulho, eu fico aqui... Criando, editando, produzindo ideias que ninguém vê. Silêncio, foco, e um pouco de esqu[...]
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -418,7 +404,7 @@ export default function Content() {
                               {language === "pt" ? "Meu trabalho" : "My work"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "Um trabalho pesado, sujo e cansativo. um lembrete que sou o melhor, não por ser bom, mas por conseguir me doar 100% em tudo o que faço e traz sentido pra minha vida." : "Heavy, dirty and tiring work. A reminder that I am the best, not because I am good, but because I can give 100% in everything I do and it brings meaning to my life."}
+                              {language === "pt" ? "Um trabalho pesado, sujo e cansativo. um lembrete que sou o melhor, não por ser bom, mas por conseguir me doar 100% em tudo o que faço e traz[...]
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -449,7 +435,7 @@ export default function Content() {
                               {language === "pt" ? "Foco nos detalhes" : "Focus on details"}
                             </h3>
                             <p className="text-sm text-muted-foreground mt-2">
-                              {language === "pt" ? "Tem coisa que quase ninguém vê somente porque não param pra observar, eu paro. E quanto mais eu observo, mais percebo o quanto o mundo é cheio de pequenas maravilhas." : "There are things that almost nobody sees just because they don't stop to observe, I stop. And the more I observe, the more I realize how full the world is of small wonders."}
+                              {language === "pt" ? "Tem coisa que quase ninguém vê somente porque não param pra observar, eu paro. E quanto mais eu observo, mais percebo o quanto o mundo é ch[...]
                             </p>
                           </div>
                           <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium">
@@ -524,7 +510,7 @@ export default function Content() {
                           </div>
                           <p className="text-sm text-muted-foreground/70 leading-relaxed">
                             {language === "pt"
-                              ? "Diários anônimos. Desabafos sinceros, melancolia profunda e reflexões sobre como eu vejo a realidade. Textos pesados sobre a minha vida, depressão e solidão."
+                              ? "Diários anônimos. Desabafos sinceros, melancolia profunda e reflexões sobre como eu vejo a realidade. Textos pesados sobre a minha vida, depressão e solidão.[...]
                               : "Anonymous diaries. Honest confessions, deep melancholy and reflections on how I see reality. Heavy texts about my life, depression and loneliness."}
                           </p>
                         </div>
@@ -658,8 +644,8 @@ export default function Content() {
                               </div>
                               <p className="text-base text-muted-foreground leading-relaxed">
                                 {language === "pt"
-                                  ? "No Instagram (@slx.wav) eu mostro o dia a dia no campo, a rotina na agricultura e o trabalho com a terra, do jeito que ele realmente é. Tenho certeza que você vai gostar."
-                                  : "Follow my Instagram Stories (@slx.wav) for daily content about agriculture, cultivation techniques, sustainability and the beauty of working with the land. Stories updated regularly."}
+                                  ? "No Instagram (@slx.wav) eu mostro o dia a dia no campo, a rotina na agricultura e o trabalho com a terra, do jeito que ele realmente é. Tenho certeza que voc[...]
+                                  : "Follow my Instagram Stories (@slx.wav) for daily content about agriculture, cultivation techniques, sustainability and the beauty of working with the land. St[...]
                               </p>
                               <div className="flex items-center gap-2 text-primary text-sm font-medium pt-2">
                                 {language === "pt" ? "Ver Stories" : "View Stories"}
