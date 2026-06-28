@@ -231,6 +231,20 @@ export default function Content() {
                         {filteredProjects.slice(1).map(project => (
                           <ProjectCard key={project.id} project={project} language={language} />
                         ))}
+                        
+                        <a href="https://www.tiktok.com/@slxcodm_/playlist/Edits-7635319705230560021?is_from_webapp=1&sender_device=pc" target="_blank" rel="noreferrer" data-testid="button-edits-gaming">
+                          <Card className="group overflow-hidden hover-elevate active-elevate-2 transition-all duration-300 cursor-pointer h-full border border-purple-500/20 bg-zinc-900/50">
+                            <div className="p-6 space-y-3 flex flex-col items-center justify-center text-center h-full min-h-[200px]">
+                              <SiTiktok className="w-10 h-10 text-purple-500 mb-2 group-hover:scale-110 transition-transform" />
+                              <h3 className="text-xl font-semibold group-hover:text-purple-400 transition-colors">
+                                {language === "pt" ? "Edits Insanos (TikTok)" : "Insane Edits (TikTok)"}
+                              </h3>
+                              <p className="text-sm text-muted-foreground">
+                                {language === "pt" ? "Montagens e clipes de alta qualidade com foco em sincronia." : "High quality montages and clips focused on sync."}
+                              </p>
+                            </div>
+                          </Card>
+                        </a>
                       </div>
                     </div>
                   ) : (
