@@ -25,8 +25,8 @@ export default function About() {
             <div className="space-y-4">
               <p className="text-base md:text-lg leading-relaxed text-foreground">
                 {language === "pt" 
-                  ? "Olá. Sou SLX, estrategista de pensamento, criador de conteúdo técnico e profundo. Este espaço é onde compartilho minha jornada, experiências e tudo o que aprendi ao longo do caminho."
-                  : "Hi. I'm SLX, a mental strategist, creator of technical and deep content. This space is where I share my journey, experiences and everything I've learned along the way."}
+                  ? "Olá. Sou SLX, estrategista de pensamento, criador de conteúdo técnico e profundo nas áreas de gaming, fotografia, agricultura e desenvolvimento pessoal. Este espaço é onde compartilho minha jornada, experiências e tudo o que aprendi ao longo do caminho."
+                  : "Hi. I'm SLX, a mental strategist, creator of technical and deep content in gaming, photography, agriculture and personal development. This space is where I share my journey, experiences and everything I've learned along the way."}
               </p>
             </div>
 
